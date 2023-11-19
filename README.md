@@ -59,8 +59,11 @@ To start using HelioEye, follow these steps:
 
 ## Contributors
 
-- [Your Name]
-- [Collaborator Name]
+- [Kavishka]
+- [Dhanushka]
+- [Dinuka]
+- [Inesha]
+- [Supun]
 
 ## License
 
