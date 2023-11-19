@@ -1,6 +1,6 @@
 # Project HelioEye
 
-![HelioEye Logo](docs/images/solar.png)
+<center>![HelioEye Logo](docs/images/helioeye.png)</center>
 
 ## Overview
 
