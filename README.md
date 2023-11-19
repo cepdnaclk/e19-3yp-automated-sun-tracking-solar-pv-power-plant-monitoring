@@ -1,7 +1,7 @@
 # Project HelioEye
 
 <p align="center">
-  <img src="/docs/images/helioeye.jpg" height="200">
+  <img src="/docs/images/helioeye.png" height="200">
 </p>
 
 ## Overview
