@@ -1,5 +1,7 @@
 # Project HelioEye
 
+![HelioEye Logo](docs/images/helioeye.png)
+
 ## Overview
 
 HelioEye is an innovative solar tracking and energy monitoring system designed to maximize energy generation from photovoltaic panels. This project aims to address the limitations of stationary solar panels by implementing a dual-axis rotation system, allowing panels to dynamically face the sun for optimal energy production. The system provides real-time energy generation data, periodic predictions, and a user-friendly interface for monitoring and analysis.
