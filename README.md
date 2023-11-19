@@ -1,5 +1,5 @@
 ___
-# DELETE THIS INSTRUCTIONS AND ADD AN INTRODUCTION ABOUT YOUR PROJECT
+# HelioEye - For better usage of helio rays
 ___
 
 # eYY-3yp-project-template
