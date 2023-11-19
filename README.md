@@ -1,6 +1,8 @@
 # Project HelioEye
 
-<center>![HelioEye Logo](docs/images/helioeye.png)</center>
+<p align="center">
+  <img src="/docs/images/helioeye.jpg" height="200">
+</p>
 
 ## Overview
 
