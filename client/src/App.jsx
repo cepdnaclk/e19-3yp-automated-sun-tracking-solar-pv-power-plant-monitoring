@@ -4,6 +4,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ColorModeContext, useMode } from './theme';
 
 import Appbar from './components/global/Appbar';
+// import Navbar from './components/global/Navbar';
 import userDashboard from './containers/user-dashboard';
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<div className="app">
+						{/* <Navbar /> */}
 						<main className="content">
 							<Appbar />
 							<Routes>
