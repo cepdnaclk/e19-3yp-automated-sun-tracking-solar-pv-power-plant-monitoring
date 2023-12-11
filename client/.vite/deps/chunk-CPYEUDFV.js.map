@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../node_modules/@mui/base/composeClasses/index.js", "../../node_modules/@mui/material/utils/capitalize.js", "../../node_modules/@mui/material/utils/useForkRef.js", "../../node_modules/@mui/material/utils/useEnhancedEffect.js"],
+  "sourcesContent": ["export { unstable_composeClasses } from '@mui/utils';", "import { unstable_capitalize as capitalize } from '@mui/utils';\nexport default capitalize;", "'use client';\n\nimport { unstable_useForkRef as useForkRef } from '@mui/utils';\nexport default useForkRef;", "'use client';\n\nimport { unstable_useEnhancedEffect as useEnhancedEffect } from '@mui/utils';\nexport default useEnhancedEffect;"],
+  "mappings": ";;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAA,IACO;AADP;AAAA;AAAA;AACA,IAAO,qBAAQ;AAAA;AAAA;;;ACDf,IAGO;AAHP;AAAA;AAAA;AAEA;AACA,IAAO,qBAAQ;AAAA;AAAA;;;ACHf,IAGOA;AAHP;AAAA;AAAA;AAEA;AACA,IAAOA,6BAAQ;AAAA;AAAA;",
+  "names": ["useEnhancedEffect_default"]
+}
