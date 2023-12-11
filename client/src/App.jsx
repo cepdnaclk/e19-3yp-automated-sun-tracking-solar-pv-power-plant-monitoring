@@ -24,7 +24,6 @@ function App() {
 					</div>
 				</ThemeProvider>
 			</ColorModeContext.Provider>
-			<div>hello</div>
 		</>
 	);
 }
