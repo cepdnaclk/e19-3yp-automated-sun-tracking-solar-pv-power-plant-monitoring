@@ -33,6 +33,20 @@ h6 {
 	font-family: 'Raleway', sans-serif;
 }
 
+.video-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	max-width: 100%;
+	width: 100%;
+}
+
+video {
+	width: 80%;
+	height: auto;
+	display: block;
+}
+
 /*--------------------------------------------------------------
 # Back to top button
 --------------------------------------------------------------*/
