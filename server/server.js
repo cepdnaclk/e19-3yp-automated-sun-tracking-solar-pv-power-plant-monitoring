@@ -17,13 +17,17 @@ app.get("/", (req,res) => {
 })
 
 //user authentication
+app.use("/x", require("./src/route/login")); //edit this accordingly
 
 //jwt authentication
+const { authenticateToken } = require("./src/middleware/auth");
 
 //main router
 app.use(require("./src/mainRouter"));
 
 //database connection and query setup
+
+
 
 //start server
 app.listen(port, () => {
