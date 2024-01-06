@@ -34,17 +34,17 @@ router.get("/", (req, res, next) => {
     }
   });
   
-  //add new member - not done
+  //add new admin
   router.post("/", (req, res, next) => {
     try {
       // const [fields, values] = requestBodyToFieldsAndValues(req.body);
       delete req.body["id"];
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-      const memberRegistrationQuery = `INSERT INTO member (${fields.toString()}) VALUES (${values.toString()})`;
+      const addAdmins = `INSERT INTO member (${fields.toString()}) VALUES (${values.toString()})`;
   
-      execQuery(memberRegistrationQuery)
+      execQuery(addAdmins)
         .then((rows) => {
-          res.status(200).json({ message: "New Member created successfully" });
+          res.status(200).json({ message: "New Admin created successfully" });
         })
         .catch((err) => {
           next(err);
