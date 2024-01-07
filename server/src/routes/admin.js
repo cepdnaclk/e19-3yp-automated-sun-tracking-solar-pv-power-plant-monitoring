@@ -41,7 +41,6 @@ router.get("/", (req, res, next) => {
   //add new admin - [Done]
   // request from frontend should be 
   //{
-  //   "id": 123,
   //   "admin_name": "New Admin Name",
   //   "email": "newadmin@example.com",
   //   "passphrase": "newpassphrase"

@@ -3,7 +3,7 @@ CREATE DATABASE HelioEye;
 USE HelioEye;
 
 CREATE TABLE admins(
-    id              INT(3) PRIMARY KEY,
+    id              INT(3) AUTO_INCREMENT PRIMARY KEY,
     admin_name      VARCHAR(50),
     email           VARCHAR(255) UNIQUE NOT NULL,
     passphrase      VARCHAR(30) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE admins(
 );
 
 CREATE TABLE company(
-    id              INT(4) PRIMARY KEY,
+    id              INT(4) AUTO_INCREMENT PRIMARY KEY,
     company_name    VARCHAR(50) NOT NULL,
     email           VARCHAR(255) UNIQUE NOT NULL,
     passphrase      VARCHAR(30) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE company(
 );
 
 CREATE TABLE customer(
-    id               INT(6) PRIMARY KEY,
+    id               INT(6) AUTO_INCREMENT PRIMARY KEY,
     customer_name    VARCHAR(50),
     email            VARCHAR(255) UNIQUE NOT NULL,
     passphrase       VARCHAR(30) NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE customer(
 );
 
 CREATE TABLE device(
-    id              INT(6) PRIMARY KEY,
+    id              INT(6) AUTO_INCREMENT PRIMARY KEY,
     model_name      VARCHAR(50),
     model_number    VARCHAR(20),
     dimension       VARCHAR(20),
