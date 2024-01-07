@@ -1,0 +1,92 @@
+{
+  "hash": "971da0aa",
+  "browserHash": "380a74f8",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "65ff25b2",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "0e09e6af",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "e2d7f360",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "615ac583",
+      "needsInterop": false
+    },
+    "@mui/material/styles": {
+      "src": "../../node_modules/@mui/material/styles/index.js",
+      "file": "@mui_material_styles.js",
+      "fileHash": "49033490",
+      "needsInterop": false
+    },
+    "@mui/material/InputBase": {
+      "src": "../../node_modules/@mui/material/InputBase/index.js",
+      "file": "@mui_material_InputBase.js",
+      "fileHash": "b5aa0590",
+      "needsInterop": false
+    },
+    "@mui/icons-material/LightModeOutlined": {
+      "src": "../../node_modules/@mui/icons-material/LightModeOutlined.js",
+      "file": "@mui_icons-material_LightModeOutlined.js",
+      "fileHash": "d2eef351",
+      "needsInterop": true
+    },
+    "@mui/icons-material/DarkModeOutlined": {
+      "src": "../../node_modules/@mui/icons-material/DarkModeOutlined.js",
+      "file": "@mui_icons-material_DarkModeOutlined.js",
+      "fileHash": "f111b086",
+      "needsInterop": true
+    },
+    "@mui/icons-material/PersonOutlined": {
+      "src": "../../node_modules/@mui/icons-material/PersonOutlined.js",
+      "file": "@mui_icons-material_PersonOutlined.js",
+      "fileHash": "ac51dce1",
+      "needsInterop": true
+    },
+    "@mui/icons-material/Search": {
+      "src": "../../node_modules/@mui/icons-material/Search.js",
+      "file": "@mui_icons-material_Search.js",
+      "fileHash": "2cf6d3a2",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-UADKARGS": {
+      "file": "chunk-UADKARGS.js"
+    },
+    "chunk-ICSYQDLL": {
+      "file": "chunk-ICSYQDLL.js"
+    },
+    "chunk-LNXQCE2T": {
+      "file": "chunk-LNXQCE2T.js"
+    },
+    "chunk-CPYEUDFV": {
+      "file": "chunk-CPYEUDFV.js"
+    },
+    "chunk-KJUJBIHA": {
+      "file": "chunk-KJUJBIHA.js"
+    },
+    "chunk-7OX5U5NO": {
+      "file": "chunk-7OX5U5NO.js"
+    },
+    "chunk-O5VG5KYQ": {
+      "file": "chunk-O5VG5KYQ.js"
+    },
+    "chunk-W4VDMLRG": {
+      "file": "chunk-W4VDMLRG.js"
+    }
+  }
+}

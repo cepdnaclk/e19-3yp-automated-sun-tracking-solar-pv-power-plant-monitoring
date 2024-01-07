@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { ColorModeContext, useMode } from './theme';
+
+import Appbar from './components/global/Appbar';
+import Sidebar from './components/global/Sidebar';
+
+import UserDashboard from './scenes/user-dashboard';
+import UserDevices from './scenes//user-devices';
 
 function App() {
-  const [count, setCount] = useState(0)
+	const [theme, colorMode] = useMode();
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+	return (
+		<>
+			<ColorModeContext.Provider value={colorMode}>
+				<ThemeProvider theme={theme}>
+					<CssBaseline />
+					<div className="app">
+						<Sidebar />
+						<main className="content">
+							<Appbar />
+							<Routes>
+								<Route path="/" element={<UserDashboard />} />
+								<Route
+									path="/my-devices"
+									element={<UserDevices />}
+								/>
+							</Routes>
+						</main>
+					</div>
+				</ThemeProvider>
+			</ColorModeContext.Provider>
+		</>
+	);
 }
 
-export default App
+export default App;
