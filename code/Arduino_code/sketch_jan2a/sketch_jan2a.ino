@@ -11,6 +11,9 @@
 const char *ssid = "HelioEyeMount";
 const char *password = "admin123";
 
+String wifi = "";
+String pass = "";
+
 WebServer server(80);
 
 Preferences preferences;
@@ -54,9 +57,11 @@ void handleSetWifi()
   String ip = setWifi(wifi.c_str(), pass.c_str());
 
   server.send(200, "application/json", "{\"status\":\"connected\", \"newip\":\"" + ip + "\"}");
-  delay(10000);
+  delay(500);
+  preferences.begin("preferences", false);
   preferences.putString("wifi", wifi);
   preferences.putString("pass", pass);
+  preferences.end();
   WiFi.softAPdisconnect(true);
 }
 
@@ -79,8 +84,14 @@ String setWifi(String ssid, String password)
   }
 }
 
+void handleCalibrate()
+{
+  calibrate_sensors();
+  server.send(200, "application/json", "{\"status\":\"calibrated\"}");
+}
+
 Servo myservo1;
-int maxX = 120;
+int maxX = 110;
 int minX = 10;
 int posX = minX;
 
@@ -118,7 +129,7 @@ void calibrate_sensors()
 {
   const int numPositions = 3;   // Set this to the desired number of positions
   const float thresholdX = 0.9; // Set this to the desired threshold
-  const float thresholdZ = 0.7; // Set this to the desired threshold
+  const float thresholdZ = 0.9; // Set this to the desired threshold
 
   int xplus_max = 0, xminus_max = 0, zplus_max = 0, zminus_max = 0;
 
@@ -165,6 +176,13 @@ void calibrate_sensors()
   trigger_value[1] = xminus_max * thresholdX;
   trigger_value[2] = zplus_max * thresholdZ;
   trigger_value[3] = zminus_max * thresholdZ;
+
+  preferences.begin("preferences", false);
+  preferences.putInt("trigger_value[0]", trigger_value[0]);
+  preferences.putInt("trigger_value[1]", trigger_value[1]);
+  preferences.putInt("trigger_value[2]", trigger_value[2]);
+  preferences.putInt("trigger_value[3]", trigger_value[3]);
+  preferences.end();
 
   Serial.println("Trigger values:");
   Serial.println(trigger_value[0]);
@@ -217,116 +235,89 @@ void setServoPosition(int servo, int position)
       }
     }
   }
+  preferences.begin("preferences", false);
   preferences.putInt("posX", posX);
   preferences.putInt("posZ", posZ);
-}
-
-struct Difference
-{
-  int diff;
-  void (*action)();
-};
-
-void actionXPlus()
-{
-  int position = posX;
-  if (position > maxX)
-  {
-    position = minX;
-  }
-  else
-  {
-    position++;
-  }
-  setServoPosition(1, position);
-  Serial.println("xplus : posX = " + String(posX) + "");
-}
-
-void actionXMinus()
-{
-  int position = posX;
-  if (position < minX)
-  {
-    position = maxX;
-  }
-  else
-  {
-    position--;
-  }
-  setServoPosition(1, position);
-  Serial.println("xminus : posX = " + String(posX) + "");
-}
-
-void actionZPlus()
-{
-  int position = posZ;
-  if (position < maxZ)
-  {
-    position++;
-  }
-  else
-  {
-    position = minZ;
-  }
-  setServoPosition(2, position);
-  Serial.println("zplus : posZ = " + String(posZ) + "");
-}
-
-void actionZMinus()
-{
-  int position = posZ;
-  if (position > minZ)
-  {
-    position--;
-  }
-  else
-  {
-    position = maxZ;
-  }
-  setServoPosition(2, position);
-  Serial.println("zminus : posZ = " + String(posZ) + "");
+  preferences.end();
 }
 
 void readAndControlServos()
 {
   while (true)
   {
-    // Read the raw LDR values
     digitalWrite(13, HIGH);
+    delay(10);
     int xplus = analogRead(32);
     int xminus = analogRead(33);
     int zplus = analogRead(34);
     int zminus = analogRead(35);
+    delay(10);
     digitalWrite(13, LOW);
 
-    // Calculate the differences and assign the actions
-    Difference differences[4] = {
-        {xplus - trigger_value[0], actionXPlus},
-        {xminus - trigger_value[1], actionXMinus},
-        {zplus - trigger_value[2], actionZPlus},
-        {zminus - trigger_value[3], actionZMinus}};
-
-    // Sort the differences in descending order
-    std::sort(differences, differences + 4, [](const Difference &a, const Difference &b)
-              { return a.diff > b.diff; });
-
-    // Execute the actions in the sorted order
-    int still = 1;
-    for (int i = 0; i < 4; i++)
+    int changed = 0;
+    if (xplus > trigger_value[0] && posX < maxX)
     {
-      if (differences[i].diff > 0)
-      {
-        differences[i].action();
-        still = 0;
-        break;
-      }
+      setServoPosition(1, posX + 1);
+      Serial.println("xplus : " + String(xplus) + " : " + String(trigger_value[0]) + " : " + String(posX));
+      changed = 1;
     }
-
-    if (still)
+    if (xminus > trigger_value[1] && posX > minX)
+    {
+      setServoPosition(1, posX - 1);
+      Serial.println("xminus : " + String(xminus) + " : " + String(trigger_value[1]) + " : " + String(posX));
+      changed = 1;
+    }
+    if (zplus > trigger_value[2] && posZ < maxZ)
+    {
+      setServoPosition(2, posZ + 1);
+      Serial.println("zplus : " + String(zplus) + " : " + String(trigger_value[2]) + " : " + String(posZ));
+      changed = 1;
+    }
+    if (zminus > trigger_value[3] && posZ > minZ)
+    {
+      setServoPosition(2, posZ - 1);
+      Serial.println("zminus : " + String(zminus) + " : " + String(trigger_value[3]) + " : " + String(posZ));
+      changed = 1;
+    }
+    if (!changed)
     {
       break;
     }
   }
+}
+
+void loadPreferences()
+{
+  preferences.begin("preferences", false);
+  wifi = preferences.getString("wifi", "");
+  pass = preferences.getString("pass", "");
+  posX = preferences.getInt("posX", minX);
+  posZ = preferences.getInt("posZ", minZ);
+
+  trigger_value[0] = preferences.getInt("trigger_value[0]", 0);
+  trigger_value[1] = preferences.getInt("trigger_value[1]", 0);
+  trigger_value[2] = preferences.getInt("trigger_value[2]", 0);
+  trigger_value[3] = preferences.getInt("trigger_value[3]", 0);
+
+  preferences.end();
+
+  Serial.println("Loaded preferences:");
+  Serial.println("wifi: " + wifi);
+  Serial.println("pass: " + pass);
+  Serial.println("posX: " + String(posX));
+  Serial.println("posZ: " + String(posZ));
+  Serial.println("trigger_value[0]: " + String(trigger_value[0]));
+  Serial.println("trigger_value[1]: " + String(trigger_value[1]));
+  Serial.println("trigger_value[2]: " + String(trigger_value[2]));
+  Serial.println("trigger_value[3]: " + String(trigger_value[3]));
+}
+
+void handleReset()
+{
+  preferences.clear();
+  server.send(200, "application/json", "{\"status\":\"reset\"}");
+  // reboot
+  ESP.restart();
 }
 
 void setup()
@@ -335,9 +326,7 @@ void setup()
 
   delay(1000);
 
-  preferences.begin("preferences", false);
-  String wifi = preferences.getString("wifi", "");
-  String pass = preferences.getString("pass", "");
+  loadPreferences();
 
   String ip = setWifi(wifi, pass);
   if (ip == "")
@@ -357,15 +346,22 @@ void setup()
   server.on("/", handleRoot);
   server.on("/scan", handleScan);
   server.on("/set-wifi", handleSetWifi);
-  server.on("/calibrate", calibrate_sensors);
+  server.on("/calibrate", handleCalibrate);
+  server.on("/reset", handleReset);
+  server.on("/wifisettings", []()
+            {
+              File file = SPIFFS.open("/wifisettings.html", "r");
+              if (!file) {
+                Serial.println("Failed to open file for reading");
+                return;
+              }
+              server.streamFile(file, "text/html");
+              file.close(); });
   server.begin();
 
   pinMode(13, OUTPUT);
   myservo1.attach(26);
   myservo2.attach(27);
-
-  posX = preferences.getInt("posX", minX);
-  posZ = preferences.getInt("posZ", minZ);
 
   if (posX > maxX || posX < minX)
     posX = minX;
@@ -385,6 +381,8 @@ void setup()
     break;
   case CONNECTED:
     // Code to run when connected
+    if (trigger_value[0] == 0)
+      calibrate_sensors();
     break;
   }
 

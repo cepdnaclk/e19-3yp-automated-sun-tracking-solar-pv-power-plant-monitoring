@@ -7,5 +7,41 @@
   </head>
   <body>
     <h1>Welcome to HelioEye</h1>
+    <p>
+      This is the data page. Here you can see the data that is being collected
+      from the sensors.
+    </p>
+    <p>
+      <a href="/wifisettings">Click here to set up the wifi</a>
+    </p>
+    <p>
+      <button onclick="calibrate()">Calibrate</button>
+    </p>
+    <p>
+      <button onclick="reset()">Reset</button>
+    </p>
   </body>
+  <script>
+    const calibrate = () => {
+      fetch("/calibrate")
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const reset = () => {
+      fetch("/reset")
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  </script>
 </html>

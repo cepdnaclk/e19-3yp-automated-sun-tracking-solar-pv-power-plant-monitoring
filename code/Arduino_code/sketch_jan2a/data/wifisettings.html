@@ -7,9 +7,11 @@
   </head>
   <body>
     <h1>Hello my server</h1>
-    <select name="" id="wifi-list"></select>
-    <input type="password" name="" id="pass" />
-    <button onclick="setWifi()">Set</button>
+    <form action="" onsubmit="setWifi(event)">
+      <select name="" id="wifi-list"></select>
+      <input type="password" name="" id="pass" required />
+      <button type="submit">Set</button>
+    </form>
   </body>
   <script>
     const wifiList = fetch("/scan")
@@ -24,10 +26,29 @@
         });
       });
 
-    const setWifi = () => {
+    const timeout = (ms, promise) => {
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          reject(new Error("Request timed out"));
+        }, ms);
+
+        promise
+          .then((value) => {
+            clearTimeout(timer);
+            resolve(value);
+          })
+          .catch((reason) => {
+            clearTimeout(timer);
+            reject(reason);
+          });
+      });
+    };
+
+    const setWifi = (event) => {
+      event.preventDefault();
       const wifi = document.getElementById("wifi-list").value;
       const pass = document.getElementById("pass").value;
-      fetch(`/set-wifi?wifi=${wifi}&pass=${pass}`)
+      timeout(10000, fetch(`/set-wifi?wifi=${wifi}&pass=${pass}`))
         .then((res) => res.json())
         .then((data) => {
           alert(data.status);
