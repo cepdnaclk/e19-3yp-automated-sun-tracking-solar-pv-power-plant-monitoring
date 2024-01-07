@@ -9,19 +9,30 @@ const Header = ({ title, subtitle }) => {
 
 	return (
 		<Box mb="30px">
-			<Typography
-				variant="h2"
-				color={colors.grey[100]}
-				fontWeight="bold"
-				sx={{ mb: '5px' }}
+			<Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
 			>
-				{title}
-			</Typography>
+				<Box>
+					<Typography
+						variant="h2"
+						color={colors.grey[100]}
+						fontWeight="bold"
+						sx={{ mb: '5px' }}
+					>
+						{title}
+					</Typography>
+				</Box>
+				{/* <Box justifyItems="flex-end" ml="80px">
+					<Typography variant="h5" color={colors.grey[100]}>
+						{date.toDateString()}
+					</Typography>
+				</Box> */}
+			</Box>
+
 			<Typography variant="h5" color={colors.yellowAccent[500]}>
 				{subtitle}
-			</Typography>
-			<Typography variant="h5" color={colors.grey[100]}>
-				{date.toDateString()}
 			</Typography>
 		</Box>
 	);

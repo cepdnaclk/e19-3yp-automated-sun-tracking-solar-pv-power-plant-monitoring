@@ -10,6 +10,7 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 // Menu Item component
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -133,6 +134,13 @@ const Sidebar = () => {
 							title={'Profile'}
 							to="/my-profile"
 							icon={<PermIdentityOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
+						<Item
+							title={'FAQ'}
+							to="/user-faq"
+							icon={<HelpOutlineOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>

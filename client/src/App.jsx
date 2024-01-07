@@ -9,6 +9,7 @@ import Sidebar from './components/global/Sidebar';
 import UserDashboard from './scenes/user-dashboard';
 import UserDevices from './scenes//user-devices';
 import UserProfile from './scenes/user-profile';
+import UserFaq from './scenes/user-faq';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -32,6 +33,7 @@ function App() {
 									path="/my-profile"
 									element={<UserProfile />}
 								/>
+								<Route path="/user-faq" element={<UserFaq />} />
 							</Routes>
 						</main>
 					</div>
