@@ -18,7 +18,7 @@ const { execQuery } = require("../database/database");
 //change req.query to req.body if necessary
 router.get("/", (req, res, next) => {
     if (req.query.id) {
-      execQuery(`SELECT id, admin_name, email FROM admins WHERE id=${req.query.id}`)
+      execQuery(`SELECT id, company_name, email, company_address, contact_no1, contact_no2 FROM admin WHERE id=${req.query.id}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
           res.status(200).json(data);
@@ -27,7 +27,7 @@ router.get("/", (req, res, next) => {
           next(err);
         });
     } else {
-      execQuery(`SELECT id, admin_name, email FROM admins`)
+      execQuery(`SELECT id, admin_name, email FROM admin`)
         .then((rows) => {
           data = rows[0].map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
@@ -51,7 +51,7 @@ router.get("/", (req, res, next) => {
       // const [fields, values] = requestBodyToFieldsAndValues(req.body);
       // delete req.body["id"];
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-      const addAdmins = `INSERT INTO admins (${fields.toString()}) VALUES (${values.toString()})`;
+      const addAdmins = `INSERT INTO admin (${fields.toString()}) VALUES (${values.toString()})`;
   
       execQuery(addAdmins)
         .then((rows) => {
@@ -89,7 +89,7 @@ router.get("/", (req, res, next) => {
       // remove last trailling ", "
       updateString = updateString.substring(0, updateString.length - 2);
   
-      const updateMemberQuery = `UPDATE admins SET ${updateString} WHERE id='${id}';`;
+      const updateMemberQuery = `UPDATE admin SET ${updateString} WHERE id='${id}';`;
   
       execQuery(updateMemberQuery)
         .then((rows) => {
@@ -110,7 +110,7 @@ router.get("/", (req, res, next) => {
   // admin delete only for primary super admin (id = 001) ?
   router.delete("/", (req, res, next) => {
     try {
-      const deleteAdminQuery = `DELETE FROM admins WHERE id=${req.query.id}`;
+      const deleteAdminQuery = `DELETE FROM admin WHERE id=${req.query.id}`;
       execQuery(deleteAdminQuery)
         .then((rows) => {
           res.status(200).json({ message: "Admin Account Deleted Successfully" });
