@@ -11,10 +11,14 @@ const {
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
 
-// get users - not done
+//All these functions (APIs) are only accessible for admins
+
+// get users - if request has an id, get the specific user, if not get all users 
+// [Done]
+//change req.query to req.body if necessary
 router.get("/", (req, res, next) => {
     if (req.query.id) {
-      execQuery(`SELECT * FROM member WHERE id=${req.query.id}`)
+      execQuery(`SELECT id, admin_name, email FROM admin WHERE id=${req.query.id}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
           res.status(200).json(data);
@@ -23,7 +27,7 @@ router.get("/", (req, res, next) => {
           next(err);
         });
     } else {
-      execQuery("CALL GetAllMembers()")
+      execQuery(`SELECT id, admin_name, email FROM admin`)
         .then((rows) => {
           data = rows[0].map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
@@ -34,17 +38,24 @@ router.get("/", (req, res, next) => {
     }
   });
   
-  //add new member - not done
+  //add new admin - [Done]
+  // request from frontend should be 
+  //{
+  //   "id": 123,
+  //   "admin_name": "New Admin Name",
+  //   "email": "newadmin@example.com",
+  //   "passphrase": "newpassphrase"
+  // }
   router.post("/", (req, res, next) => {
     try {
       // const [fields, values] = requestBodyToFieldsAndValues(req.body);
-      delete req.body["id"];
+      // delete req.body["id"];
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-      const memberRegistrationQuery = `INSERT INTO member (${fields.toString()}) VALUES (${values.toString()})`;
+      const addAdmins = `INSERT INTO admin (${fields.toString()}) VALUES (${values.toString()})`;
   
-      execQuery(memberRegistrationQuery)
+      execQuery(addAdmins)
         .then((rows) => {
-          res.status(200).json({ message: "New Member created successfully" });
+          res.status(200).json({ message: "New Admin created successfully" });
         })
         .catch((err) => {
           next(err);
@@ -54,7 +65,14 @@ router.get("/", (req, res, next) => {
     }
   });
   
-  //update member details - not done
+  //update admin (my profile) details 
+  // request format
+  // {
+  //   "id": 123,
+  //   "admin_name": "New Admin Name",
+  //   "email": "newadmin@example.com",
+  //   "passphrase": "newpassphrase"
+  // }
   router.put("/", (req, res, next) => {
     try {
       const id = req.body["id"];
@@ -71,13 +89,13 @@ router.get("/", (req, res, next) => {
       // remove last trailling ", "
       updateString = updateString.substring(0, updateString.length - 2);
   
-      const updateMemberQuery = `UPDATE member SET ${updateString} WHERE id='${id}';`;
+      const updateMemberQuery = `UPDATE admin SET ${updateString} WHERE id='${id}';`;
   
       execQuery(updateMemberQuery)
         .then((rows) => {
           res
             .status(200)
-            .json({ message: "Member details updated successfully" });
+            .json({ message: "Admin details updated successfully" });
         })
         .catch((err) => {
           next(err);
@@ -87,13 +105,15 @@ router.get("/", (req, res, next) => {
     }
   });
   
-  //delete members - not done
+  //delete members 
+  // change to req.body.id if necessary
+  // admin delete only for primary super admin (id = 001) ?
   router.delete("/", (req, res, next) => {
     try {
-      const deleteMemberQuery = `DELETE FROM x WHERE id=${req.query.x}`;
-      execQuery(deleteMemberQuery)
+      const deleteAdminQuery = `DELETE FROM admin WHERE id=${req.query.id}`;
+      execQuery(deleteAdminQuery)
         .then((rows) => {
-          res.status(200).json({ message: "delete request" });
+          res.status(200).json({ message: "Admin Account Deleted Successfully" });
         })
         .catch((err) => {
           next(err);
