@@ -25,7 +25,8 @@ CREATE TABLE customer(
     customer_name    VARCHAR(50),
     email            VARCHAR(255) UNIQUE NOT NULL,
     passphrase       VARCHAR(30) NOT NULL,
-    customer_address VARCHAR(255)
+    customer_address VARCHAR(255),
+    customer_contact VARCHAR(13)
 );
 
 CREATE TABLE device(
@@ -34,9 +35,9 @@ CREATE TABLE device(
     model_number    VARCHAR(20),
     dimension       VARCHAR(20),
     description_    VARCHAR(255),
-    assigned_company_id INT(4),
-    assigned_customer_id INT(6),
-
+    assigned_company_id     INT(4),
+    purchased_customer_email VARCHAR(255),
+    assigned_customer_id    INT(6),
     FOREIGN KEY(assigned_company_id) REFERENCES company(id),
     FOREIGN KEY(assigned_customer_id) REFERENCES customer(id)
 );
