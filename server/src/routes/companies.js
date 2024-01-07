@@ -12,10 +12,12 @@ const {
 const { execQuery } = require("../database/database");
 
 // get companies - if request has an id, get the specific user, if not get all users 
-// only accessble for admins
+// view all - only accessble for admins
+// view one profile - only for the respctive company
 // [Done]
 //change req.query to req.body if necessary
 router.get("/", (req, res, next) => {
+    //only for the respective company
     if (req.query.id) {
       execQuery(`SELECT id, company_name, email, company_address, contact_no1, contact_no2 FROM company WHERE id=${req.query.id}`)
         .then((rows) => {
@@ -26,6 +28,7 @@ router.get("/", (req, res, next) => {
           next(err);
         });
     } else {
+      //for admins
       execQuery(`SELECT id, company_name, email, company_address, contact_no1, contact_no2 FROM company`)
         .then((rows) => {
           data = rows[0].map((row) => objectKeysSnakeToCamel(row));
@@ -115,9 +118,20 @@ router.get("/", (req, res, next) => {
   // delete companies
   // change to req.body.id if necessary
   // only accessible for admins
+
+  // request format
+  // {
+  //   "companyId": 123,
+  //   "adminId": 456,
+  //   "password": "admin_password"
+  // }
+
   router.delete("/", (req, res, next) => {
     try {
-      const deleteCompanyQuery = `DELETE FROM company WHERE id=${req.query.id}`;
+      const deleteCompanyQuery = `DELETE FROM company WHERE id=${req.body.deviceId} 
+      AND ${req.body.password} = (SELECT passphrase FROM admin
+                                  WHERE admin.id=${req.body.adminId}) `;
+
       execQuery(deleteCompanyQuery)
         .then((rows) => {
           res.status(200).json({ message: "Admin Account Deleted Successfully" });
@@ -128,7 +142,6 @@ router.get("/", (req, res, next) => {
     } catch (err) {
       next(err);
     }
-  });
-  
+  });  
 
 module.exports = router;

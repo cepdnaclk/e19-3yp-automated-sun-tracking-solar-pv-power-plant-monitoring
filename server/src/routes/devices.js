@@ -124,6 +124,7 @@ router.get("/", (req, res, next) => {
   //   "id": 123456, //device id
   //   "email": "useremail@gmail.com" //customer email
   //   "assigned_customer_id":654321  
+  //    device_location:"79.256598 10.125689"
   // }
 
   router.put("/", (req, res, next) => {

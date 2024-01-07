@@ -38,6 +38,7 @@ CREATE TABLE device(
     assigned_company_id     INT(4),
     purchased_customer_email VARCHAR(255),
     assigned_customer_id    INT(6),
+    device_location VARCHAR(20), --get the location format later
     FOREIGN KEY(assigned_company_id) REFERENCES company(id),
     FOREIGN KEY(assigned_customer_id) REFERENCES customer(id)
 );

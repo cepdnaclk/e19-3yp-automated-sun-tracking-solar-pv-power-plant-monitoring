@@ -1,3 +1,4 @@
+//TBD item in delete API 
 //initiation
 const express = require("express");
 const router = express.Router();
@@ -64,7 +65,7 @@ router.get("/", (req, res, next) => {
     }
   });
   
-  //update admin (my profile) details 
+  //update admin (my profile) details - [Done]
   // request format
   // {
   //   "id": 123,
@@ -104,9 +105,9 @@ router.get("/", (req, res, next) => {
     }
   });
   
-  //delete members 
+  //delete members - [Done]
   // change to req.body.id if necessary
-  // admin delete only for primary super admin (id = 001) ?
+  // TBD - admin delete only for primary super admin (id = 001) ?
   router.delete("/", (req, res, next) => {
     try {
       const deleteAdminQuery = `DELETE FROM admins WHERE id=${req.query.id}`;
