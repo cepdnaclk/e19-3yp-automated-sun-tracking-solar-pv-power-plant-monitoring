@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Hello my server</h1>
+    <select name="" id="wifi-list"></select>
+    <input type="password" name="" id="pass" />
+    <button onclick="setWifi()">Set</button>
+  </body>
+  <script>
+    const wifiList = fetch("/scan")
+      .then((res) => res.json())
+      .then((data) => {
+        const selectElement = document.getElementById("wifi-list");
+        data.forEach((wifi) => {
+          const option = document.createElement("option");
+          option.value = wifi;
+          option.innerText = wifi;
+          selectElement.appendChild(option);
+        });
+      });
+
+    const setWifi = () => {
+      const wifi = document.getElementById("wifi-list").value;
+      const pass = document.getElementById("pass").value;
+      fetch(`/set-wifi?wifi=${wifi}&pass=${pass}`)
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+          // redirect to router ip
+          window.location.href = `http://${data.newip}`;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+  </script>
+</html>
