@@ -30,6 +30,7 @@ import SuperAdminDashboard from './scenes/super-admin-dashboard';
 import SuperAdminUserMng from './scenes/super-admin-user-mng';
 import SuperAdminFaq from './scenes/super-admin-faq';
 import SuperAdminProfile from './scenes/super-admin-profile';
+import SuperAdminAddUser from './scenes/super-admin-add-user';
 import SuperAdminDeviceMng from './scenes/super-admin-device-mng';
 
 // login, register imports
@@ -83,22 +84,11 @@ function App() {
 			return (
 				<Routes>
 					<Route path="/" element={<SuperAdminDashboard />} />
-					<Route
-						path="/super-admin-user-management"
-						element={<SuperAdminUserMng />}
-					/>
-					<Route
-						path="/super-admin-device-management"
-						element={<SuperAdminDeviceMng />}
-					/>
-					<Route
-						path="/super-admin-profile"
-						element={<SuperAdminProfile />}
-					/>
-					<Route
-						path="/super-admin-faq"
-						element={<SuperAdminFaq />}
-					/>
+					<Route path="/super-admin-user-management" element={<SuperAdminUserMng />} />
+					<Route path="/super-admin-device-management" element={<SuperAdminDeviceMng />} />
+					<Route path="/super-admin-profile" element={<SuperAdminProfile />} />
+					<Route path="/super-admin-add-user" element={<SuperAdminAddUser />} />
+					<Route path="/super-admin-faq" element={<SuperAdminFaq />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Routes>
