@@ -47,8 +47,9 @@ CREATE TABLE device(
     assigned_company_id         INT(4),
     purchased_customer_email    VARCHAR(255),
     assigned_customer_id        INT(6),
+    device_name_by_customer     VARCHAR(15),
     device_latitude             FLOAT(), 
-    device_longtitude           FLOAT(), 
+    device_longitude           FLOAT(), 
     FOREIGN KEY(assigned_company_id)  REFERENCES user(id),
     FOREIGN KEY(assigned_customer_id) REFERENCES user(id)
 );

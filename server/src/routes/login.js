@@ -50,8 +50,8 @@ router.post("/login", (req, res, next) => {
       //   return acc;
       // }, {});
 
-      const accessToken = generateAccessToken(username, user_type, user_id);
-      const refreshToken = generateRefreshToken(username, user_type, user_id);
+      const accessToken = generateAccessToken(username, user_type, user_id, email);
+      const refreshToken = generateRefreshToken(username, user_type, user_id, email);
       refreshTokens.push(refreshToken);
 
       res.json({

@@ -12,10 +12,7 @@ const {
 const { execQuery } = require("../database/database");
 const { authenticateToken } = require("../middleware/auth");
 
-if(req.user_type == "company"){
-} else {
-  return res.sendStatus(401).json({ error: "Unauthorized" });
-}
+
 // get companies - if request has an id, get the specific user, if not get all users 
 // view all - only accessble for admins
 // view one profile - only for the respctive company

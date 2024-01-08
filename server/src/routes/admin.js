@@ -9,7 +9,7 @@ const {
   objectKeysSnakeToCamel,
 } = require("../utils/parse");
 
-const { authenticateToken } =require("../middleware/auth")
+const { authenticateToken } = require("../middleware/auth")
 
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
