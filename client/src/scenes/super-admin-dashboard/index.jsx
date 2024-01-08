@@ -38,7 +38,7 @@ const SuperAdminDashboard = () => {
 					alignItems="center"
 					justifyContent="center"
 				>
-					<Link to="/super-admin-user-management" style={{ textDecoration: 'none' }}>
+					<Link to="//super-admin-user-management" style={{ textDecoration: 'none' }}>
 						<StatBoxVal
 							title="User Management"
 							icon={

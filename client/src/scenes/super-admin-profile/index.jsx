@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
-import { TextField, Button, Typography, Container, Grid } from '@mui/material';
+import { TextField, Button, Typography, Container, Grid, Box } from '@mui/material';
 
 const SuperAdminProfile = () => {
   const theme = useTheme();
@@ -21,17 +21,18 @@ const SuperAdminProfile = () => {
   const buttonContainerStyle = {
     marginTop: '15px',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   };
 
   const buttonStyle = {
-    marginRight: '40px',
+    marginLeft: '20px',
     color: 'black',
     backgroundColor: '#FFAC09',
   };
 
   return (
-    <Container maxWidth="md" style={containerStyle}>
+    
+    <Box m="20px" maxWidth="md" style={containerStyle}>
       <Typography variant="h5" gutterBottom style={{ color: '#FFAC09', margin: '10px 0 15px 0' }}>
         Basic Information
       </Typography>
@@ -139,7 +140,7 @@ const SuperAdminProfile = () => {
           </Button>
         </div>
       </form>
-    </Container>
+    </Box>
   );
 };
 

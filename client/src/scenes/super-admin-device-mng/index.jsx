@@ -12,12 +12,12 @@ const SuperAdminDeviceMng = () => {
 	  fontWeight: 'bold',
 	  margin: '10px 0 10px 50px',
 	  color: '#FFAC09',
-	  marginLeft: '50px',
+	  marginLeft: '20px',
 	};
 
 	const filterSectionStyle = {
 	  display: 'flex',
-	  marginLeft: '50px',
+	  marginLeft: '20px',
 	  alignItems: 'center',
 	};
   
@@ -26,7 +26,7 @@ const SuperAdminDeviceMng = () => {
 	  flexDirection: 'row',
 	  flexWrap: 'wrap',
 	  marginTop: '20px',
-	  marginLeft: '50px',
+	  marginLeft: '20px',
 	};
   
 	const cardStyle = {

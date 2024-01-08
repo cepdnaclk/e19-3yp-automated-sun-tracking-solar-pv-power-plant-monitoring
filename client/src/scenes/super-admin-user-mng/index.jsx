@@ -13,17 +13,17 @@ const SuperAdminUserMng = () => {
 	  fontWeight: 'bold',
 	  margin: '10px 0 10px 50px',
 	  color: '#FFAC09',
-	  marginLeft: '50px',
+	  marginLeft: '20px',
 	};
 
     const filterSectionStyle = {
         display: 'flex',
-        marginLeft: '50px',
+        marginLeft: '20px',
         alignItems: 'center', // Center align the checkboxes with the labels
     };
 
     const tableStyle = {
-        marginLeft: '50px',
+        marginLeft: '20px',
         marginTop: '20px',
         width: '80%',
     };
@@ -88,8 +88,8 @@ const SuperAdminUserMng = () => {
             </div>
 
 			<div>
-				<Button color="secondary" size="small" style={{ background: '#FFAC09', color: 'black', marginLeft: '75%', fontWeight: 'bold' }}>
-					<AddIcon style={{ marginRight: '5px' }} /> Add Company
+				<Button href="/super-admin-add-user" color="secondary" size="small" style={{ background: '#FFAC09', color: 'black', marginLeft: '928px', fontWeight: 'bold' }}>
+					<AddIcon style={{ marginRight: '4px' }} /> Add Company
 				</Button>
 			</div>
 
