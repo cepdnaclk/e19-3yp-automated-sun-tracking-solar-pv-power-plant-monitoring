@@ -1,30 +1,44 @@
+// global imports
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { Route, Routes } from 'react-router-dom';
 import { AlertProvider } from './contexts/AlertContextProvider';
 import { ColorModeContext, useMode } from './theme';
 
+// Appbar , Sidebar imports
 import AdminAppbar from './components/global/AdminAppbar';
 import AdminSidebar from './components/global/AdminSidebar';
 import Appbar from './components/global/Appbar';
 import Sidebar from './components/global/Sidebar';
+import SuperAdminAppbar from './components/global/SuperAdminAppbar';
+import SuperAdminSidebar from './components/global/SuperAdminSidebar';
 
+// User pages imports
 import UserDashboard from './scenes/user-dashboard';
 import UserDevices from './scenes/user-devices';
 import UserFaq from './scenes/user-faq';
 import UserProfile from './scenes/user-profile';
 
+// Admin pages imports
 import AdminDashboard from './scenes/admin-dashboard';
 import AdminDeviceMng from './scenes/admin-device-mng';
 import AdminFaq from './scenes/admin-faq';
 import AdminProfile from './scenes/admin-profile';
 import AdminUserMng from './scenes/admin-user-mng';
 
+// Super Admin pages imports
+import SuperAdminDashboard from './scenes/super-admin-dashboard';
+import SuperAdminUserMng from './scenes/super-admin-user-mng';
+import SuperAdminFaq from './scenes/super-admin-faq';
+import SuperAdminProfile from './scenes/super-admin-profile';
+import SuperAdminDeviceMng from './scenes/super-admin-device-mng';
+
+// login, register imports
 import Login from './scenes/login';
 import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const userRole = 'client'; // Replace with actual user role
+	const userRole = 'super-admin'; // Replace with actual user role
 
 	const renderSidebar = () => {
 		if (userRole === 'admin') {
@@ -70,8 +84,12 @@ function App() {
 				<Routes>
 					<Route path="/" element={<SuperAdminDashboard />} />
 					<Route
-						path="/super-admin-devices"
-						element={<SuperAdminDevices />}
+						path="/super-admin-user-management"
+						element={<SuperAdminUserMng />}
+					/>
+					<Route
+						path="/super-admin-device-management"
+						element={<SuperAdminDeviceMng />}
 					/>
 					<Route
 						path="/super-admin-profile"
