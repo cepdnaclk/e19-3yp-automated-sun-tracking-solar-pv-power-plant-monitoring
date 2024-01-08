@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HelioEye</title>
+  </head>
+  <body>
+    <h1>Welcome to HelioEye</h1>
+    <p>
+      This is the data page. Here you can see the data that is being collected
+      from the sensors.
+    </p>
+    <p>
+      <a href="/wifisettings">Click here to set up the wifi</a>
+    </p>
+    <p>
+      <button onclick="calibrate()">Calibrate</button>
+    </p>
+    <p>
+      <button onclick="reset()">Reset</button>
+    </p>
+    <p>
+      <span>Position X: </span>
+      <span id="posx"></span>
+    </p>
+    <p>
+      <span>Position Z: </span>
+      <span id="posz"></span>
+    </p>
+  </body>
+  <script>
+    const calibrate = () => {
+      fetch("/calibrate")
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    const reset = () => {
+      fetch("/reset")
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    var socket = new WebSocket("ws://esp32.local:81/");
+    socket.onmessage = function (event) {
+      var values = event.data.split(",");
+      document.getElementById("posx").textContent = values[0];
+      document.getElementById("posz").textContent = values[1];
+    };
+  </script>
+</html>
