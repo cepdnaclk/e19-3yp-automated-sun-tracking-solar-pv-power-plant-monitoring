@@ -20,6 +20,14 @@
     <p>
       <button onclick="reset()">Reset</button>
     </p>
+    <p>
+      <span>Position X: </span>
+      <span id="posx"></span>
+    </p>
+    <p>
+      <span>Position Z: </span>
+      <span id="posz"></span>
+    </p>
   </body>
   <script>
     const calibrate = () => {
@@ -42,6 +50,13 @@
         .catch((err) => {
           console.log(err);
         });
+    };
+
+    var socket = new WebSocket("ws://esp32.local:81/");
+    socket.onmessage = function (event) {
+      var values = event.data.split(",");
+      document.getElementById("posx").textContent = values[0];
+      document.getElementById("posz").textContent = values[1];
     };
   </script>
 </html>
