@@ -52,7 +52,8 @@ router.get("/", authenticateToken, (req, res, next) => {
   router.get("/", authenticateToken, (req, res, next) => {
     if(req.user_type == "company"){
       if (req.query.id) {
-        execQuery(`SELECT id, model_name, model_number, description_, purchased_customer_email FROM device WHERE id=${req.query.id} AND assigned_company_id=${req.user_id}`)
+        execQuery(`SELECT id, model_name, model_number, description_, purchased_customer_email FROM device 
+        WHERE id=${req.query.id} AND assigned_company_id=${req.user_id}`)
           .then((rows) => {
             data = objectKeysSnakeToCamel(rows[0]);
             res.status(200).json(data);
@@ -61,7 +62,8 @@ router.get("/", authenticateToken, (req, res, next) => {
             next(err);
           });
       } else {
-        execQuery(`SELECT id, model_name, model_number, description_, purchased_customer_email FROM device WHERE assigned_company_id=${req.user_id}`)
+        execQuery(`SELECT id, model_name, model_number, description_, purchased_customer_email FROM device 
+        WHERE assigned_company_id=${req.user_id}`)
           .then((rows) => {
             data = rows[0].map((row) => objectKeysSnakeToCamel(row));
             res.status(200).json(data);
