@@ -18,11 +18,12 @@ router.post("/login", (req, res, next) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
-    console.log(email, password);
+    // console.log(email, password);
 
-    const queryFindUser = `SELECT id, email, passphrase, frontOfficeId, departmentId, backOfficeId, roleId, preferredName FROM member WHERE email = ?;`;
+    const queryFindUser = `SELECT username, user_type, id, passphrase FROM user WHERE email = ${email};`;
 
-    connection.query(queryFindUser, [email], (err, result) => {
+    // connection.query(queryFindUser, [email], (err, result) => {
+    connection.query(queryFindUser, (err, result) => {
       if (err) {
         console.log("Error during login:", err);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -30,7 +31,10 @@ router.post("/login", (req, res, next) => {
       if (result.length === 0) {
         return res.status(404).json({ message: "User not found" });
       }
-      const user = result[0];
+      
+      const username = result[0];
+      const user_type = result[1];
+      const user_id = result[2];
 
       if (password != user.passphrase) {
         return res.status(401).json({ message: "Invalid password" });
@@ -39,22 +43,22 @@ router.post("/login", (req, res, next) => {
       // Successful login, proceed with further actions
 
       // Convert the keys from snake case to camel case and add to response
-      const formattedUser = Object.keys(user).reduce((acc, key) => {
-        // Remove password field
-        if (key === "passphrase") return acc;
-        acc[key] = user[key];
-        return acc;
-      }, {});
+      // const formattedUser = Object.keys(user).reduce((acc, key) => {
+      //   // Remove password field
+      //   if (key === "passphrase") return acc;
+      //   acc[key] = user[key];
+      //   return acc;
+      // }, {});
 
-      const accessToken = generateAccessToken(formattedUser);
-      const refreshToken = generateRefreshToken(formattedUser);
+      const accessToken = generateAccessToken(username, user_type, user_id);
+      const refreshToken = generateRefreshToken(username, user_type, user_id);
       refreshTokens.push(refreshToken);
 
       res.json({
         message: "Login Successful",
         accessToken: accessToken,
         refreshToken: refreshToken,
-        ...formattedUser,
+        username:username
       });
     });
   } catch (err) {
