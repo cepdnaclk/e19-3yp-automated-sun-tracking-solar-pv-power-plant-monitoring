@@ -12,12 +12,18 @@ import UserDashboard from './scenes/user-dashboard';
 import UserDevices from './scenes/user-devices';
 import UserProfile from './scenes/user-profile';
 import UserFaq from './scenes/user-faq';
+
+import AdminDashboard from './scenes/admin-dashboard';
+import AdminUserMng from './scenes/admin-user-mng';
+import AdminDeviceMng from './scenes/admin-device-mng';
+import AdminFaq from './scenes/admin-faq';
+
 import Login from './scenes/login';
 import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const userRole = 'client'; // Replace with actual user role
+	const userRole = 'admin'; // Replace with actual user role
 
 	const renderSidebar = () => {
 		if (userRole === 'admin') {
@@ -44,8 +50,14 @@ function App() {
 			return (
 				<Routes>
 					<Route path="/" element={<AdminDashboard />} />
-					<Route path="/admin-devices" element={<AdminDevices />} />
-					<Route path="/admin-profile" element={<AdminProfile />} />
+					<Route
+						path="/admin-user-management"
+						element={<AdminUserMng />}
+					/>
+					<Route
+						path="/admin-device-management"
+						element={<AdminDeviceMng />}
+					/>
 					<Route path="/admin-faq" element={<AdminFaq />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
