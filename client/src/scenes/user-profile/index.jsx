@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import { Box, Typography, useTheme, Button } from '@mui/material';
 import TextCard from '../../components/TextCard';
 import { tokens } from '../../theme';
+import Form from '../../components/Form';
 
 const UserProfile = () => {
 	const theme = useTheme();
@@ -18,7 +19,10 @@ const UserProfile = () => {
 
 	const handleEditProfileClick = () => {
 		setIsEditProfileOpen(true);
-		window.open('/edit-profile', '_blank', 'width=500,height=500');
+	};
+
+	const handleFormSubmit = (values) => {
+		console.log(values);
 	};
 
 	return (
@@ -113,6 +117,11 @@ const UserProfile = () => {
 					variant="contained"
 					color="secondary"
 					onClick={handleEditProfileClick}
+					sx={{
+						backgroundColor: colors.orangeAccent[500],
+						color: colors.primary[500],
+						fontWeight: 'bold',
+					}}
 				>
 					Edit Profile
 				</Button>
@@ -122,10 +131,39 @@ const UserProfile = () => {
 					sx={{
 						marginLeft: '20px',
 						backgroundColor: colors.orangeAccent[500],
+						color: colors.primary[500],
+						fontWeight: 'bold',
 					}}
 				>
 					Change Password
 				</Button>
+			</Box>
+
+			<Box width="60%">
+				{isEditProfileOpen ? (
+					<Form handleFormSubmit={handleFormSubmit} />
+				) : null}
+			</Box>
+			<Box display="flex" justifyContent="start" mt="20px" width="60%">
+				{isEditProfileOpen && (
+					<>
+						<Button
+							variant="contained"
+							color="secondary"
+							onClick={handleFormSubmit}
+						>
+							Submit
+						</Button>
+						<Button
+							variant="contained"
+							color="secondary"
+							onClick={() => setIsEditProfileOpen(false)}
+							sx={{ marginLeft: '20px' }}
+						>
+							Cancel
+						</Button>
+					</>
+				)}
 			</Box>
 		</Box>
 	);
