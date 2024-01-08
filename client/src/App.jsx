@@ -7,6 +7,8 @@ import AdminAppbar from "./components/global/AdminAppbar";
 import AdminSidebar from "./components/global/AdminSidebar";
 import Appbar from "./components/global/Appbar";
 import Sidebar from "./components/global/Sidebar";
+import SuperAdminAppbar from './components/global/SuperAdminAppbar';
+import SuperAdminSidebar from './components/global/SuperAdminSidebar';
 
 import UserDashboard from "./scenes/user-dashboard";
 import UserDevices from "./scenes/user-devices";
@@ -18,6 +20,12 @@ import AdminDeviceMng from "./scenes/admin-device-mng";
 import AdminFaq from "./scenes/admin-faq";
 import AdminProfile from "./scenes/admin-profile";
 import AdminUserMng from "./scenes/admin-user-mng";
+
+import SuperAdminDashboard from './scenes/super-admin-dashboard';
+import SuperAdminUserMng from './scenes/super-admin-user-mng';
+import SuperAdminDeviceMng from './scenes/super-admin-device-mng';
+import SuperAdminFaq from './scenes/super-admin-faq';
+import SuperAdminProfile from './scenes/super-admin-profile';
 
 import Login from "./scenes/login";
 import Register from "./scenes/register";
@@ -59,17 +67,18 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       );
-    } else if (userRole === "super-admin") {
-      return (
-        <Routes>
-          <Route path="/" element={<SuperAdminDashboard />} />
-          <Route path="/super-admin-devices" element={<SuperAdminDevices />} />
-          <Route path="/super-admin-profile" element={<SuperAdminProfile />} />
-          <Route path="/super-admin-faq" element={<SuperAdminFaq />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      );
+    } else if (userRole === 'super-admin') {
+	  return (
+		<Routes>
+			<Route path="/" element={<SuperAdminDashboard />} />
+			<Route path="/super-admin-user-management" element={<SuperAdminUserMng />} />
+			<Route path="/super-admin-device-management" element={<SuperAdminDeviceMng />} />
+			<Route path="/super-admin-profile" element={<SuperAdminProfile />} />
+			<Route path="/super-admin-faq" element={<SuperAdminFaq />} />
+			<Route path="/login" element={<Login />} />
+			<Route path="/register" element={<Register />} />
+		</Routes>
+	  );
     } else {
       return (
         <Routes>
