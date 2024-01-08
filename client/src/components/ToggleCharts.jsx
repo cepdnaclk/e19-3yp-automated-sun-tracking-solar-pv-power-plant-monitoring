@@ -3,7 +3,25 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../theme';
-// import { BarChart } from './BarChart';
+import StackedBarChart from './StackedBarChart';
+import { weeklyData, monthlyData, yearlyData } from '../data/barChartData'; // Import the bar chart data file
+
+// const weeklyData = {
+// 	xLabels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+// 	data: [10, 20, 15, 25],
+// };
+
+// // Data for monthly bar chart
+// const monthlyData = {
+// 	xLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+// 	data: [100, 150, 120, 180, 200, 160],
+// };
+
+// // Data for yearly bar chart
+// const yearlyData = {
+// 	xLabels: ['2018', '2019', '2020', '2021'],
+// 	data: [500, 600, 700, 800],
+// };
 
 const ToggleCharts = () => {
 	const theme = useTheme();
@@ -50,36 +68,35 @@ const ToggleCharts = () => {
 					</ToggleButton>
 				</ToggleButtonGroup>
 			</Box>
+
 			<Box
 				dispaly="flex"
 				justifyContent="center"
 				alignItems="center"
 				m="10px 10px 10px"
+				pl="20px"
 			>
-				{alignment === 'Week' && <WeekCard />}
-				{alignment === 'Month' && <MonthCard />}
-				{alignment === 'Year' && <YearCard />}
+				{alignment === 'Week' && (
+					<StackedBarChart
+						data={weeklyData.data}
+						xLabels={weeklyData.xLabels}
+					/>
+				)}
+				{alignment === 'Month' && (
+					<StackedBarChart
+						data={monthlyData.data}
+						xLabels={monthlyData.xLabels}
+					/>
+				)}
+				{alignment === 'Year' && (
+					<StackedBarChart
+						data={yearlyData.data}
+						xLabels={yearlyData.xLabels}
+					/>
+				)}
 			</Box>
 		</Box>
 	);
-};
-
-const WeekCard = () => {
-	const theme = useTheme();
-	const colors = tokens(theme.palette.mode);
-	return (
-		<Box height="90%" backgroundColor={colors.blueAccent[100]}>
-			{/* <BarChart isDashboard={true} /> */}
-		</Box>
-	);
-};
-
-const MonthCard = () => {
-	return <div>Month Graph</div>;
-};
-
-const YearCard = () => {
-	return <div>Year Graph</div>;
 };
 
 export default ToggleCharts;
