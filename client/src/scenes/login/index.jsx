@@ -47,6 +47,9 @@ const Login = ({ onRegisterClick }) => {
           localStorage.setItem("token", res.data.accessToken);
           localStorage.setItem("refreshToken", res.data.refreshToken);
           localStorage.setItem("username", res.data.username);
+
+          axios.defaults.headers.common["Authorization"] = "Bearer " + res.data.accessToken;
+
           // redirect to home page
           window.location.href = "/";
         })
