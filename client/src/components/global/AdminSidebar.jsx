@@ -4,8 +4,9 @@ import { Box, IconButton, Typography, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import 'react-pro-sidebar/dist/css/styles.css';
 import { tokens } from '../../theme';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import AppSettingsAltOutlinedIcon from '@mui/icons-material/AppSettingsAltOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
@@ -124,22 +125,29 @@ const Sidebar = () => {
 							<Link to="/" />
 						</MenuItem>
 						<Item
-							title={'My Devices'}
-							to="/my-devices"
-							icon={<FlashOnIcon />}
+							title={'User mangement'}
+							to="/admin-user-management"
+							icon={<ManageAccountsOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
+						<Item
+							title={'Device mangement'}
+							to="/admin-device-management"
+							icon={<AppSettingsAltOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
 						<Item
 							title={'Profile'}
-							to="/my-profile"
+							to="/admin-profile"
 							icon={<PermIdentityOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>
 						<Item
 							title={'FAQ'}
-							to="/user-faq"
+							to="/admin-faq"
 							icon={<HelpOutlineOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}

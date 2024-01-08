@@ -17,13 +17,14 @@ import AdminDashboard from './scenes/admin-dashboard';
 import AdminUserMng from './scenes/admin-user-mng';
 import AdminDeviceMng from './scenes/admin-device-mng';
 import AdminFaq from './scenes/admin-faq';
+import AdminProfile from './scenes/admin-profile';
 
 import Login from './scenes/login';
 import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const userRole = 'admin'; // Replace with actual user role
+	const userRole = 'client'; // Replace with actual user role
 
 	const renderSidebar = () => {
 		if (userRole === 'admin') {
@@ -59,6 +60,7 @@ function App() {
 						element={<AdminDeviceMng />}
 					/>
 					<Route path="/admin-faq" element={<AdminFaq />} />
+					<Route path="/admin-profile" element={<AdminProfile />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Routes>
