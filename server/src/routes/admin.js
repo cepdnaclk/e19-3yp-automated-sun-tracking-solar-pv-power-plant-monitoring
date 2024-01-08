@@ -9,7 +9,7 @@ const {
   objectKeysSnakeToCamel,
 } = require("../utils/parse");
 
-const { authenticateToken } =require("../src/middleware/auth")
+const { authenticateToken } =require("../middleware/auth")
 
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
@@ -23,7 +23,7 @@ router.get("/", authenticateToken, (req, res, next) => {
 
   if(req.user_type == "admin"){
     if (req.query.id) {
-      execQuery(`SELECT id, username, email, passphrase contact_number, user_address FROM user WHERE id=${req.query.id} AND username=${req.username}`)
+      execQuery(`SELECT id, username, email, passphrase, contact_number, user_address FROM user WHERE id=${req.query.id} AND username=${req.username}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
           res.status(200).json(data);
@@ -155,6 +155,4 @@ router.put("/", authenticateToken,(req, res, next) => {
     }
     
   });
-  
-
 module.exports = router;
