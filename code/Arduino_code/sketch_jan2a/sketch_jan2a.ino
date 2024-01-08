@@ -4,6 +4,8 @@
 #include <ArduinoJson.h>
 #include <ESP32Servo.h>
 #include <Preferences.h>
+#include <WebSocketsServer.h>
+#include <ESPmDNS.h>
 
 #define AP_MODE 0
 #define CONNECTED 1
@@ -17,6 +19,8 @@ String pass = "";
 WebServer server(80);
 
 Preferences preferences;
+
+WebSocketsServer webSocket = WebSocketsServer(81);
 
 int state = AP_MODE;
 
@@ -57,11 +61,9 @@ void handleSetWifi()
   String ip = setWifi(wifi.c_str(), pass.c_str());
 
   server.send(200, "application/json", "{\"status\":\"connected\", \"newip\":\"" + ip + "\"}");
-  delay(500);
-  preferences.begin("preferences", false);
+  delay(10000);
   preferences.putString("wifi", wifi);
   preferences.putString("pass", pass);
-  preferences.end();
   WiFi.softAPdisconnect(true);
 }
 
@@ -100,7 +102,8 @@ int maxZ = 180;
 int minZ = 1;
 int posZ = minZ;
 
-unsigned long previousMillis = 0;
+unsigned long previousRotation = 0;
+unsigned long previousDatasend = 0;
 const long interval = 15000;
 
 int trigger_value[4];
@@ -178,11 +181,10 @@ void calibrate_sensors()
   trigger_value[3] = zminus_max * thresholdZ;
 
   preferences.begin("preferences", false);
-  preferences.putInt("trigger_value[0]", trigger_value[0]);
-  preferences.putInt("trigger_value[1]", trigger_value[1]);
-  preferences.putInt("trigger_value[2]", trigger_value[2]);
-  preferences.putInt("trigger_value[3]", trigger_value[3]);
-  preferences.end();
+  preferences.putInt("trigger_value0", trigger_value[0]);
+  preferences.putInt("trigger_value1", trigger_value[1]);
+  preferences.putInt("trigger_value2", trigger_value[2]);
+  preferences.putInt("trigger_value3", trigger_value[3]);
 
   Serial.println("Trigger values:");
   Serial.println(trigger_value[0]);
@@ -235,10 +237,8 @@ void setServoPosition(int servo, int position)
       }
     }
   }
-  preferences.begin("preferences", false);
   preferences.putInt("posX", posX);
   preferences.putInt("posZ", posZ);
-  preferences.end();
 }
 
 void readAndControlServos()
@@ -294,22 +294,20 @@ void loadPreferences()
   posX = preferences.getInt("posX", minX);
   posZ = preferences.getInt("posZ", minZ);
 
-  trigger_value[0] = preferences.getInt("trigger_value[0]", 0);
-  trigger_value[1] = preferences.getInt("trigger_value[1]", 0);
-  trigger_value[2] = preferences.getInt("trigger_value[2]", 0);
-  trigger_value[3] = preferences.getInt("trigger_value[3]", 0);
-
-  preferences.end();
+  trigger_value[0] = preferences.getInt("trigger_value0", 0);
+  trigger_value[1] = preferences.getInt("trigger_value1", 0);
+  trigger_value[2] = preferences.getInt("trigger_value2", 0);
+  trigger_value[3] = preferences.getInt("trigger_value3", 0);
 
   Serial.println("Loaded preferences:");
   Serial.println("wifi: " + wifi);
   Serial.println("pass: " + pass);
   Serial.println("posX: " + String(posX));
   Serial.println("posZ: " + String(posZ));
-  Serial.println("trigger_value[0]: " + String(trigger_value[0]));
-  Serial.println("trigger_value[1]: " + String(trigger_value[1]));
-  Serial.println("trigger_value[2]: " + String(trigger_value[2]));
-  Serial.println("trigger_value[3]: " + String(trigger_value[3]));
+  Serial.println("trigger_value0: " + String(trigger_value[0]));
+  Serial.println("trigger_value1: " + String(trigger_value[1]));
+  Serial.println("trigger_value2: " + String(trigger_value[2]));
+  Serial.println("trigger_value3: " + String(trigger_value[3]));
 }
 
 void handleReset()
@@ -318,6 +316,18 @@ void handleReset()
   server.send(200, "application/json", "{\"status\":\"reset\"}");
   // reboot
   ESP.restart();
+}
+
+float read_voltage()
+{
+  float voltage = 0;
+  for (int i = 0; i < 10; i++)
+  {
+    voltage += analogRead(36);
+    delay(10);
+  }
+  voltage = map(voltage / 10, 0, 4096, 0, 1900);
+  return voltage / 100;
 }
 
 void setup()
@@ -373,16 +383,34 @@ void setup()
   setServoPosition(1, minX);
   setServoPosition(2, minZ);
 
+  if (!MDNS.begin("esp32"))
+  {
+    Serial.println("Error setting up MDNS responder!");
+  }
+  else
+  {
+    Serial.println("mDNS responder started");
+    // Add service to MDNS-SD
+    MDNS.addService("http", "tcp", 80);
+  }
+
+  webSocket.begin();
+  webSocket.onEvent([](uint8_t num, WStype_t type, uint8_t *payload, size_t length)
+                    {
+  if (type == WStype_TEXT) {
+    // Handle text message from client
+  } });
+
+  if (trigger_value[0] == 0)
+    calibrate_sensors();
+
   switch (state)
   {
   case AP_MODE:
     // Code to run in AP mode
-    calibrate_sensors();
     break;
   case CONNECTED:
     // Code to run when connected
-    if (trigger_value[0] == 0)
-      calibrate_sensors();
     break;
   }
 
@@ -403,11 +431,20 @@ void loop()
     break;
   }
 
-  unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= interval)
-  {
-    previousMillis = currentMillis;
+  unsigned long uptime = millis();
 
+  if (uptime - previousRotation > interval)
+  {
     readAndControlServos();
+  }
+
+  Serial.println("Voltage: " + String(read_voltage()));
+
+  if (uptime - previousDatasend > 1000)
+  {
+    webSocket.loop();
+    String data = String(posX) + "," +
+                  String(posZ) + ",";
+    webSocket.broadcastTXT(data);
   }
 }
