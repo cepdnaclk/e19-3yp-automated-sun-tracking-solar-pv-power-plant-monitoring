@@ -3,6 +3,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../theme';
+// import { BarChart } from './BarChart';
 
 const ToggleCharts = () => {
 	const theme = useTheme();
@@ -68,7 +69,7 @@ const WeekCard = () => {
 	const colors = tokens(theme.palette.mode);
 	return (
 		<Box height="90%" backgroundColor={colors.blueAccent[100]}>
-			Week Graph{' '}
+			{/* <BarChart isDashboard={true} /> */}
 		</Box>
 	);
 };

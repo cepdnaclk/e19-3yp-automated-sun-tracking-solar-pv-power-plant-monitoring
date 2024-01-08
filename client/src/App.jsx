@@ -10,6 +10,8 @@ import UserDashboard from './scenes/user-dashboard';
 import UserDevices from './scenes//user-devices';
 import UserProfile from './scenes/user-profile';
 import UserFaq from './scenes/user-faq';
+import Login from './scenes/login';
+import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
@@ -20,9 +22,11 @@ function App() {
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
 					<div className="app">
-						<Sidebar />
+						{window.location.pathname !== '/login' && <Sidebar />}
 						<main className="content">
-							<Appbar />
+							{window.location.pathname !== '/login' && (
+								<Appbar />
+							)}
 							<Routes>
 								<Route path="/" element={<UserDashboard />} />
 								<Route
@@ -34,6 +38,11 @@ function App() {
 									element={<UserProfile />}
 								/>
 								<Route path="/user-faq" element={<UserFaq />} />
+								<Route path="/login" element={<Login />} />
+								<Route
+									path="/register"
+									element={<Register />}
+								/>
 							</Routes>
 						</main>
 					</div>
