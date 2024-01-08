@@ -9,6 +9,7 @@ import ToggleCharts from '../../components/ToggleCharts';
 import BatteryChargingFullOutlinedIcon from '@mui/icons-material/BatteryChargingFullOutlined';
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import Battery3BarOutlinedIcon from '@mui/icons-material/Battery3BarOutlined';
+import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
 
 import { userDevices } from '../../data/devices';
 
@@ -64,11 +65,11 @@ const UserDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBox
-						title="CHARGE"
+						title="EFFICIENCY"
 						subtitle="75%"
 						progress="0.75"
 						icon={
-							<Battery3BarOutlinedIcon
+							<SettingsSuggestOutlinedIcon
 								sx={{
 									color: colors.yellowAccent[600],
 									fontSize: '26px',
