@@ -38,7 +38,7 @@ import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const userRole = 'super-admin'; // Replace with actual user role
+	const userRole = 'admin'; // Replace with actual user role
 
 	const renderSidebar = () => {
 		if (userRole === 'admin') {
