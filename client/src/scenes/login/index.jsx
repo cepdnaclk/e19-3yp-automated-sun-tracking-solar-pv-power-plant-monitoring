@@ -9,8 +9,9 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext } from "react";
 import * as Yup from "yup";
+import { AlertContext } from "../../contexts/AlertContext";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -29,6 +30,8 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 const Login = ({ onRegisterClick }) => {
+  const { showAlert } = useContext(AlertContext);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -48,14 +51,14 @@ const Login = ({ onRegisterClick }) => {
           localStorage.setItem("refreshToken", res.data.refreshToken);
           localStorage.setItem("username", res.data.username);
 
-          axios.defaults.headers.common["Authorization"] = "Bearer " + res.data.accessToken;
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + res.data.accessToken;
 
           // redirect to home page
           window.location.href = "/";
         })
         .catch((err) => {
-          // Handle error here
-          console.log(err);
+          showAlert(err.toString(), "error");
         });
     },
   });
