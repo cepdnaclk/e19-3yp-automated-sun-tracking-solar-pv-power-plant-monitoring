@@ -34,6 +34,7 @@ router.post("/login", (req, res, next) => {
       
       const username = result[0];
       const user_type = result[1];
+      const user_id = result[2];
 
       if (password != user.passphrase) {
         return res.status(401).json({ message: "Invalid password" });
@@ -49,8 +50,8 @@ router.post("/login", (req, res, next) => {
       //   return acc;
       // }, {});
 
-      const accessToken = generateAccessToken(username, user_type);
-      const refreshToken = generateRefreshToken(username, user_type);
+      const accessToken = generateAccessToken(username, user_type, user_id);
+      const refreshToken = generateRefreshToken(username, user_type, user_id);
       refreshTokens.push(refreshToken);
 
       res.json({
