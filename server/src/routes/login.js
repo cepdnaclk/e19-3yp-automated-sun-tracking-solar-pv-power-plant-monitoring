@@ -28,7 +28,7 @@ router.post("/", (req, res, next) => {
     const password = req.body.password;
     // console.log(email, password);
 
-    const queryFindUser = `SELECT username, user_type, id, passphrase FROM user WHERE email = ${email};`;
+    const queryFindUser = `SELECT username, user_type, id, passphrase FROM user WHERE email = '${email}';`;
 
     // connection.query(queryFindUser, [email], (err, result) => {
     connection.query(queryFindUser, async (err, result) => {
@@ -39,11 +39,11 @@ router.post("/", (req, res, next) => {
       if (result.length === 0) {
         return res.status(404).json({ message: "User not found" });
       }
-      
-      const username = result[0];
-      const user_type = result[1];
-      const user_id = result[2];
-      const passphrase = result[3];
+
+      const username = result[0]["username"];
+      const user_type = result[0]["user_type"];
+      const user_id = result[0]["id"];
+      const passphrase = result[0]["passphrase"];
 
       const isMatch = await bcrypt.compare(password, passphrase);
 
@@ -61,15 +61,26 @@ router.post("/", (req, res, next) => {
       //   return acc;
       // }, {});
 
-      const accessToken = generateAccessToken(username, user_type, user_id, email);
-      const refreshToken = generateRefreshToken(username, user_type, user_id, email);
+      const accessToken = generateAccessToken(
+        username,
+        user_type,
+        user_id,
+        email
+      );
+      const refreshToken = generateRefreshToken(
+        username,
+        user_type,
+        user_id,
+        email
+      );
       refreshTokens.push(refreshToken);
 
       res.json({
         message: "Login Successful",
         accessToken: accessToken,
         refreshToken: refreshToken,
-        username:username
+        username: username,
+        user_type: user_type,
       });
     });
   } catch (err) {

@@ -29,6 +29,12 @@ const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(3, 0, 2),
 }));
 
+const user_type = {
+  admin: "admin",
+  super_admin: "super_admin",
+  customer: "customer",
+};
+
 const Login = ({ onRegisterClick }) => {
   const { showAlert } = useContext(AlertContext);
 
@@ -44,12 +50,13 @@ const Login = ({ onRegisterClick }) => {
     onSubmit: (values) => {
       // Handle login logic here
       axios
-        .post("/api/login", values)
+        .post("/login/", values)
         .then((res) => {
           // set token, refresh token and username in local storage
           localStorage.setItem("token", res.data.accessToken);
           localStorage.setItem("refreshToken", res.data.refreshToken);
           localStorage.setItem("username", res.data.username);
+          localStorage.setItem("user_type", user_type[res.data.user_type]);
 
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + res.data.accessToken;
@@ -58,7 +65,8 @@ const Login = ({ onRegisterClick }) => {
           window.location.href = "/";
         })
         .catch((err) => {
-          showAlert(err.toString(), "error");
+          console.log(err);
+          showAlert(err.response.data.message, "error");
         });
     },
   });
