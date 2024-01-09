@@ -1,9 +1,9 @@
 import React from 'react';
 import Header from '../../components/Header';
-import { Box, Typography, useTheme, Button } from '@mui/material';
-import TextCard from '../../components/TextCard';
+import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
-import Form from '../../components/Form';
+import { TextField, Button, Typography, Container, Grid, Box } from '@mui/material';
+
 
 const UserProfile = () => {
 	const theme = useTheme();
@@ -15,14 +15,26 @@ const UserProfile = () => {
 		address: '123 Main St, New York, NY 10030',
 	};
 
-	const [isEditProfileOpen, setIsEditProfileOpen] = React.useState(false);
-
-	const handleEditProfileClick = () => {
-		setIsEditProfileOpen(true);
+	const containerStyle = {
+		background: `${colors.primary[400]}`,
+		padding: '20px',
+		justifyContent: 'flex-start',
 	};
 
-	const handleFormSubmit = (values) => {
-		console.log(values);
+	const textFieldStyle = {
+		marginBottom: '10px',
+	};
+
+	const buttonContainerStyle = {
+		marginTop: '15px',
+		display: 'flex',
+		justifyContent: 'flex-end',
+	};
+
+	const buttonStyle = {
+		marginLeft: '20px',
+		color: 'black',
+		backgroundColor: '#FFAC09',
 	};
 
 	return (
@@ -111,59 +123,156 @@ const UserProfile = () => {
 					</Typography>
 				</Box>
 			</Box>
-
-			<Box display="flex" justifyContent="start" mt="20px" width="60%">
-				<Button
-					variant="contained"
-					color="secondary"
-					onClick={handleEditProfileClick}
-					sx={{
-						backgroundColor: colors.orangeAccent[500],
-						color: colors.primary[500],
-						fontWeight: 'bold',
-					}}
+			<Box mt="20px" width="80%">
+				<Box
+					display="flex"
+					justifyContent="space-between"
+					alignItems="center"
+					borderBottom={`4px solid ${colors.primary[500]}`}
+					backgroundColor={colors.primary[400]}
+					p="15px"
 				>
-					Edit Profile
-				</Button>
-				<Button
-					variant="contained"
-					color="secondary"
-					sx={{
-						marginLeft: '20px',
-						backgroundColor: colors.orangeAccent[500],
-						color: colors.primary[500],
-						fontWeight: 'bold',
-					}}
-				>
-					Change Password
-				</Button>
-			</Box>
+					<Typography variant="h4" color={colors.grey[300]}>
+						Edit Profile
+					</Typography>
+				</Box>
 
-			<Box width="60%">
-				{isEditProfileOpen ? (
-					<Form handleFormSubmit={handleFormSubmit} />
-				) : null}
-			</Box>
-			<Box display="flex" justifyContent="start" mt="20px" width="60%">
-				{isEditProfileOpen && (
-					<>
-						<Button
-							variant="contained"
-							color="secondary"
-							onClick={handleFormSubmit}
+				<Box style={containerStyle}>
+					<Typography
+						variant="h5"
+						gutterBottom
+						style={{ color: '#FFAC09', margin: '10px 0 15px 0' }}
+					>
+						Basic Information
+					</Typography>
+
+					{/* Basic Profile Information */}
+					<form>
+						<Grid container spacing={2}>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Username"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Role"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Contact Number"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Email"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+						</Grid>
+
+						{/* Change Email Section */}
+						<Typography
+							variant="h6"
+							gutterBottom
+							style={{
+								color: '#FFAC09',
+								margin: '10px 0 15px 0',
+							}}
 						>
-							Submit
-						</Button>
-						<Button
-							variant="contained"
-							color="secondary"
-							onClick={() => setIsEditProfileOpen(false)}
-							sx={{ marginLeft: '20px' }}
+							Change Email
+						</Typography>
+						<Grid container spacing={2}>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="New Email"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Confirm New Email"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+						</Grid>
+
+						{/* Change Password Section */}
+						<Typography
+							variant="h6"
+							gutterBottom
+							style={{
+								color: '#FFAC09',
+								margin: '10px 0 15px 0',
+							}}
 						>
-							Cancel
-						</Button>
-					</>
-				)}
+							Change Password
+						</Typography>
+						<Grid container spacing={2}>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Current Password"
+									type="password"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="New Password"
+									type="password"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Confirm New Password"
+									type="password"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<div style={buttonContainerStyle}>
+									<Button
+										variant="contained"
+										color="primary"
+										style={buttonStyle}
+									>
+										Save Changes
+									</Button>
+									<Button
+										variant="contained"
+										color="primary"
+										style={buttonStyle}
+									>
+										Cancel
+									</Button>
+								</div>
+							</Grid>
+						</Grid>
+					</form>
+				</Box>
 			</Box>
 		</Box>
 	);
