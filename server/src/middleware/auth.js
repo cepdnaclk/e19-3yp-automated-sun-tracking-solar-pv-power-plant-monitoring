@@ -29,7 +29,6 @@ function authenticateToken(req, res, next) {
 }
 
 function generateAccessToken(username, user_type, id, email) {
-  console.log(process.env.ACCESS_TOKEN_SECRET);
   return jwt.sign(
     { username: username, user_type: user_type, id: id, email: email },
     process.env.ACCESS_TOKEN_SECRET,
