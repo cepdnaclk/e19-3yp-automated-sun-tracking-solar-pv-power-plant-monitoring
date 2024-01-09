@@ -21,13 +21,17 @@ const { execQuery } = require("../database/database");
 // [Done]
 //change req.query to req.body if necessary
 router.get("/view", authenticateToken, (req, res, next) => {
-
-  if(req.user_type == "admin"){
+  if (req.user_type === "admin") {
     if (req.query.id) {
-      execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE id=${req.query.id} AND username=${req.username}`)
+      const userId = req.query.id;
+      execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE id=${userId}`)
         .then((rows) => {
-          data = objectKeysSnakeToCamel(rows[0]);
-          res.status(200).json(data);
+          if (rows.length > 0) {
+            const data = objectKeysSnakeToCamel(rows[0]);
+            res.status(200).json(data);
+          } else {
+            res.status(404).json({ error: "User not found" });
+          }
         })
         .catch((err) => {
           next(err);
@@ -35,7 +39,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
     } else {
       execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE user_type="admin"`)
         .then((rows) => {
-          data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+          const data = rows.map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
         })
         .catch((err) => {
@@ -43,10 +47,10 @@ router.get("/view", authenticateToken, (req, res, next) => {
         });
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    res.status(403).json({ error: "Forbidden" });
   }
-
 });
+
   
 //add new admin - [Done]
 // request from frontend should be 
@@ -85,6 +89,39 @@ router.get("/view", authenticateToken, (req, res, next) => {
     return res.sendStatus(401).json({ error: "Unauthorized" });
   }
   });
+
+  
+//create a custom API to add a user called "SUPER ADMIN" with password "superadmin123" and user_type "admin" to the database
+//request format
+// {
+//   "username": "SUPER ADMIN",
+//   "password": "superadmin123",
+//   "user_type": "admin"
+//   "email": "superadmin@gmail.com"
+//    contact_number: "1234567890",
+//    user_address: "123 Main Street, Cityville"
+// }
+router.post("/create", async (req, res, next) => {
+  try {
+    const username = req.body["username"];
+    const password = req.body["password"];
+    const user_type = req.body["user_type"];
+    const email = req.body["email"];
+    const contact_number = req.body["contact_number"];
+    const user_address = req.body["user_address"];
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    
+    const insertUserQuery = `INSERT INTO user 
+    (username, passphrase, user_type, email, contact_number, user_address) 
+    VALUES ('${username}', '${hashedPassword}', '${user_type}', '${email}', '${contact_number}', '${user_address}')`;
+    const rows = await execQuery(insertUserQuery);
+    res.status(200).json({ message: "SUPER ADMIN created successfully" });
+  } catch (err) {
+    next(err);
+  }
+});
   
 //update admin (my profile) details - [Done]
 // password change is in different API

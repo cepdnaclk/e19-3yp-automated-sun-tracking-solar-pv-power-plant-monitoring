@@ -14,12 +14,6 @@ const { authenticateToken } = require("../middleware/auth");
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
 
-if(req.user_type == "company"){
-} else {
-  return res.sendStatus(401).json({ error: "Unauthorized" });
-}
-
-
 // View devices - for the admins - [Done]
 router.get("/", authenticateToken, (req, res, next) => {
   if(req.user_type == "admin"){
