@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../../components/Header';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { TextField, Button, Typography, Container, Grid, Box } from '@mui/material';
@@ -6,24 +7,15 @@ import { TextField, Button, Typography, Container, Grid, Box } from '@mui/materi
 const AdminProfile = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
-
-	const headingStyle = {
-		fontSize: '20px',
-		fontWeight: 'bold',
-		margin: '10px 0 10px 50px',
-		color: '#FFAC09',
-		marginLeft: '20px',
-	  };
   
 	const containerStyle = {
-	  marginTop: '15px',
 	  background: `${colors.primary[400]}`,
 	  padding: '20px',
 	  justifyContent: 'flex-start'
 	};
   
 	const textFieldStyle = {
-	  marginBottom: '15px',
+	  marginBottom: '10px',
 	};
   
 	const buttonContainerStyle = {
@@ -39,12 +31,19 @@ const AdminProfile = () => {
 	};
   
 	return (
-		<div>
-			<Typography variant="h4" gutterBottom style={headingStyle}>
-				Edit Profile
-			</Typography>	
+		<Box m="5px 20px" width="90%">
+			<Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+			>
+				<Header
+					title="ADMIN PROFILE"
+					subtitle="Edit your profile"
+				/>
+			</Box>	
 
-			<Box m="20px" maxWidth="md" style={containerStyle}>
+			<Box style={containerStyle}>
 				<Typography variant="h5" gutterBottom style={{ color: '#FFAC09', margin: '10px 0 15px 0' }}>
 				Basic Information
 				</Typography>
@@ -154,7 +153,7 @@ const AdminProfile = () => {
 				</Grid>		  
 				</form>
 			</Box>
-	  </div>
+	  </Box>
 	);
   };
   
