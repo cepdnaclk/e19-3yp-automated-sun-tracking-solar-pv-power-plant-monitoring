@@ -40,7 +40,7 @@ import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const userRole = 'admin'; // Replace with actual user role
+	const userRole = 'user'; // Replace with actual user role
 
 	const renderSidebar = () => {
 		if (userRole === 'admin') {
@@ -132,9 +132,13 @@ function App() {
 						<CssBaseline />
 						<div className="app">
 							{window.location.pathname !== '/login' &&
+								renderSidebar() &&
+								window.location.pathname !== '/register' &&
 								renderSidebar()}
 							<main className="content">
 								{window.location.pathname !== '/login' &&
+									renderAppbar() &&
+									window.location.pathname !== '/register' &&
 									renderAppbar()}
 								{renderRoutes()}
 							</main>
