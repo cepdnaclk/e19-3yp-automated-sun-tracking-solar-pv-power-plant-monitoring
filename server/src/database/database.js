@@ -5,10 +5,22 @@ const express = require('express');
 const router = express.Router();
 
 // connect database - add details here
-const connection = mysql.createConnection({
+const connectionDev = mysql.createConnection({
   host: process.env.DATABASE_HOST || "localhost",
   user: process.env.DATABASE_USER || "root",
   password: process.env.DATABASE_PASSWORD || "",
+  database: process.env.DATABASE_DB || "HelioEye",
+  port: process.env.DATABASE_PORT || 3306,
+  charset: 'utf8mb4',
+  multipleStatements: true,
+  dateStrings: true, // automatically formats dates into yyyy-mm-dd
+  timeout: 50000,
+});
+
+const connection = mysql.createConnection({
+  host: process.env.DATABASE_HOST || "helioeye.cpyug8mi2dnv.ap-south-1.rds.amazonaws.com",
+  user: process.env.DATABASE_USER || "admin",
+  password: process.env.DATABASE_PASSWORD || "HelioEye19",
   database: process.env.DATABASE_DB || "HelioEye",
   port: process.env.DATABASE_PORT || 3306,
   charset: 'utf8mb4',

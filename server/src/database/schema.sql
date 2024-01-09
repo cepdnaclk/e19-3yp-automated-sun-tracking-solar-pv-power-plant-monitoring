@@ -55,8 +55,8 @@ CREATE TABLE device(
 );
 
 -- primary system admin account
-INSERT INTO admins (id,admin_name, email, passphrase) VALUES
-(1,"Helio Eye Super Admin","e19029@eng.pdn.ac.lk","abcd1234");
 
 INSERT INTO user (username, user_type, email, passphrase, contact_number, user_address)
 VALUES ('SUPER ADMIN', 'admin', 'john.doe@example.com', 'securepassword', '1234567890', '123 Main Street, Cityville');
+         
+
