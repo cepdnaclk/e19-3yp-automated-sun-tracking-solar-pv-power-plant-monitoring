@@ -10,18 +10,18 @@ const port = 8081;
 //middleware setup
 
 //sample app api
-app.get("/", (req,res) => {
+// app.get("/", (req,res) => {
 
-    console.log("started");
-    res.send("Sample App");
-})
+//     console.log("started");
+//     res.send("Sample App");
+// })
 
 //user authentication
 app.use("/login", require("./src/routes/login")); //edit this accordingly
 
 //jwt authentication
-const { authenticateToken } = require("./src/middleware/auth");
-app.use(authenticateToken)
+//const { authenticateToken } = require("./src/middleware/auth");
+//app.use(authenticateToken)
 
 //main router
 app.use(require("./src/mainRouter"));
