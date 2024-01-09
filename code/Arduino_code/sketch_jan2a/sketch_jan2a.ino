@@ -317,25 +317,25 @@ void readAndControlServos()
     int changed = 0;
     if (xplus > trigger_value[0] && posX < maxX)
     {
-      setServoPosition(1, posX + 1);
+      setServoPosition(1, posX + 10);
       Serial.println("xplus : " + String(xplus) + " : " + String(trigger_value[0]) + " : " + String(posX));
       changed = 1;
     }
     if (xminus > trigger_value[1] && posX > minX)
     {
-      setServoPosition(1, posX - 1);
+      setServoPosition(1, posX - 10);
       Serial.println("xminus : " + String(xminus) + " : " + String(trigger_value[1]) + " : " + String(posX));
       changed = 1;
     }
     if (zplus > trigger_value[2] && posZ < maxZ)
     {
-      setServoPosition(2, posZ + 1);
+      setServoPosition(2, posZ + 10);
       Serial.println("zplus : " + String(zplus) + " : " + String(trigger_value[2]) + " : " + String(posZ));
       changed = 1;
     }
     if (zminus > trigger_value[3] && posZ > minZ)
     {
-      setServoPosition(2, posZ - 1);
+      setServoPosition(2, posZ - 10);
       Serial.println("zminus : " + String(zminus) + " : " + String(trigger_value[3]) + " : " + String(posZ));
       changed = 1;
     }
@@ -398,18 +398,10 @@ String read_voltage_current()
   float loadvoltage = 0;
   float power = 0;
 
-  shuntvoltage = ina219.getShuntVoltage_mV();
   busvoltage = ina219.getBusVoltage_V();
   current_mA = ina219.getCurrent_mA();
-  loadvoltage = busvoltage + (shuntvoltage / 1000);
-  power = loadvoltage * current_mA;
+  power = ina219.getPower_mW();
 
-  Serial.print("Bus Voltage:   ");
-  Serial.print(busvoltage);
-  Serial.println(" V");
-  Serial.print("Shunt Voltage: ");
-  Serial.print(shuntvoltage);
-  Serial.println(" mV");
   Serial.print("Load Voltage:  ");
   Serial.print(loadvoltage);
   Serial.println(" V");
@@ -437,8 +429,6 @@ void setup()
   Serial.begin(9600);
 
   delay(1000);
-
-  ina219.begin();
 
   loadPreferences();
 
@@ -504,6 +494,11 @@ void setup()
   myservo1.attach(26);
   myservo2.attach(27);
 
+  while (!ina219.begin())
+  {
+    Serial.println("Failed to find INA219 chip");
+  }
+
   if (posX > maxX || posX < minX)
     posX = minX;
   if (posZ > maxZ || posZ < minZ)
@@ -554,7 +549,7 @@ void loop()
 
   unsigned long uptime = millis();
 
-  if (uptime - previousRotation > interval)
+  if (uptime - previousRotation > 1000)
   {
     readAndControlServos();
     previousRotation = uptime;
