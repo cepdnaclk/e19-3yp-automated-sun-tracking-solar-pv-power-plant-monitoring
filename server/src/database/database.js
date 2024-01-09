@@ -102,37 +102,6 @@ const execQuery = (query, values = []) => {
     });
 };
 
-//create a custom API to add a user called "SUPER ADMIN" with password "superadmin123" and user_type "admin" to the database
-//request format
-// {
-//   "username": "SUPER ADMIN",
-//   "password": "superadmin123",
-//   "user_type": "admin"
-//   "email": "superadmin@gmail.com"
-//    contact_number: "1234567890",
-//    user_address: "123 Main Street, Cityville"
-// }
-router.post("/create", async (req, res, next) => {
-  try {
-    const username = req.body["username"];
-    const password = req.body["password"];
-    const user_type = req.body["user_type"];
-    const email = req.body["email"];
-    const contact_number = req.body["contact_number"];
-    const user_address = req.body["user_address"];
-
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    
-    const insertUserQuery = `INSERT INTO user 
-    (username, passphrase, user_type, email, contact_number, user_address) 
-    VALUES ('${username}', '${hashedPassword}', '${user_type}', '${email}', '${contact_number}', '${user_address}')`;
-    const rows = await execQuery(insertUserQuery);
-    res.status(200).json({ message: "SUPER ADMIN created successfully" });
-  } catch (err) {
-    next(err);
-  }
-});
 
 // if ((process.env.NODE_ENV = "development")) initDatabase();
 
