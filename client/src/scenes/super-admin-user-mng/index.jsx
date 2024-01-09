@@ -15,7 +15,7 @@ const SuperAdminUserMng = () => {
 
 	// columns of the data grid
 	const columns = [
-        { field: 'id', headerName: 'ID' },
+		{ field: 'id', headerName: 'ID' },
 		{ field: 'companyId', headerName: 'Company ID' },
 		{
 			field: 'companyName',
@@ -24,12 +24,12 @@ const SuperAdminUserMng = () => {
 			cellClassName: 'name-column--cell',
 		},
 		{
-			field: 'devices',
-			headerName: 'Devices',
+			field: 'email',
+			headerName: 'Company Email',
 			flex: 1,
 		},
-		{ field: 'registered', headerName: 'Registered', flex: 1 },
-		{ field: 'unregistered', headerName: 'Unregistered', flex: 1 },
+		{ field: 'devices', headerName: 'Devices', flex: 1 },
+		{ field: 'address', headerName: 'Company Address', flex: 1 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -64,16 +64,16 @@ const SuperAdminUserMng = () => {
 
 	const handleEdit = (companyId) => {
 		// Handle edit logic here
-		console.log(`Editing device with ID: ${companyId}`);
+		console.log(`Editing company with ID: ${companyId}`);
 	};
 
 	const handleDelete = (companyId) => {
 		// Handle delete logic here
-		console.log(`Deleting device with ID: ${companyId}`);
+		console.log(`Deleting company with ID: ${companyId}`);
 	};
 
 	return (
-		<Box m="10px 20px 20px 20px" width="90%">
+		<Box m="20px" width="90%">
 			{/* Header */}
 			<Box
 				display="flex"
@@ -81,10 +81,11 @@ const SuperAdminUserMng = () => {
 				alignItems="center"
 			>
 				<Header
-					title="USER MANAGEMENT"
-					subtitle="Manage Users and Device Overview"
+					title="USERS MANAGEMENT"
+					subtitle="Manage Users and Users Overview"
 				/>
 			</Box>
+
 			<Box>
 				<Link to="/super-admin-add-user" style={{ textDecoration: 'none' }}>
 					<Button type="submit" variant="contained" color="primary"
