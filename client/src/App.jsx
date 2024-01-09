@@ -84,11 +84,26 @@ function App() {
 			return (
 				<Routes>
 					<Route path="/" element={<SuperAdminDashboard />} />
-					<Route path="/super-admin-user-management" element={<SuperAdminUserMng />} />
-					<Route path="/super-admin-device-management" element={<SuperAdminDeviceMng />} />
-					<Route path="/super-admin-profile" element={<SuperAdminProfile />} />
-					<Route path="/super-admin-add-user" element={<SuperAdminAddUser />} />
-					<Route path="/super-admin-faq" element={<SuperAdminFaq />} />
+					<Route
+						path="/super-admin-user-management"
+						element={<SuperAdminUserMng />}
+					/>
+					<Route
+						path="/super-admin-device-management"
+						element={<SuperAdminDeviceMng />}
+					/>
+					<Route
+						path="/super-admin-profile"
+						element={<SuperAdminProfile />}
+					/>
+					<Route
+						path="/super-admin-add-user"
+						element={<SuperAdminAddUser />}
+					/>
+					<Route
+						path="/super-admin-faq"
+						element={<SuperAdminFaq />}
+					/>
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Routes>
