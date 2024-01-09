@@ -61,7 +61,7 @@ export const adminDeviceData = [
 		userId: '8',
 		userName: 'Jaime Lannister',
 		email: 'jaime@gmail.com',
-		status: 25,
+		status: 'Online',
 		location: 'casterly-rock',
 	},
 	{
@@ -74,7 +74,7 @@ export const adminDeviceData = [
 	},
 	{
 		id: 10,
-		userId: '10',
+		userId: '9',
 		userName: 'Company A',
 		email: 'companya@gmail.com',
 		status: 'Unregistered',
