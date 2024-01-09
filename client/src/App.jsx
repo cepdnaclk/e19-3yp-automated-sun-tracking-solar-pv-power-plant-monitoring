@@ -132,12 +132,10 @@ function App() {
 						<CssBaseline />
 						<div className="app">
 							{window.location.pathname !== '/login' &&
-								renderSidebar() &&
 								window.location.pathname !== '/register' &&
 								renderSidebar()}
 							<main className="content">
 								{window.location.pathname !== '/login' &&
-									renderAppbar() &&
 									window.location.pathname !== '/register' &&
 									renderAppbar()}
 								{renderRoutes()}
