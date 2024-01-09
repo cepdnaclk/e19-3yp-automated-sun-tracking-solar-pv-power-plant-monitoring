@@ -1,13 +1,15 @@
 const mysql = require("mysql");
 const fs = require("fs").promises; // Promises-based version of 'fs' module
 const path = require("path");
+const express = require('express');
+const router = express.Router();
 
 // connect database - add details here
 const connection = mysql.createConnection({
-  host: process.env.DATABASE_HOST || "lckandy-test.clmtqbwd31v1.ap-south-1.rds.amazonaws.com",
-  user: process.env.DATABASE_USER || "lckandyadmin",
-  password: process.env.DATABASE_PASSWORD || "lckandyadmin",
-  database: process.env.DATABASE_DB || "LC_KANDY",
+  host: process.env.DATABASE_HOST || "localhost",
+  user: process.env.DATABASE_USER || "root",
+  password: process.env.DATABASE_PASSWORD || "",
+  database: process.env.DATABASE_DB || "HelioEye",
   port: process.env.DATABASE_PORT || 3306,
   charset: 'utf8mb4',
   multipleStatements: true,

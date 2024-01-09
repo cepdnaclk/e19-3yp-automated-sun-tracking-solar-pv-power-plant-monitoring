@@ -21,13 +21,17 @@ const { execQuery } = require("../database/database");
 // [Done]
 //change req.query to req.body if necessary
 router.get("/view", authenticateToken, (req, res, next) => {
-
-  if(req.user_type == "admin"){
+  if (req.user_type === "admin") {
     if (req.query.id) {
-      execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE id=${req.query.id} AND username=${req.username}`)
+      const userId = req.query.id;
+      execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE id=${userId}`)
         .then((rows) => {
-          data = objectKeysSnakeToCamel(rows[0]);
-          res.status(200).json(data);
+          if (rows.length > 0) {
+            const data = objectKeysSnakeToCamel(rows[0]);
+            res.status(200).json(data);
+          } else {
+            res.status(404).json({ error: "User not found" });
+          }
         })
         .catch((err) => {
           next(err);
@@ -35,7 +39,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
     } else {
       execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE user_type="admin"`)
         .then((rows) => {
-          data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+          const data = rows.map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
         })
         .catch((err) => {
@@ -43,10 +47,10 @@ router.get("/view", authenticateToken, (req, res, next) => {
         });
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    res.status(403).json({ error: "Forbidden" });
   }
-
 });
+
   
 //add new admin - [Done]
 // request from frontend should be 
