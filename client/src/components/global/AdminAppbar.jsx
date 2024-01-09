@@ -10,12 +10,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-// ... (imports)
-
-const Appbar = () => {
+const AdminAppbar = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const colorMode = useContext(ColorModeContext);
+
 	const [anchorEl, setAnchorEl] = useState(null);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -37,13 +36,12 @@ const Appbar = () => {
 
 	const handleProfileClick = () => {
 		// Navigate to '/user-profile' when profile is clicked
-		navigate('/my-profile');
+		navigate('/admin-profile');
 		handleMenuClose(); // Close the menu after navigation
 		window.location.reload(); // Reload the page
 	};
 
 	const shouldRenderAppBar = location.pathname !== '/login'; // Check if the current route is not '/login'
-
 	return (
 		<>
 			{shouldRenderAppBar && (
@@ -96,4 +94,4 @@ const Appbar = () => {
 	);
 };
 
-export default Appbar;
+export default AdminAppbar;

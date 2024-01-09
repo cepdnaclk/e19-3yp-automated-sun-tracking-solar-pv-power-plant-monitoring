@@ -1,7 +1,7 @@
 // admin.test.js
 const request = require('supertest');
 const express = require('express');
-const adminRouter = require('./src/routes/admin'); // Assuming the admin.js file is in the same directory
+const adminRouter = require('../server/src/routes/admin'); // Assuming the admin.js file is in the same directory
 
 const app = express();
 app.use(express.json());

@@ -48,14 +48,14 @@ CREATE TABLE device(
     purchased_customer_email    VARCHAR(255),
     assigned_customer_id        INT(6),
     device_name_by_customer     VARCHAR(15),
-    device_latitude             FLOAT(), 
-    device_longitude           FLOAT(), 
+    device_latitude             FLOAT, 
+    device_longitude           FLOAT, 
     FOREIGN KEY(assigned_company_id)  REFERENCES user(id),
     FOREIGN KEY(assigned_customer_id) REFERENCES user(id)
 );
 
---primary system admin account
-INSERT INTO user(id,admin_name, email, passphrase) VALUES
+-- primary system admin account
+INSERT INTO admins (id,admin_name, email, passphrase) VALUES
 (1,"Helio Eye Super Admin","e19029@eng.pdn.ac.lk","abcd1234");
 
 INSERT INTO user (username, user_type, email, passphrase, contact_number, user_address)
