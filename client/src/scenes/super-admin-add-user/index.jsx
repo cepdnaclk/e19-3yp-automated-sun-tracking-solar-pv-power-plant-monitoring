@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header';
+import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { Box, Typography, TextField, Button } from '@mui/material';
@@ -65,14 +66,23 @@ const SuperAdminAdduser = () => {
             margin="normal"
             required
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px' }}
-            >
-            Add Company
+          <Box style={{ display: 'flex' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '20px 20px 20px 0' }}
+              >
+              Add Company
             </Button>
+            <Link to="/super-admin-user-management" style={{ textDecoration: 'none' }}>
+              <Button type="submit" variant="contained" color="primary"
+              style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '20px 0' }}
+              >
+              Cancel
+              </Button>
+            </Link>
+          </Box>
         </Box>
       </form>
     </Box>
