@@ -1,4 +1,5 @@
 import React from 'react';
+import Header from '../../components/Header';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { Box, Typography, TextField, Button } from '@mui/material';
@@ -14,13 +15,20 @@ const AdminAdduser = () => {
   };
 
   return (
-    <Box style={{ margin: '20px 100px 20px 25px' }}>
-      <Typography variant="h2" style={{ fontSize: '20px', fontWeight: 'bold', color: '#FFAC09' }}>
-        Add New User
-      </Typography>
+    <Box style={{ margin: '1px 100px 15px 25px' }}>
+      <Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+			>
+				<Header
+					title="USERS & DEVICES"
+					subtitle="Add new user"
+				/>
+			</Box>
 
       <form onSubmit={handleSubmit} style={{ background: `${colors.primary[400]}` }}>
-        <Box m="25px">
+        <Box m="0px 25px">
           <TextField
             label="Full Name"
             variant="outlined"
