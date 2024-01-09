@@ -159,7 +159,7 @@ const UserProfile = () => {
 							</Grid>
 							<Grid item xs={12} md={6}>
 								<TextField
-									label="Role"
+									label="Address"
 									variant="outlined"
 									fullWidth
 									style={textFieldStyle}
