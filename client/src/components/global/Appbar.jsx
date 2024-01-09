@@ -11,6 +11,7 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
 // ... (imports)
+import axios from "axios";
 
 const Appbar = () => {
   const theme = useTheme();
@@ -31,7 +32,7 @@ const Appbar = () => {
   const handleLogoutClick = () => {
     // Navigate to '/login' when logout is clicked
     localStorage.clear(); // Clear the local storage
-	axios.defaults.headers.common["Authorization"] = ""; // Remove the authorization header
+    axios.defaults.headers.common["Authorization"] = ""; // Remove the authorization header
     navigate("/login");
     handleMenuClose(); // Close the menu after navigation
     window.location.reload(); // Reload the page

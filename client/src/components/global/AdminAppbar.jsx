@@ -10,6 +10,8 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 
+import axios from "axios";
+
 const AdminAppbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
