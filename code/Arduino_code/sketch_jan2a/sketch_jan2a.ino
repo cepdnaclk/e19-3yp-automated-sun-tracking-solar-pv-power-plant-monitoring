@@ -6,9 +6,17 @@
 #include <Preferences.h>
 #include <WebSocketsServer.h>
 #include <ESPmDNS.h>
+#include <Wire.h>
+#include <Adafruit_INA219.h>
+#include <WiFiClientSecure.h>
+#include <PubSubClient.h>
+#include "secret.h"
 
 #define AP_MODE 0
 #define CONNECTED 1
+
+#define AWS_IOT_PUBLISH_TOPIC "mount/data"
+#define AWS_IOT_SUBSCRIBE_TOPIC "mount/control"
 
 const char *ssid = "HelioEyeMount";
 const char *password = "admin123";
@@ -18,11 +26,33 @@ String pass = "";
 
 WebServer server(80);
 
+Adafruit_INA219 ina219;
+
 Preferences preferences;
 
 WebSocketsServer webSocket = WebSocketsServer(81);
 
+WiFiClientSecure net = WiFiClientSecure();
+PubSubClient client(net);
+
+Servo myservo1;
+Servo myservo2;
+
 int state = AP_MODE;
+
+int maxX = 110;
+int minX = 10;
+int posX = minX;
+
+int maxZ = 180;
+int minZ = 1;
+int posZ = minZ;
+
+unsigned long previousRotation = 0;
+unsigned long previousDatasend = 0;
+const long interval = 15000;
+
+int trigger_value[4];
 
 void handleRoot()
 {
@@ -82,8 +112,67 @@ String setWifi(String ssid, String password)
     Serial.println("Connected to WiFi network");
     String ip = WiFi.localIP().toString();
     Serial.println(ip);
+    connectAWS();
     return ip;
   }
+}
+
+void connectAWS()
+{
+  // Configure WiFiClientSecure to use the AWS IoT device credentials
+  net.setCACert(AWS_CERT_CA);
+  net.setCertificate(AWS_CERT_CRT);
+  net.setPrivateKey(AWS_CERT_PRIVATE);
+
+  // Connect to the MQTT broker on the AWS endpoint we defined earlier
+  client.setServer(AWS_IOT_ENDPOINT, 8883);
+
+  // Create a message handler
+  client.setCallback(messageHandler);
+
+  Serial.println("Connecting to AWS IOT");
+
+  while (!client.connect(THINGNAME))
+  {
+    Serial.print(".");
+    delay(100);
+  }
+
+  if (!client.connected())
+  {
+    Serial.println("AWS IoT Timeout!");
+    return;
+  }
+
+  // Subscribe to a topic
+  client.subscribe(AWS_IOT_SUBSCRIBE_TOPIC);
+
+  Serial.println("AWS IoT Connected!");
+}
+
+void messageHandler(char *topic, byte *payload, unsigned int length)
+{
+  Serial.print("incoming: ");
+  Serial.println(topic);
+
+  StaticJsonDocument<200> doc;
+  deserializeJson(doc, payload);
+  const char *message = doc["message"];
+  Serial.println(message);
+}
+
+void publishMessage(int posX, int posZ, float voltage, float current, float power)
+{
+  StaticJsonDocument<200> doc;
+  doc["posX"] = posX;
+  doc["posZ"] = posZ;
+  doc["voltage"] = voltage;
+  doc["current"] = current;
+  doc["power"] = power;
+  char jsonBuffer[512];
+  serializeJson(doc, jsonBuffer); // print to client
+
+  client.publish(AWS_IOT_PUBLISH_TOPIC, jsonBuffer);
 }
 
 void handleCalibrate()
@@ -91,22 +180,6 @@ void handleCalibrate()
   calibrate_sensors();
   server.send(200, "application/json", "{\"status\":\"calibrated\"}");
 }
-
-Servo myservo1;
-int maxX = 110;
-int minX = 10;
-int posX = minX;
-
-Servo myservo2;
-int maxZ = 180;
-int minZ = 1;
-int posZ = minZ;
-
-unsigned long previousRotation = 0;
-unsigned long previousDatasend = 0;
-const long interval = 15000;
-
-int trigger_value[4];
 
 int max_array(int arr[])
 {
@@ -318,16 +391,46 @@ void handleReset()
   ESP.restart();
 }
 
-float read_voltage()
+String read_voltage_current()
 {
-  float voltage = 0;
-  for (int i = 0; i < 10; i++)
-  {
-    voltage += analogRead(36);
-    delay(10);
-  }
-  voltage = map(voltage / 10, 0, 4096, 0, 1900);
-  return voltage / 100;
+  float shuntvoltage = 0;
+  float busvoltage = 0;
+  float current_mA = 0;
+  float loadvoltage = 0;
+  float power = 0;
+
+  shuntvoltage = ina219.getShuntVoltage_mV();
+  busvoltage = ina219.getBusVoltage_V();
+  current_mA = ina219.getCurrent_mA();
+  loadvoltage = busvoltage + (shuntvoltage / 1000);
+  power = loadvoltage * current_mA;
+
+  Serial.print("Bus Voltage:   ");
+  Serial.print(busvoltage);
+  Serial.println(" V");
+  Serial.print("Shunt Voltage: ");
+  Serial.print(shuntvoltage);
+  Serial.println(" mV");
+  Serial.print("Load Voltage:  ");
+  Serial.print(loadvoltage);
+  Serial.println(" V");
+  Serial.print("Current:       ");
+  Serial.print(current_mA);
+  Serial.println(" mA");
+  Serial.print("Power:         ");
+  Serial.print(power);
+  Serial.println(" mW");
+  Serial.println("");
+
+  return String(loadvoltage) + "," + String(current_mA) + "," + String(power);
+}
+
+void startAP()
+{
+  WiFi.softAP(ssid, password);
+  Serial.println("AP mode");
+  Serial.println(WiFi.softAPIP());
+  state = AP_MODE;
 }
 
 void setup()
@@ -336,15 +439,14 @@ void setup()
 
   delay(1000);
 
+  ina219.begin();
+
   loadPreferences();
 
   String ip = setWifi(wifi, pass);
   if (ip == "")
   {
-    WiFi.softAP(ssid, password);
-    Serial.println("AP mode");
-    Serial.println(WiFi.softAPIP());
-    state = AP_MODE;
+    startAP();
   }
 
   if (!SPIFFS.begin(true))
@@ -383,17 +485,6 @@ void setup()
   setServoPosition(1, minX);
   setServoPosition(2, minZ);
 
-  if (!MDNS.begin("esp32"))
-  {
-    Serial.println("Error setting up MDNS responder!");
-  }
-  else
-  {
-    Serial.println("mDNS responder started");
-    // Add service to MDNS-SD
-    MDNS.addService("http", "tcp", 80);
-  }
-
   webSocket.begin();
   webSocket.onEvent([](uint8_t num, WStype_t type, uint8_t *payload, size_t length)
                     {
@@ -428,6 +519,7 @@ void loop()
     break;
   case CONNECTED:
     // Code to run when connected
+    webSocket.loop();
     break;
   }
 
@@ -436,15 +528,20 @@ void loop()
   if (uptime - previousRotation > interval)
   {
     readAndControlServos();
+    previousRotation = uptime;
   }
 
-  Serial.println("Voltage: " + String(read_voltage()));
-
-  if (uptime - previousDatasend > 1000)
+  if (uptime - previousDatasend > 10000)
   {
-    webSocket.loop();
+    String current_voltage_power = read_voltage_current();
     String data = String(posX) + "," +
-                  String(posZ) + ",";
+                  String(posZ) + "," +
+                  current_voltage_power;
+    float voltage = current_voltage_power.substring(0, current_voltage_power.indexOf(",")).toFloat();
+    float current = current_voltage_power.substring(current_voltage_power.indexOf(",") + 1, current_voltage_power.lastIndexOf(",")).toFloat();
+    float power = current_voltage_power.substring(current_voltage_power.lastIndexOf(",") + 1).toFloat();
+    publishMessage(posX, posZ, voltage, current, power);
     webSocket.broadcastTXT(data);
+    previousDatasend = uptime;
   }
 }
