@@ -28,6 +28,18 @@
       <span>Position Z: </span>
       <span id="posz"></span>
     </p>
+    <p>
+      <span>Voltage: </span>
+      <span id="voltage"></span>
+    </p>
+    <p>
+      <span>Current: </span>
+      <span id="current"></span>
+    </p>
+    <p>
+      <span>Power: </span>
+      <span id="power"></span>
+    </p>
   </body>
   <script>
     const calibrate = () => {
@@ -52,11 +64,14 @@
         });
     };
 
-    var socket = new WebSocket("ws://esp32.local:81/");
+    var socket = new WebSocket("ws://" + window.location.host + ":81/");
     socket.onmessage = function (event) {
       var values = event.data.split(",");
       document.getElementById("posx").textContent = values[0];
       document.getElementById("posz").textContent = values[1];
+      document.getElementById("voltage").textContent = values[2];
+      document.getElementById("current").textContent = values[3];
+      document.getElementById("power").textContent = values[4];
     };
   </script>
 </html>
