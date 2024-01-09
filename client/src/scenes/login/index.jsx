@@ -30,7 +30,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 const user_type = {
-  admin: "admin",
+  company: "admin",
   super_admin: "super_admin",
   customer: "customer",
 };
