@@ -286,6 +286,42 @@ router.get("/", authenticateToken, (req, res, next) => {
     
   });
   
+  //remove device from customer's app - [Done]
+  // request format
+  // {
+  //   "deviceId": 123
+  // }
+  router.put("/", authenticateToken, (req, res, next) => {
+    if(req.user_type == "customer"){
+      try {
+        // set the devices's assigned customer id to user's id, 
+        // used the purchased customer email to check whether the correct user is adding the device
+        const assignCustomertoDeviceQuery = `UPDATE device SET 
+                                              assigned_customer_id=NULL, 
+                                              device_latitude=NULL, 
+                                              device_longitude=NULL 
+                                              WHERE id=${req.body.deviceId} AND
+                                              assigned_customer_id = ${req.user_id}`;
+    
+        execQuery(assignCustomertoDeviceQuery)
+          .then((rows) => {
+            res
+              .status(200)
+              .json({ message: "Device Specifications updated successfully" });
+          })
+          .catch((err) => {
+            next(err);
+          });
+      } catch (err) {
+        next(err);
+      }
+    } else {
+      return res.sendStatus(401).json({ error: "Unauthorized" });
+    }
+    
+  });
+
+
   // delete device - [Done]
   // only accessible for admins
   // admin has to add the password to delete this for security and UX reasons
