@@ -1,162 +1,126 @@
 import React from 'react';
-import { useTheme } from '@mui/system';
+import Header from '../../components/Header';
+import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
-import { Typography, Checkbox, FormControlLabel, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+
+import { DataGrid } from '@mui/x-data-grid';
+
+// admin user data
+import { adminUserData } from '../../data/adminUserData';
 
 const AdminUserMng = () => {
 	const theme = useTheme();
-  	const colors = tokens(theme.palette.mode);
+	const colors = tokens(theme.palette.mode);
 
-	const headingStyle = {
-	  fontSize: '20px',
-	  fontWeight: 'bold',
-	  margin: '10px 0 10px 50px',
-	  color: '#FFAC09',
-	  marginLeft: '20px',
+	// columns of the data grid
+	const columns = [
+        { field: 'id', headerName: 'ID' },
+		{ field: 'userId', headerName: 'User ID' },
+		{
+			field: 'userName',
+			headerName: 'User Name',
+			flex: 1,
+			cellClassName: 'name-column--cell',
+		},
+		{
+			field: 'devices',
+			headerName: 'User Devices',
+			flex: 1,
+		},
+		{ field: 'active', headerName: 'Active', flex: 1 },
+		{ field: 'inactive', headerName: 'Inactive', flex: 1 },
+		{
+			field: 'actions',
+			headerName: 'Actions',
+			flex: 1,
+			renderCell: (params) => (
+				<>
+					<Button
+						variant="outlined"
+						size="small"
+						onClick={() => handleEdit(params.id)} // Use params.id instead of params.row.deviceId
+						sx={{
+							ml: 2,
+							color: colors.yellowAccent[400],
+							borderColor: colors.yellowAccent[400],
+						}}
+					>
+						Edit
+					</Button>
+					<Button
+						variant="outlined"
+						color="error"
+						size="small"
+						onClick={() => handleDelete(params.id)} // Use params.id instead of params.row.deviceId
+						sx={{ ml: 1 }}
+					>
+						Delete
+					</Button>
+				</>
+			),
+		},
+	];
+
+	const handleEdit = (userId) => {
+		// Handle edit logic here
+		console.log(`Editing device with ID: ${userId}`);
 	};
 
-    const filterSectionStyle = {
-        display: 'flex',
-        marginLeft: '20px',
-        alignItems: 'center', // Center align the checkboxes with the labels
-    };
+	const handleDelete = (userId) => {
+		// Handle delete logic here
+		console.log(`Deleting device with ID: ${userId}`);
+	};
 
-    const tableStyle = {
-        marginLeft: '20px',
-        marginTop: '20px',
-        width: '80%',
-    };
+	return (
+		<Box m="20px" width="90%">
+			{/* Header */}
+			<Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+			>
+				<Header
+					title="USER MANAGEMENT"
+					subtitle="Manage Users and Device Overview"
+				/>
+			</Box>
 
-    const columnStyle = {
-		
-        maxWidth: '200px', // Adjust the maximum width as needed
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        whiteSpace: 'nowrap',
-    };
-
-	const editStyle = {
-        marginRight: '10px',
-		fontSize: '15px',
-		color: '#FFAC09',
-    };
-
-	const removeStyle = {
-        marginLeft: '10px',
-		fontSize: '15px',
-		color: '#FF610A',
-    };
-
-    return (
-        <div>
-			<Typography variant="h2" style={headingStyle}>
-				User Management
-			</Typography>
-
-            <div style={filterSectionStyle}>
-                <span style={{ marginRight: '10px' }}>Filter by:</span>
-                <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-                    <FormControlLabel
-                        label="User"
-                        control={<Checkbox />}
-                        labelPlacement="start"
-                    />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-                    <FormControlLabel
-                        label="Devices"
-                        control={<Checkbox />}
-                        labelPlacement="start"
-                    />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', marginRight: '20px' }}>
-                    <FormControlLabel
-                        label="Active"
-                        control={<Checkbox />}
-                        labelPlacement="start"
-                    />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <FormControlLabel
-                        label="Inactive"
-                        control={<Checkbox />}
-                        labelPlacement="start"
-                    />
-                </div>
-                <div style={{ marginLeft: '30px', color: '#FFAC09' }}>Save</div>
-            </div>
-
-			<div>
-				<Button href="/admin-add-user" color="secondary" size="small" style={{ background: '#FFAC09', color: 'black', marginLeft: '950px', fontWeight: 'bold' }}>
-					<AddIcon style={{ marginRight: '4px' }} /> Add User
-				</Button>
-			</div>
-
-            <div style={tableStyle}>
-                <TableContainer component={Paper}>
-                    <Table style={{ background: `${colors.primary[400]}` }}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>User ID</TableCell>
-                                <TableCell>User Name</TableCell>
-                                <TableCell>Devices</TableCell>
-                                <TableCell>Active</TableCell>
-                                <TableCell>Inactive</TableCell>
-                                <TableCell>Actions</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell style={columnStyle}>01</TableCell>
-                                <TableCell style={columnStyle}>User name</TableCell>
-                                <TableCell style={columnStyle}>50</TableCell>
-                                <TableCell style={columnStyle}>40</TableCell>
-                                <TableCell style={columnStyle}>10</TableCell>
-                                <TableCell style={columnStyle}>
-                                    <a style={editStyle} href="#edit">Edit</a>
-                                    <a style={removeStyle} href="#remove">Remove</a>
-                                </TableCell>
-                            </TableRow>
-							<TableRow>
-                                <TableCell style={columnStyle}>02</TableCell>
-                                <TableCell style={columnStyle}>User name</TableCell>
-                                <TableCell style={columnStyle}>50</TableCell>
-                                <TableCell style={columnStyle}>40</TableCell>
-                                <TableCell style={columnStyle}>10</TableCell>
-                                <TableCell >
-                                    <a style={editStyle} href="#edit">Edit</a>
-                                    <a style={removeStyle} href="#remove">Remove</a>
-                                </TableCell>
-                            </TableRow>
-							<TableRow>
-                                <TableCell style={columnStyle}>03</TableCell>
-                                <TableCell style={columnStyle}>User name</TableCell>
-                                <TableCell style={columnStyle}>50</TableCell>
-                                <TableCell style={columnStyle}>40</TableCell>
-                                <TableCell style={columnStyle}>10</TableCell>
-                                <TableCell style={columnStyle}>
-                                    <a style={editStyle} href="#edit">Edit</a>
-                                    <a style={removeStyle} href="#remove">Remove</a>
-                                </TableCell>
-                            </TableRow>
-							<TableRow>
-                                <TableCell style={columnStyle}>04</TableCell>
-                                <TableCell style={columnStyle}>User name</TableCell>
-                                <TableCell style={columnStyle}>50</TableCell>
-                                <TableCell style={columnStyle}>40</TableCell>
-                                <TableCell style={columnStyle}>10</TableCell>
-                                <TableCell style={columnStyle}>
-                                    <a style={editStyle} href="#edit">Edit</a>
-                                    <a style={removeStyle} href="#remove">Remove</a>
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </div>
-        </div>
-    );
+			<Box
+				height="75vh"
+				sx={{
+					'& .MuiDataGrid-root': {
+						border: 'none',
+					},
+					'& .MuiDataGrid-cell': {
+						borderBottom: 'none',
+					},
+					'& .name-column--cell': {
+						color: colors.yellowAccent[300],
+					},
+					'& .MuiDataGrid-columnHeaders': {
+						backgroundColor: colors.blueAccent[700],
+						borderBottom: 'none',
+					},
+					'& .MuiDataGrid-virtualScroller': {
+						backgroundColor: colors.primary[400],
+					},
+					'& .MuiDataGrid-footerContainer': {
+						borderTop: 'none',
+						backgroundColor: colors.blueAccent[700],
+					},
+					'& .MuiCheckbox-root': {
+						color: `${colors.yellowAccent[200]} !important`,
+					},
+				}}
+			>
+				<DataGrid
+					checkboxSelection
+					rows={adminUserData}
+					columns={columns}
+				/>
+			</Box>
+		</Box>
+	);
 };
 
 export default AdminUserMng;
