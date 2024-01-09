@@ -494,10 +494,7 @@ void setup()
   myservo1.attach(26);
   myservo2.attach(27);
 
-  while (!ina219.begin())
-  {
-    Serial.println("Failed to find INA219 chip");
-  }
+  ina219.begin();
 
   if (posX > maxX || posX < minX)
     posX = minX;
