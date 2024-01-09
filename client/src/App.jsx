@@ -23,6 +23,7 @@ import AdminDashboard from './scenes/admin-dashboard';
 import AdminDeviceMng from './scenes/admin-device-mng';
 import AdminFaq from './scenes/admin-faq';
 import AdminProfile from './scenes/admin-profile';
+import AdminAddUser from './scenes/admin-add-user';
 import AdminUserMng from './scenes/admin-user-mng';
 
 // Super Admin pages imports
@@ -76,6 +77,7 @@ function App() {
 					/>
 					<Route path="/admin-faq" element={<AdminFaq />} />
 					<Route path="/admin-profile" element={<AdminProfile />} />
+					<Route path="/admin-add-user" element={<AdminAddUser />} />
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Routes>
