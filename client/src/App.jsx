@@ -15,6 +15,7 @@ import SuperAdminSidebar from './components/global/SuperAdminSidebar';
 // User pages imports
 import UserDashboard from './scenes/user-dashboard';
 import UserDevices from './scenes/user-devices';
+import UserAddDevice from './scenes/user-add-device';
 import UserFaq from './scenes/user-faq';
 import UserProfile from './scenes/user-profile';
 
@@ -40,7 +41,7 @@ import Register from './scenes/register';
 
 function App() {
 	const [theme, colorMode] = useMode();
-	const userRole = 'user'; // Replace with actual user role
+	const userRole = 'client'; // Replace with actual user role
 
 	const renderSidebar = () => {
 		if (userRole === 'admin') {
@@ -115,6 +116,7 @@ function App() {
 				<Routes>
 					<Route path="/" element={<UserDashboard />} />
 					<Route path="/my-devices" element={<UserDevices />} />
+					<Route path="/add-device" element={<UserAddDevice />} />
 					<Route path="/my-profile" element={<UserProfile />} />
 					<Route path="/user-faq" element={<UserFaq />} />
 					<Route path="/login" element={<Login />} />
