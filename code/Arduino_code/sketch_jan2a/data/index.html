@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/style" />
+    <link rel="stylesheet" href="/style.css" />
     <link rel="shortcut icon" href="/favicon" type="image/x-icon" />
     <title>HelioEye | Home</title>
   </head>
   <body>
     <div class="container home">
-      <img src="/logo.png" alt="" />
+      <img src="/logo" alt="" />
       <h1>Welcome to HelioEye</h1>
       <p>
         This is the data page. Here you can see the data that is being collected
@@ -52,7 +52,7 @@
           alert(data.status);
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     };
 
@@ -63,7 +63,7 @@
           alert(data.status);
         })
         .catch((err) => {
-          console.log(err);
+          alert(err);
         });
     };
 

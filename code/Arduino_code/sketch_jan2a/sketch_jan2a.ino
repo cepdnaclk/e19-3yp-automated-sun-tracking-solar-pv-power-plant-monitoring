@@ -378,21 +378,7 @@ void handleReset()
   ESP.restart();
 }
 
-void handleLogin()
-{
-  String username = server.arg("username");
-  String password = server.arg("password");
-  if (username == "admin" && password == "admin123")
-  {
-    server.sendHeader("Location", "/");
-    server.send(302, "text/plain", "");
-    return;
-  }
-  server.sendHeader("Location", "/login");
-  server.send(302, "text/plain", "");
-}
-
-void handleFile(string path)
+void handleFileServe(String path, String type = "text/html")
 {
   File file = SPIFFS.open(path.c_str(), "r");
   if (!file)
@@ -400,7 +386,7 @@ void handleFile(string path)
     Serial.println("Failed to open file for reading");
     return;
   }
-  server.streamFile(file, "text/html");
+  server.streamFile(file, type);
   file.close();
 }
 
@@ -472,10 +458,21 @@ void setup()
   server.on("/set-wifi", handleSetWifi);
   server.on("/calibrate", handleCalibrate);
   server.on("/reset", handleReset);
-  server.on("/login", handleLogin);
-  server.on("/favicon", handleFile("/favicon.ico"));
-  server.on("/style", handleFile("/style.css"));
-  server.on("/logo", handleFile("/logo.png"));
+  server.on("/loginin", []()
+            {
+    String user = server.arg("username");
+    String pass = server.arg("password");
+    if (user == "admin" && pass == "admin")
+    {
+      logedin = true;
+      server.send(200, "application/json", "{\"status\": \"success\"}");
+    } });
+  server.on("/favicon", []()
+            { handleFileServe("/favicon.ico", "image/x-icon"); });
+  server.on("/style.css", []()
+            { handleFileServe("/style.css", "text/css"); });
+  server.on("/logo", []()
+            { handleFileServe("/logo.png", "image/png"); });
   server.on("/", []()
             {
     if (!logedin)
@@ -489,23 +486,10 @@ void setup()
       server.send(302, "text/plain", "");
       return;
     }
-    handleFile("/index.html"); });
+    handleFileServe("/index.html"); });
 
   server.on("/login", []()
-            {
-              if(logedin){
-                if (state == AP_MODE)
-                {
-                  server.sendHeader("Location", "/wifisettings");
-                }
-                else if (state == CONNECTED)
-                {
-                  server.sendHeader("Location", "/");
-                }
-                server.send(302, "text/plain", "");
-                return;
-              }
-              handleFile("/login.html"); });
+            { handleFileServe("/login.html"); });
   server.on("/wifisettings", []()
             {
               if(!logedin){
@@ -513,7 +497,7 @@ void setup()
                 server.send(302, "text/plain", "");
                 return;
               }
-              handleFile("/wifisettings.html"); });
+              handleFileServe("/wifisettings.html"); });
   server.begin();
 
   pinMode(13, OUTPUT);
