@@ -2,6 +2,7 @@
 //initiation
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 //for json mapping
 const {
@@ -19,11 +20,11 @@ const { execQuery } = require("../database/database");
 // get users - if request has an id, get the specific user, if not get all users 
 // [Done]
 //change req.query to req.body if necessary
-router.get("/", authenticateToken, (req, res, next) => {
+router.get("/view", authenticateToken, (req, res, next) => {
 
   if(req.user_type == "admin"){
     if (req.query.id) {
-      execQuery(`SELECT id, username, email, passphrase, contact_number, user_address FROM user WHERE id=${req.query.id} AND username=${req.username}`)
+      execQuery(`SELECT id, username, email, contact_number, user_address FROM user WHERE id=${req.query.id} AND username=${req.username}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
           res.status(200).json(data);
@@ -58,12 +59,14 @@ router.get("/", authenticateToken, (req, res, next) => {
 //   user_address: "123 Main Street, Cityville"
 // }
 
-  router.post("/", authenticateToken,(req, res, next) => {
+  router.post("/new", authenticateToken, async (req, res, next) => {
     
-    if(req.user_type == "admin"){
+  if(req.user_type == "admin"){
     try {
       // const [fields, values] = requestBodyToFieldsAndValues(req.body);
       // delete req.body["id"];
+      // make the password hashed
+      req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
       const addAdmins = `INSERT INTO user (${fields.toString()}) VALUES (${values.toString()})`;
   
@@ -84,17 +87,17 @@ router.get("/", authenticateToken, (req, res, next) => {
   });
   
 //update admin (my profile) details - [Done]
+// password change is in different API
 // request format
 // {
 //   id : 123456
 //   username: "john_doe",
 //   user_type: "admin",
 //   email: "john.doe@example.com",
-//   passphrase: "securepassword",
 //   contact_number: "1234567890",
 //   user_address: "123 Main Street, Cityville"
 // }
-router.put("/", authenticateToken,(req, res, next) => {
+router.put("/myProfile", authenticateToken,(req, res, next) => {
    if(req.user_type == "admin"){
 
       try {
@@ -132,27 +135,69 @@ router.put("/", authenticateToken,(req, res, next) => {
     }
     
 });
-  
-  //delete members - [Done]
-  // change to req.body.id if necessary
-  // TBD - admin delete only for primary super admin ?
-  router.delete("/", (req, res, next) => {
-    if(req.user_type == "admin" && req.username == "SUPER ADMIN"){
-      try {
-        const deleteAdminQuery = `DELETE FROM user WHERE id=${req.query.id} AND user_type = "admin"`;
-        execQuery(deleteAdminQuery)
-          .then((rows) => {
-            res.status(200).json({ message: "Admin Account Deleted Successfully" });
-          })
-          .catch((err) => {
-            next(err);
-          });
-      } catch (err) {
-        next(err);
-      }  
-    } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
+
+//create a put request to change password [Done]
+// request format
+// {
+//   old_password: "securepassword",
+//   new_password: "newsecurepassword"
+// }  
+router.put("/changePassword", authenticateToken, async (req, res, next) => {
+  if(req.user_type == "admin"){
+    try {
+      const id = req.user_id;
+      const old_password = req.body["old_password"];
+      const new_password = req.body["new_password"];
+      const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
+      const rows = await execQuery(getPassphraseQuery);
+      const passphrase = rows[0][0]["passphrase"];
+      const isMatch = await bcrypt.compare(old_password, passphrase);
+
+      if (isMatch) {
+        const hashedPassword = await bcrypt.hash(new_password, 10);
+        const updatePassphraseQuery = `UPDATE user SET passphrase='${hashedPassword}' WHERE id=${id}`;
+        await execQuery(updatePassphraseQuery);
+        res.status(200).json({ message: "Password changed successfully" });
+      } else {
+        res.status(401).json({ error: "Invalid Password" });
+      }
+    } catch (err) {
+      next(err);
     }
-    
-  });
+} else {
+  return res.sendStatus(401).json({ error: "Unauthorized" });
+}
+});
+  
+//change this to delete an admin user account after confirmation of password of the admin user
+//request format    
+// {
+//   id : 123456 //id of the admin user to be deleted
+//   password: "securepassword"
+// }
+router.delete("/deleteAccount", authenticateToken, async (req, res, next) => {
+  if(req.user_type == "admin" && req.username == "SUPER ADMIN"){
+    try {
+      const id = req.user_id;
+      const password = req.body["password"];
+      const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
+      const rows = await execQuery(getPassphraseQuery);
+      const passphrase = rows[0][0]["passphrase"];
+      const isMatch = await bcrypt.compare(password, passphrase);
+
+      if (isMatch) {
+        const deleteAdminQuery = `DELETE FROM user WHERE id=${req.body.id}`;
+        await execQuery(deleteAdminQuery);
+        res.status(200).json({ message: "Admin Account Deleted Successfully" });
+      } else {
+        res.status(401).json({ error: "Invalid Password" });
+      }
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    return res.sendStatus(401).json({ error: "Unauthorized" });
+  }
+});
+
 module.exports = router;
