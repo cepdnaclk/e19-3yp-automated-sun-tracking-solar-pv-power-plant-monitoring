@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:8081/api";
+axios.defaults.baseURL = "http://15.206.186.69:8081/api"; 
 // set default fallback methode when unauthorized
 axios.interceptors.response.use(
   (res) => res,
