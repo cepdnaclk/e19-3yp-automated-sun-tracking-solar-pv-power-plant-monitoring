@@ -80,10 +80,10 @@ router.post("/register", async (req, res, next) => {
         res.status(200).json({ message: "Registration Successful" });
       })
       .catch((err) => {
-        res.status(400).json({ error: err.toString() });
+        res.status(400).json({ message: err.toString() });
       });
   } catch (err) {
-    res.status(400).json({ error: err.toString() });
+    res.status(400).json({ message: err.toString() });
   }
 });
 

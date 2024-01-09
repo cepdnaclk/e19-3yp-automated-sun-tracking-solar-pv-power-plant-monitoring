@@ -66,7 +66,7 @@ const Register = () => {
           window.location.href = "/login";
         })
         .catch((err) => {
-          showAlert(err.response.data.error, "error");
+          showAlert(err.response.data.message, "error");
         });
     },
   });
