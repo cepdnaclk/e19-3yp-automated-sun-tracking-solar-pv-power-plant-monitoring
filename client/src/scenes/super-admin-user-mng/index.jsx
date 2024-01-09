@@ -88,7 +88,7 @@ const SuperAdminUserMng = () => {
 			<Box>
 				<Link to="/super-admin-add-user" style={{ textDecoration: 'none' }}>
 					<Button type="submit" variant="contained" color="primary"
-					style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '0px 0px 10px 1000px'}}
+					style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '0px 0px 10px 975px'}}
 					>
 					Add New Company
 					</Button>
