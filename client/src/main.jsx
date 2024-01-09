@@ -30,7 +30,11 @@ axios.interceptors.response.use(
         })
         .catch((err) => {
           // redirect to login page
-          window.location.href = "/login?error=Login%20expired";
+          if (
+            window.location.pathname !== "/login" &&
+            window.location.pathname !== "/register"
+          )
+            window.location.href = "/login?error=Login%20expired";
         });
     }
     return Promise.reject(err);

@@ -35,6 +35,8 @@ import SuperAdminProfile from "./scenes/super-admin-profile";
 import SuperAdminUserMng from "./scenes/super-admin-user-mng";
 
 // login, register imports
+import axios from "axios";
+import { useEffect } from "react";
 import Login from "./scenes/login";
 import Register from "./scenes/register";
 
@@ -61,6 +63,29 @@ function App() {
       return <Appbar />;
     }
   };
+
+  useEffect(() => {
+    const userRole = localStorage.getItem("user_type");
+    const userToken = localStorage.getItem("token");
+    if (
+      !userToken &&
+      window.location.pathname !== "/login" &&
+      window.location.pathname !== "/register"
+    ) {
+      window.location.href = "/login";
+    } else {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + userToken;
+      axios.get("/login/me").catch((err) => {});
+    }
+
+    if (userRole === "admin") {
+      document.title = "Company Dashboard | HelioEye";
+    } else if (userRole === "super-admin") {
+      document.title = "Super Admin Dashboard | HelioEye";
+    } else {
+      document.title = "User Dashboard | HelioEye";
+    }
+  });
 
   const renderRoutes = () => {
     if (userRole === "admin") {

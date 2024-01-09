@@ -2,6 +2,7 @@ import { Box, IconButton, Menu, MenuItem, useTheme } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AlertContext } from "../../contexts/AlertContext";
 import { ColorModeContext, tokens } from "../../theme";
 
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -16,6 +17,7 @@ const AdminAppbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const { showAlert } = useContext(AlertContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -31,11 +33,20 @@ const AdminAppbar = () => {
 
   const handleLogoutClick = () => {
     // Navigate to '/login' when logout is clicked
-    localStorage.clear(); // Clear the local storage
-    axios.defaults.headers.common["Authorization"] = ""; // Remove the authorization header
-    navigate("/login");
-    handleMenuClose(); // Close the menu after navigation
-    window.location.reload(); // Reload the page
+    const token = localStorage.getItem("token"); // Get the token from local storage
+    axios
+      .delete("/login/logout", { token })
+      .then((res) => {
+        showAlert("Loged out", "success");
+        localStorage.clear(); // Clear the local storage
+        axios.defaults.headers.common["Authorization"] = ""; // Remove the authorization header
+        navigate("/login");
+        handleMenuClose(); // Close the menu after navigation
+        window.location.reload(); // Reload the page
+      })
+      .catch((err) => {
+        showAlert(err.resopnse.data.message, "error");
+      });
   };
 
   const handleProfileClick = () => {

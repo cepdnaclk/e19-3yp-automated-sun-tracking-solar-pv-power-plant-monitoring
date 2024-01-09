@@ -88,6 +88,23 @@ router.post("/", (req, res, next) => {
   }
 });
 
+// check login status
+router.get("/me", (req, res, next) => {
+  try {
+    if (req.headers.authorization == null)
+      return res.sendStatus(401).json({ error: "Unauthorized" });
+    const token = req.headers.authorization.split(" ")[1];
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) {
+        return res.status(403).json({ message: "Forbidden" });
+      }
+      res.status(200).json({ message: "Authorized" });
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post("/token", (req, res, next) => {
   try {
     const refreshToken = req.body.refreshToken;
@@ -107,8 +124,12 @@ router.post("/token", (req, res, next) => {
 });
 
 router.delete("/logout", (req, res) => {
-  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
-  res.sendStatus(204);
+  try {
+    refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+    res.sendStatus(204);
+  } catch (err) {
+    res.sendStatus(500).json({ error: "Internal Server Error" });
+  }
 });
 
 module.exports = router;
