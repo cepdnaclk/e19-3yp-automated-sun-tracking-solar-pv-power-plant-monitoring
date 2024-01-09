@@ -2,6 +2,8 @@
 const express = require("express");
 const router = express.Router();
 
+const bcrypt = require("bcrypt");
+
 const { authenticateToken } = require("../middleware/auth");
 
 //for json mapping
@@ -13,15 +15,11 @@ const {
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
 
-if(req.user_type == "company"){
-} else {
-  return res.sendStatus(401).json({ error: "Unauthorized" });
-}
-
 // get customers - if request has an id, get the specific user, if not get all users 
 // only accessible for company
+// query id - id of the specific user
 // [Done]
-router.get("/", authenticateToken, (req, res, next) => {
+router.get("/view", authenticateToken, (req, res, next) => {
   if(req.user_type == "company"){
     if (req.query.id) { //id of the specific user
       execQuery(`SELECT user.id, user.username, user.user_type, user.email, user.contact_number, user.user_address
@@ -56,21 +54,7 @@ router.get("/", authenticateToken, (req, res, next) => {
   });
 
 // get own profile - only for the respective customer - [Done]
-  router.get("/", authenticateToken, (req, res, next) => {
-    if(req.user_type == "customer"){
-       //view own profile
-        execQuery(`SELECT username, email, passphrase, contact_number, user_address
-                  FROM user
-                  WHERE id = ${req.user_id}}`)
-          .then((rows) => {
-            data = objectKeysSnakeToCamel(rows[0]);
-            res.status(200).json(data);
-          })
-          .catch((err) => {
-            next(err);
-          });
-      }}
-  );
+
   
   //add new customer - only accessible for customers and customer registration
   // [Done]
@@ -83,10 +67,11 @@ router.get("/", authenticateToken, (req, res, next) => {
     //   contact_number: "1234567890",
     //   user_address: "123 Main Street, Cityville"
     // } - authentication token not needed
-  router.post("/", (req, res, next) => {
+  router.post("/myProfile", async(req, res, next) => {
     try {
       // const [fields, values] = requestBodyToFieldsAndValues(req.body);
       // delete req.body["id"];
+      req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
       const customerRegisterQuery = `INSERT INTO user (${fields.toString()}) VALUES (${values.toString()})`;
   
@@ -103,24 +88,19 @@ router.get("/", authenticateToken, (req, res, next) => {
   });
   
   // update company (my profile) details - only for customers 
-  // 
+  // password change is in a separate API
   // request format
-  // // {
-//   id : 123456
+  // {
 //   username: "john_doe",
-//   user_type: "admin",
 //   email: "john.doe@example.com",
-//   passphrase: "securepassword",
 //   contact_number: "1234567890",
 //   user_address: "123 Main Street, Cityville"
 // }
   // [Done]
   
-  router.put("/", authenticateToken, (req, res, next) => {
+  router.put("/updateProfile", authenticateToken, (req, res, next) => {
     if(req.user_type == "customer"){
       try {
-        const id = req.body["id"];
-        delete req.body["id"]; //id used in the UPDATE query, not needed in the update string
         const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
         // Combine the two arrays into a single array.
         let updateString = "";
@@ -133,7 +113,7 @@ router.get("/", authenticateToken, (req, res, next) => {
         // remove last trailling ", "
         updateString = updateString.substring(0, updateString.length - 2);
     
-        const updateCustomerQuery = `UPDATE customer SET ${updateString} WHERE id='${id}';`;
+        const updateCustomerQuery = `UPDATE customer SET ${updateString} WHERE id='${req.user_id}';`;
     
         execQuery(updateCustomerQuery)
           .then((rows) => {
@@ -152,6 +132,39 @@ router.get("/", authenticateToken, (req, res, next) => {
     }
     
   });
+
+  //create a put request to change password [Done]
+// request format
+// {
+//   old_password: "securepassword",
+//   new_password: "newsecurepassword"
+// }  
+router.put("/changePassword", authenticateToken, async (req, res, next) => {
+  if(req.user_type == "admin"){
+    try {
+      const id = req.user_id;
+      const old_password = req.body["old_password"];
+      const new_password = req.body["new_password"];
+      const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
+      const rows = await execQuery(getPassphraseQuery);
+      const passphrase = rows[0][0]["passphrase"];
+      const isMatch = await bcrypt.compare(old_password, passphrase);
+
+      if (isMatch) {
+        const hashedPassword = await bcrypt.hash(new_password, 10);
+        const updatePassphraseQuery = `UPDATE user SET passphrase='${hashedPassword}' WHERE id=${id}`;
+        await execQuery(updatePassphraseQuery);
+        res.status(200).json({ message: "Password changed successfully" });
+      } else {
+        res.status(401).json({ error: "Invalid Password" });
+      }
+    } catch (err) {
+      next(err);
+    }
+} else {
+  return res.sendStatus(401).json({ error: "Unauthorized" });
+}
+});
   
   // delete customer - only accessbile for the customers
   //password should be checked to delete the profile
@@ -159,25 +172,30 @@ router.get("/", authenticateToken, (req, res, next) => {
   //   "password": "user_password"
   // }
   // [Done]
-  router.delete("/", authenticateToken, (req, res, next) => {
+
+  router.delete("/deleteProfile", authenticateToken, async (req, res, next) => {
     if(req.user_type == "customer"){
       try {
-        const deleteCustomerQuery = `DELETE FROM user WHERE id=${req.user_id} AND username =${req.username} AND passphrase=${req.body.password}`;
-        execQuery(deleteCustomerQuery)
-          .then((rows) => {
-            res.status(200).json({ message: "User Account Deleted Successfully" });
-          })
-          .catch((err) => {
-            next(err);
-          });
+        const id = req.user_id;
+        const password = req.body["password"];
+        const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
+        const rows = await execQuery(getPassphraseQuery);
+        const passphrase = rows[0][0]["passphrase"];
+        const isMatch = await bcrypt.compare(password, passphrase);
+  
+        if (isMatch) {
+          const deleteCustomerQuery = `DELETE FROM user WHERE id=${id}`;
+          await execQuery(deleteCustomerQuery);
+          res.status(200).json({ message: "Customer Account Deleted Successfully" });
+        } else {
+          res.status(401).json({ error: "Invalid Password" });
+        }
       } catch (err) {
         next(err);
       }
     } else {
       return res.sendStatus(401).json({ error: "Unauthorized" });
     }
-    
-  });
-  
+  });  
 
 module.exports = router;

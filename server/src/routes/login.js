@@ -7,6 +7,8 @@ const { connection } = require("../database/database");
 
 const jwt = require("jsonwebtoken");
 
+const bcrypt = require("bcrypt");
+
 const {
   generateAccessToken,
   generateRefreshToken,
@@ -14,7 +16,13 @@ const {
 
 let refreshTokens = [];
 
-router.post("/login", (req, res, next) => {
+//login - for all users
+// request from frontend should be
+// {
+//   email: "john.doe@example",
+//   password: "securepassword",
+// }
+router.post("/", (req, res, next) => {
   try {
     const email = req.body.email;
     const password = req.body.password;
@@ -23,7 +31,7 @@ router.post("/login", (req, res, next) => {
     const queryFindUser = `SELECT username, user_type, id, passphrase FROM user WHERE email = ${email};`;
 
     // connection.query(queryFindUser, [email], (err, result) => {
-    connection.query(queryFindUser, (err, result) => {
+    connection.query(queryFindUser, async (err, result) => {
       if (err) {
         console.log("Error during login:", err);
         return res.status(500).json({ message: "Internal Server Error" });
@@ -35,8 +43,11 @@ router.post("/login", (req, res, next) => {
       const username = result[0];
       const user_type = result[1];
       const user_id = result[2];
+      const passphrase = result[3];
 
-      if (password != user.passphrase) {
+      const isMatch = await bcrypt.compare(password, passphrase);
+
+      if (!isMatch) {
         return res.status(401).json({ message: "Invalid password" });
       }
 
