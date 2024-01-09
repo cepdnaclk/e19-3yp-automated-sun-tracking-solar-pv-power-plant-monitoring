@@ -3,17 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="shortcut icon" href="/favicon" type="image/x-icon" />
+    <link rel="stylesheet" href="/style" />
+    <title>HelioEye | Wifi Settings</title>
   </head>
   <body>
-    <h1>Hello my server</h1>
-    <form action="" onsubmit="setWifi(event)">
-      <select name="" id="wifi-list"></select>
-      <input type="password" name="" id="pass" required />
-      <button type="submit">Set</button>
-    </form>
+    <div class="container">
+      <form onsubmit="setWifi(event)">
+        <img src="/logo" alt="" />
+        <label for="wifi-list">Wifi</label>
+        <select name="wifi-list" id="wifi-list"></select>
+        <label for="pass">Password</label>
+        <input type="password" name="pass" id="pass" required />
+        <button type="submit">Connect to Wifi</button>
+      </form>
+    </div>
   </body>
   <script>
+    const body = document.querySelector("body");
+
     const wifiList = fetch("/scan")
       .then((res) => res.json())
       .then((data) => {
@@ -46,6 +54,7 @@
 
     const setWifi = (event) => {
       event.preventDefault();
+      body.classList.add("loading");
       const wifi = document.getElementById("wifi-list").value;
       const pass = document.getElementById("pass").value;
       timeout(10000, fetch(`/set-wifi?wifi=${wifi}&pass=${pass}`))
@@ -53,11 +62,12 @@
         .then((data) => {
           alert(data.status);
           // redirect to router ip
-          window.location.href = `http://esp32.local`;
+          window.location.href = `http://${data.ip}`;
         })
         .catch((err) => {
           console.log(err);
         });
+      body.classList.remove("loading");
     };
   </script>
 </html>

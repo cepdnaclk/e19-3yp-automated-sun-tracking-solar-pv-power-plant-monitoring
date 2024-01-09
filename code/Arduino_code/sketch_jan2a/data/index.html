@@ -3,43 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HelioEye</title>
+    <link rel="stylesheet" href="/style" />
+    <link rel="shortcut icon" href="/favicon" type="image/x-icon" />
+    <title>HelioEye | Home</title>
   </head>
   <body>
-    <h1>Welcome to HelioEye</h1>
-    <p>
-      This is the data page. Here you can see the data that is being collected
-      from the sensors.
-    </p>
-    <p>
-      <a href="/wifisettings">Click here to set up the wifi</a>
-    </p>
-    <p>
-      <button onclick="calibrate()">Calibrate</button>
-    </p>
-    <p>
-      <button onclick="reset()">Reset</button>
-    </p>
-    <p>
-      <span>Position X: </span>
-      <span id="posx"></span>
-    </p>
-    <p>
-      <span>Position Z: </span>
-      <span id="posz"></span>
-    </p>
-    <p>
-      <span>Voltage: </span>
-      <span id="voltage"></span>
-    </p>
-    <p>
-      <span>Current: </span>
-      <span id="current"></span>
-    </p>
-    <p>
-      <span>Power: </span>
-      <span id="power"></span>
-    </p>
+    <div class="container home">
+      <img src="/logo.png" alt="" />
+      <h1>Welcome to HelioEye</h1>
+      <p>
+        This is the data page. Here you can see the data that is being collected
+        from the sensors.
+      </p>
+      <div class="content">
+        <p>
+          <a href="/wifisettings">Change wifi</a>
+          <button onclick="calibrate()">Calibrate</button>
+          <button onclick="reset()">Reset</button>
+        </p>
+        <p>
+          <span>Position X: </span>
+          <span id="posx"></span>
+        </p>
+        <p>
+          <span>Position Z: </span>
+          <span id="posz"></span>
+        </p>
+        <p>
+          <span>Voltage: </span>
+          <span id="voltage"></span>
+        </p>
+        <p>
+          <span>Current: </span>
+          <span id="current"></span>
+        </p>
+        <p>
+          <span>Power: </span>
+          <span id="power"></span>
+        </p>
+      </div>
+    </div>
   </body>
   <script>
     const calibrate = () => {
