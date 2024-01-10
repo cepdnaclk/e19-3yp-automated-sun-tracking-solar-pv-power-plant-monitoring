@@ -12,33 +12,6 @@ CREATE TABLE user(
     user_address    VARCHAR(255)
 );
 
--- CREATE TABLE admins(
---     id              INT(3) AUTO_INCREMENT PRIMARY KEY,
---     admin_name      VARCHAR(50),
---     email           VARCHAR(255) UNIQUE NOT NULL,
---     passphrase      VARCHAR(30) NOT NULL,
-
--- );
-
--- CREATE TABLE company(
---     id              INT(4) AUTO_INCREMENT PRIMARY KEY,
---     company_name    VARCHAR(50) NOT NULL,
---     email           VARCHAR(255) UNIQUE NOT NULL,
---     passphrase      VARCHAR(30) NOT NULL,
---     company_address VARCHAR(255),
---     contact_no1     VARCHAR(13),
---     contact_no2     VARCHAR(13),
--- );
-
--- CREATE TABLE customer(
---     id               INT(6) AUTO_INCREMENT PRIMARY KEY,
---     customer_name    VARCHAR(50),
---     email            VARCHAR(255) UNIQUE NOT NULL,
---     passphrase       VARCHAR(30) NOT NULL,
---     customer_address VARCHAR(255),
---     customer_contact VARCHAR(13)
--- );
-
 CREATE TABLE device(
     id                          INT(6) AUTO_INCREMENT PRIMARY KEY,
     model_name                  VARCHAR(50),
