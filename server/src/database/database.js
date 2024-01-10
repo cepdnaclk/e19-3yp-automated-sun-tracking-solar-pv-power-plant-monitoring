@@ -5,7 +5,7 @@ const express = require('express');
 const router = express.Router();
 
 // connect database - add details here
-const connectionDev = mysql.createConnection({
+const connection = mysql.createConnection({
   host: process.env.DATABASE_HOST || "localhost",
   user: process.env.DATABASE_USER || "root",
   password: process.env.DATABASE_PASSWORD || "",
@@ -17,7 +17,7 @@ const connectionDev = mysql.createConnection({
   timeout: 50000,
 });
 
-const connection = mysql.createConnection({
+const connectionP = mysql.createConnection({
   host: process.env.DATABASE_HOST || "helioeye.cpyug8mi2dnv.ap-south-1.rds.amazonaws.com",
   user: process.env.DATABASE_USER || "admin",
   password: process.env.DATABASE_PASSWORD || "HelioEye19",
