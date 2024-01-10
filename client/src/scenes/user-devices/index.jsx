@@ -26,7 +26,8 @@ const UserDevices = () => {
 				gridAutoRows="300px"
 				gap="10px"
 				overflow="auto"
-				m="10px"
+				m=" 10px 10px 10px 0px"
+				width="95%"
 			>
 				{userDevices.map((device) => (
 					<DeviceCard

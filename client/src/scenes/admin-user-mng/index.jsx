@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header';
+import { Link } from 'react-router-dom';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 
@@ -72,7 +73,7 @@ const AdminUserMng = () => {
 	};
 
 	return (
-		<Box m="20px" width="90%">
+		<Box m="10px 20px 20px 20px" width="90%">
 			{/* Header */}
 			<Box
 				display="flex"
@@ -83,6 +84,16 @@ const AdminUserMng = () => {
 					title="USER MANAGEMENT"
 					subtitle="Manage Users and Device Overview"
 				/>
+			</Box>
+
+			<Box>
+				<Link to="/admin-add-user" style={{ textDecoration: 'none' }}>
+					<Button type="submit" variant="contained" color="primary"
+					style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '0px 0px 10px 1000px'}}
+					>
+					Add New User
+					</Button>
+				</Link>
 			</Box>
 
 			<Box
