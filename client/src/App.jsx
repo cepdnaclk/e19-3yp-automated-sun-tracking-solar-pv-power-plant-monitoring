@@ -1,16 +1,16 @@
 // global imports
-import { CssBaseline, ThemeProvider } from '@mui/material';
-import { Route, Routes } from 'react-router-dom';
-import { AlertProvider } from './contexts/AlertContextProvider';
-import { ColorModeContext, useMode } from './theme';
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Route, Routes } from "react-router-dom";
+import { AlertProvider } from "./contexts/AlertContextProvider";
+import { ColorModeContext, useMode } from "./theme";
 
 // Appbar , Sidebar imports
-import AdminAppbar from './components/global/AdminAppbar';
-import AdminSidebar from './components/global/AdminSidebar';
-import Appbar from './components/global/Appbar';
-import Sidebar from './components/global/Sidebar';
-import SuperAdminAppbar from './components/global/SuperAdminAppbar';
-import SuperAdminSidebar from './components/global/SuperAdminSidebar';
+import AdminAppbar from "./components/global/AdminAppbar";
+import AdminSidebar from "./components/global/AdminSidebar";
+import Appbar from "./components/global/Appbar";
+import Sidebar from "./components/global/Sidebar";
+import SuperAdminAppbar from "./components/global/SuperAdminAppbar";
+import SuperAdminSidebar from "./components/global/SuperAdminSidebar";
 
 // User pages imports
 import UserDashboard from './scenes/user-dashboard';
@@ -20,50 +20,76 @@ import UserFaq from './scenes/user-faq';
 import UserProfile from './scenes/user-profile';
 
 // Admin pages imports
-import AdminDashboard from './scenes/admin-dashboard';
-import AdminDeviceMng from './scenes/admin-device-mng';
-import AdminFaq from './scenes/admin-faq';
-import AdminProfile from './scenes/admin-profile';
-import AdminAddUser from './scenes/admin-add-user';
-import AdminUserMng from './scenes/admin-user-mng';
+import AdminAddUser from "./scenes/admin-add-user";
+import AdminDashboard from "./scenes/admin-dashboard";
+import AdminDeviceMng from "./scenes/admin-device-mng";
+import AdminFaq from "./scenes/admin-faq";
+import AdminProfile from "./scenes/admin-profile";
+import AdminUserMng from "./scenes/admin-user-mng";
 
 // Super Admin pages imports
-import SuperAdminDashboard from './scenes/super-admin-dashboard';
-import SuperAdminUserMng from './scenes/super-admin-user-mng';
-import SuperAdminFaq from './scenes/super-admin-faq';
-import SuperAdminProfile from './scenes/super-admin-profile';
-import SuperAdminAddUser from './scenes/super-admin-add-user';
-import SuperAdminDeviceMng from './scenes/super-admin-device-mng';
+import SuperAdminAddUser from "./scenes/super-admin-add-user";
+import SuperAdminDashboard from "./scenes/super-admin-dashboard";
+import SuperAdminDeviceMng from "./scenes/super-admin-device-mng";
+import SuperAdminFaq from "./scenes/super-admin-faq";
+import SuperAdminProfile from "./scenes/super-admin-profile";
+import SuperAdminUserMng from "./scenes/super-admin-user-mng";
 
 // login, register imports
-import Login from './scenes/login';
-import Register from './scenes/register';
+import axios from "axios";
+import { useEffect } from "react";
+import Login from "./scenes/login";
+import Register from "./scenes/register";
 
 function App() {
-	const [theme, colorMode] = useMode();
-	const userRole = 'client'; // Replace with actual user role
 
-	const renderSidebar = () => {
-		if (userRole === 'admin') {
-			return <AdminSidebar />;
-		} else if (userRole === 'super-admin') {
-			return <SuperAdminSidebar />;
-		} else {
-			return <Sidebar />;
-		}
-	};
+  const [theme, colorMode] = useMode();
+  const userRole = localStorage.getItem("user_type"); // Replace with actual user role
 
-	const renderAppbar = () => {
-		if (userRole === 'admin') {
-			return <AdminAppbar />;
-		} else if (userRole === 'super-admin') {
-			return <SuperAdminAppbar />;
-		} else {
-			return <Appbar />;
-		}
-	};
+  const renderSidebar = () => {
+    if (userRole === "admin") {
+      return <AdminSidebar />;
+    } else if (userRole === "super-admin") {
+      return <SuperAdminSidebar />;
+    } else {
+      return <Sidebar />;
+    }
+  };
 
-	const renderRoutes = () => {
+  const renderAppbar = () => {
+    if (userRole === "admin") {
+      return <AdminAppbar />;
+    } else if (userRole === "super-admin") {
+      return <SuperAdminAppbar />;
+    } else {
+      return <Appbar />;
+    }
+  };
+
+  useEffect(() => {
+    const userRole = localStorage.getItem("user_type");
+    const userToken = localStorage.getItem("token");
+    if (
+      !userToken &&
+      window.location.pathname !== "/login" &&
+      window.location.pathname !== "/register"
+    ) {
+      window.location.href = "/login";
+    } else {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + userToken;
+      axios.get("/login/me").catch((err) => {});
+    }
+
+    if (userRole === "admin") {
+      document.title = "Company Dashboard | HelioEye";
+    } else if (userRole === "super-admin") {
+      document.title = "Super Admin Dashboard | HelioEye";
+    } else {
+      document.title = "User Dashboard | HelioEye";
+    }
+  });
+
+  const renderRoutes = () => {
 		if (userRole === 'admin') {
 			return (
 				<Routes>

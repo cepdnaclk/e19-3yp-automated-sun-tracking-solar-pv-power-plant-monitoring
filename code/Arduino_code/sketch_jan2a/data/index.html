@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="shortcut icon" href="/favicon" type="image/x-icon" />
+    <title>HelioEye | Home</title>
+  </head>
+  <body>
+    <div class="container home">
+      <img src="/logo" alt="" />
+      <h1>Welcome to HelioEye</h1>
+      <p>
+        This is the data page. Here you can see the data that is being collected
+        from the sensors.
+      </p>
+      <div class="content">
+        <p>
+          <a href="/wifisettings">Change wifi</a>
+          <button onclick="calibrate()">Calibrate</button>
+          <button onclick="reset()">Reset</button>
+        </p>
+        <p>
+          <span>Position X: </span>
+          <span id="posx"></span>
+        </p>
+        <p>
+          <span>Position Z: </span>
+          <span id="posz"></span>
+        </p>
+        <p>
+          <span>Voltage: </span>
+          <span id="voltage"></span>
+        </p>
+        <p>
+          <span>Current: </span>
+          <span id="current"></span>
+        </p>
+        <p>
+          <span>Power: </span>
+          <span id="power"></span>
+        </p>
+      </div>
+    </div>
+  </body>
+  <script>
+    const calibrate = () => {
+      fetch("/calibrate")
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    };
+
+    const reset = () => {
+      fetch("/reset")
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+        })
+        .catch((err) => {
+          alert(err);
+        });
+    };
+
+    var socket = new WebSocket("ws://" + window.location.host + ":81/");
+    socket.onmessage = function (event) {
+      var values = event.data.split(",");
+      document.getElementById("posx").textContent = values[0];
+      document.getElementById("posz").textContent = values[1];
+      document.getElementById("voltage").textContent = values[2];
+      document.getElementById("current").textContent = values[3];
+      document.getElementById("power").textContent = values[4];
+    };
+  </script>
+</html>

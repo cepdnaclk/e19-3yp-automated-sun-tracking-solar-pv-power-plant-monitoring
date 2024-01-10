@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="shortcut icon" href="/favicon" type="image/x-icon" />
+    <title>HelioEye | Login</title>
+  </head>
+  <body>
+    <div class="container">
+      <form onsubmit="handleSubmit(event)">
+        <img src="/logo" alt="" />
+        <label for="username">Username</label>
+        <input type="text" name="username" id="username" required />
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required />
+        <button type="submit">Login</button>
+      </form>
+    </div>
+    <script>
+      const body = document.querySelector("body");
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+        body.classList.add("loading");
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        fetch(`/loginin?username=${username}&password=${password}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.status === "success") {
+              window.location.href = "/";
+            } else {
+              alert(data.status);
+            }
+          })
+          .catch((err) => {
+            alert(err);
+          });
+        body.classList.remove("loading");
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/favicon" type="image/x-icon" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>HelioEye | Wifi Settings</title>
+  </head>
+  <body>
+    <div class="container">
+      <form onsubmit="setWifi(event)">
+        <img src="/logo" alt="" />
+        <label for="wifi-list">Wifi</label>
+        <select name="wifi-list" id="wifi-list"></select>
+        <label for="pass">Password</label>
+        <input type="password" name="pass" id="pass" required />
+        <button type="submit">Connect to Wifi</button>
+      </form>
+    </div>
+  </body>
+  <script>
+    const body = document.querySelector("body");
+
+    const wifiList = fetch("/scan")
+      .then((res) => res.json())
+      .then((data) => {
+        const selectElement = document.getElementById("wifi-list");
+        data.forEach((wifi) => {
+          const option = document.createElement("option");
+          option.value = wifi;
+          option.innerText = wifi;
+          selectElement.appendChild(option);
+        });
+      });
+
+    const timeout = (ms, promise) => {
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          reject(new Error("Request timed out"));
+        }, ms);
+
+        promise
+          .then((value) => {
+            clearTimeout(timer);
+            resolve(value);
+          })
+          .catch((reason) => {
+            clearTimeout(timer);
+            reject(reason);
+          });
+      });
+    };
+
+    const setWifi = (event) => {
+      event.preventDefault();
+      body.classList.add("loading");
+      const wifi = document.getElementById("wifi-list").value;
+      const pass = document.getElementById("pass").value;
+      timeout(10000, fetch(`/set-wifi?wifi=${wifi}&pass=${pass}`))
+        .then((res) => res.json())
+        .then((data) => {
+          alert(data.status);
+          // redirect to router ip
+          window.location.href = `http://${data.ip}`;
+        })
+        .catch((err) => {
+          alert(err);
+        });
+      body.classList.remove("loading");
+    };
+  </script>
+</html>

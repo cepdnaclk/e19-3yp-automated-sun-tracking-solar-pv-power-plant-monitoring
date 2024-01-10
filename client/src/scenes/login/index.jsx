@@ -31,42 +31,49 @@ const StyledButton = styled(Button)(({ theme }) => ({
 	margin: theme.spacing(3, 0, 2),
 }));
 
+const user_type = {
+  company: "admin",
+  super_admin: "super_admin",
+  customer: "customer",
+};
+
 const Login = ({ onRegisterClick }) => {
 	const { showAlert } = useContext(AlertContext);
 	const navigate = useNavigate();
 
-	const formik = useFormik({
-		initialValues: {
-			email: '',
-			password: '',
-		},
-		validationSchema: Yup.object({
-			email: Yup.string()
-				.email('Invalid email address')
-				.required('Required'),
-			password: Yup.string().required('Required'),
-		}),
-		onSubmit: (values) => {
-			// Handle login logic here
-			axios
-				.post('/api/login', values)
-				.then((res) => {
-					// set token, refresh token and username in local storage
-					localStorage.setItem('token', res.data.accessToken);
-					localStorage.setItem('refreshToken', res.data.refreshToken);
-					localStorage.setItem('username', res.data.username);
+
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string().email("Invalid email address").required("Required"),
+      password: Yup.string().required("Required"),
+    }),
+    onSubmit: (values) => {
+      // Handle login logic here
+      axios
+        .post("/login/", values)
+        .then((res) => {
+          // set token, refresh token and username in local storage
+          localStorage.setItem("token", res.data.accessToken);
+          localStorage.setItem("refreshToken", res.data.refreshToken);
+          localStorage.setItem("username", res.data.username);
+          localStorage.setItem("user_type", user_type[res.data.user_type]);
 
 					axios.defaults.headers.common['Authorization'] =
 						'Bearer ' + res.data.accessToken;
 
-					// redirect to home page
-					window.location.href = '/';
-				})
-				.catch((err) => {
-					showAlert(err.toString(), 'error');
-				});
-		},
-	});
+          // redirect to home page
+          window.location.href = "/";
+        })
+        .catch((err) => {
+          console.log(err);
+          showAlert(err.response.data.message, "error");
+        });
+    },
+  });
 
 	return (
 		<StyledContainer component="main" maxWidth="xs">

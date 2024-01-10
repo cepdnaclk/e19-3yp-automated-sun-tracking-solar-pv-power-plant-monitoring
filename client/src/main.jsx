@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "http://15.206.186.69:8081/api"; 
 // set default fallback methode when unauthorized
 axios.interceptors.response.use(
   (res) => res,
@@ -30,7 +30,11 @@ axios.interceptors.response.use(
         })
         .catch((err) => {
           // redirect to login page
-          window.location.href = "/login?error=Login%20expired";
+          if (
+            window.location.pathname !== "/login" &&
+            window.location.pathname !== "/register"
+          )
+            window.location.href = "/login?error=Login%20expired";
         });
     }
     return Promise.reject(err);

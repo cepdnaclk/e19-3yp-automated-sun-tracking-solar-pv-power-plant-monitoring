@@ -1,0 +1,137 @@
+/* dark mode web site */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(16, 12, 31);
+  color: #fff;
+  font-family: sans-serif;
+}
+
+body.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.container {
+  width: clamp(300px, 90%, 1024px);
+  margin: 0 auto;
+}
+
+form {
+  display: block;
+  margin: auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 300px;
+}
+
+form label {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+form input,
+form select {
+  color: white;
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 10px;
+  background: none;
+}
+
+form button[type="submit"] {
+  background-color: rgb(255, 81, 0);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  font-weight: 500;
+  font-family: sans-serif;
+}
+
+form button[type="submit"]:hover {
+  background-color: #fff;
+  color: #333;
+}
+
+form button[type="submit"]:active {
+  background-color: #333;
+  color: #fff;
+}
+
+form button[type="submit"]:focus {
+  outline: none;
+}
+
+form label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 0.8rem;
+}
+
+form img {
+  height: 150px;
+  margin-bottom: 1rem;
+}
+
+.home {
+  padding: 2rem 0;
+}
+
+.home img {
+  display: block;
+  height: 150px;
+  margin-bottom: 1rem;
+}
+
+.home .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+  gap: 1rem;
+}
+
+.home .content p:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.home .content a,
+.home .content button {
+  padding: 0.5rem 1rem;
+  width: 200px;
+  border: none;
+  background-color: rgb(255, 81, 0);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  font-family: sans-serif;
+  text-decoration: none;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.home .content button:nth-child(2) {
+  background-color: green;
+}
+
+.home .content button:last-child {
+  background-color: red;
+}
