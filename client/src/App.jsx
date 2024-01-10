@@ -141,9 +141,9 @@ function App() {
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <div className="app">
-              {window.location.pathname !== "/login" && renderSidebar()}
+              {window.location.pathname !== "/login" && window.location.pathname !== "/register" && renderSidebar()}
               <main className="content">
-                {window.location.pathname !== "/login" && renderAppbar()}
+                {window.location.pathname !== "/login" && window.location.pathname !== "/register" && renderAppbar()}
                 {renderRoutes()}
               </main>
             </div>
