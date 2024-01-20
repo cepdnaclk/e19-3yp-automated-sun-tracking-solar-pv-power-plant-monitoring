@@ -93,7 +93,7 @@ const Appbar = () => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={handleProfileClick}>
-                <PersonOutlinedIcon sx={{ marginRight: 1 }} />
+                <PersonOutlinedIcon to="/my-profile" sx={{ marginRight: 1 }} />
                 Profile
               </MenuItem>
               <MenuItem onClick={handleLogoutClick}>
