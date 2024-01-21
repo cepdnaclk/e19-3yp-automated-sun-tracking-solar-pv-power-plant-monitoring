@@ -50,7 +50,7 @@ const AdminAppbar = () => {
   };
 
   const handleProfileClick = () => {
-    // Navigate to '/user-profile' when profile is clicked
+    // Navigate to '/admin-profile' when profile is clicked
     navigate("/admin-profile");
     handleMenuClose(); // Close the menu after navigation
     window.location.reload(); // Reload the page
@@ -91,7 +91,7 @@ const AdminAppbar = () => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={handleProfileClick}>
-                <PersonOutlinedIcon sx={{ marginRight: 1 }} />
+                <PersonOutlinedIcon to="/admin-profile" sx={{ marginRight: 1 }} />
                 Profile
               </MenuItem>
               <MenuItem onClick={handleLogoutClick}>

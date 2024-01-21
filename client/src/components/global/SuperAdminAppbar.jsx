@@ -51,8 +51,8 @@ const Appbar = () => {
   };
 
   const handleProfileClick = () => {
-    // Navigate to '/user-profile' when profile is clicked
-    navigate("/my-profile");
+    // Navigate to '/supe-admin-profile' when profile is clicked
+    navigate("/super-admin-profile");
     handleMenuClose(); // Close the menu after navigation
     window.location.reload(); // Reload the page
   };
@@ -93,7 +93,7 @@ const Appbar = () => {
               onClose={handleMenuClose}
             >
               <MenuItem onClick={handleProfileClick}>
-                <PersonOutlinedIcon sx={{ marginRight: 1 }} />
+                <PersonOutlinedIcon to="/super-admin-profile" sx={{ marginRight: 1 }} />
                 Profile
               </MenuItem>
               <MenuItem onClick={handleLogoutClick}>

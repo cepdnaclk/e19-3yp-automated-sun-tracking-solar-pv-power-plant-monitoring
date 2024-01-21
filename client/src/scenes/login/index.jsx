@@ -5,6 +5,7 @@ import {
 	TextField,
 	Typography,
 	styled,
+	Box
 } from '@mui/material';
 import axios from 'axios';
 import { useFormik } from 'formik';
@@ -13,7 +14,6 @@ import * as Yup from 'yup';
 import { AlertContext } from '../../contexts/AlertContext';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
 
 const StyledContainer = styled(Container)(({ theme }) => ({
 	display: 'flex',
@@ -130,7 +130,7 @@ const Login = ({ onRegisterClick }) => {
 						<Link
 							component="button"
 							variant="body2"
-							onClick={() => navigate('/register')}
+							to="/register"
 						>
 							<Typography variant="b1" pl="1rem">
 								Register here
