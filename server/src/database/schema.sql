@@ -5,9 +5,9 @@ USE HelioEye;
 CREATE TABLE user(
     id              INT(6) AUTO_INCREMENT PRIMARY KEY,
     username        VARCHAR(50),
-    user_type       VARCHAR(10), -- "admin", "company", "customer"
+    user_type       VARCHAR(20), -- "super admin", "admin", "client"
     email           VARCHAR(255) UNIQUE NOT NULL,
-    passphrase      VARCHAR(30) NOT NULL,
+    passphrase      VARCHAR(255) NOT NULL,
     contact_number  VARCHAR(13),
     user_address    VARCHAR(255)
 );
