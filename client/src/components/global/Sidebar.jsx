@@ -6,11 +6,13 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import { tokens } from '../../theme';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import SolarPowerOutlinedIcon from '@mui/icons-material/SolarPowerOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import AddToQueueOutlinedIcon from '@mui/icons-material/AddToQueueOutlined';
 
 // Menu Item component
 const Item = ({ title, to, icon, selected, setSelected }) => {
@@ -126,7 +128,14 @@ const Sidebar = () => {
 						<Item
 							title={'My Devices'}
 							to="/my-devices"
-							icon={<FlashOnIcon />}
+							icon={<SolarPowerOutlinedIcon />}
+							selected={selected}
+							setSelected={setSelected}
+						/>
+						<Item
+							title={'Add Device'}
+							to="/add-device"
+							icon={<AddToQueueOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
 						/>

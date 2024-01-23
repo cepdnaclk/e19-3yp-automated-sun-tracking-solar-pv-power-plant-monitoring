@@ -1,4 +1,6 @@
 import React from 'react';
+import Header from '../../components/Header';
+import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { Box, Typography, TextField, Button } from '@mui/material';
@@ -15,13 +17,20 @@ const SuperAdminAdduser = () => {
   };
 
   return (
-    <Box style={{ margin: '20px 100px 20px 25px' }}>
-      <Typography variant="h2" style={{ fontSize: '20px', fontWeight: 'bold', color: '#FFAC09' }}>
-        Add Company
-      </Typography>
+    <Box style={{ margin: '15px 100px 15px 25px' }}>
+      <Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+			>
+				<Header
+					title="COMPANY & DEVICES"
+					subtitle="Add new company"
+				/>
+			</Box>
 
       <form onSubmit={handleSubmit} style={{ background: `${colors.primary[400]}` }}>
-        <Box m="25px">
+        <Box m="0px 25px">
           <TextField
             label="Company Name"
             variant="outlined"
@@ -57,14 +66,23 @@ const SuperAdminAdduser = () => {
             margin="normal"
             required
           />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', marginTop: '20px', marginBottom: '20px' }}
-            >
-            Add 
+          <Box style={{ display: 'flex' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '20px 20px 20px 0' }}
+              >
+              Add Company
             </Button>
+            <Link to="/super-admin-user-management" style={{ textDecoration: 'none' }}>
+              <Button type="submit" variant="contained" color="primary"
+              style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '20px 0' }}
+              >
+              Cancel
+              </Button>
+            </Link>
+          </Box>
         </Box>
       </form>
     </Box>
