@@ -29,6 +29,7 @@ import AdminUserMng from "./scenes/admin-user-mng";
 
 // Super Admin pages imports
 import SuperAdminAddUser from "./scenes/super-admin-add-user";
+import SuperAdminAddDevice from "./scenes/super-admin-add-device";
 import SuperAdminDashboard from "./scenes/super-admin-dashboard";
 import SuperAdminDeviceMng from "./scenes/super-admin-device-mng";
 import SuperAdminFaq from "./scenes/super-admin-faq";
@@ -130,6 +131,10 @@ function App() {
 					<Route
 						path="/super-admin-add-user"
 						element={<SuperAdminAddUser />}
+					/>
+					<Route
+						path="/super-admin-add-device"
+						element={<SuperAdminAddDevice />}
 					/>
 					<Route
 						path="/super-admin-faq"

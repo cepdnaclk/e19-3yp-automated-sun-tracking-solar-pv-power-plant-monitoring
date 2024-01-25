@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header';
+import { Link } from 'react-router-dom';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 
@@ -83,6 +84,16 @@ const SuperAdminDeviceMng = () => {
 					title="DEVICE MANAGEMENT"
 					subtitle="Manage Devices and Device Overview"
 				/>
+			</Box>
+
+			<Box>
+				<Link to="/super-admin-add-device" style={{ textDecoration: 'none' }}>
+					<Button type="submit" variant="contained" color="primary"
+					style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '0px 0px 10px 975px'}}
+					>
+					Add New Device
+					</Button>
+				</Link>
 			</Box>
 
 			<Box
