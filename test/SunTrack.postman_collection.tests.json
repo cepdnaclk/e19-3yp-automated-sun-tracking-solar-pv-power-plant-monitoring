@@ -1,0 +1,685 @@
+{
+	"info": {
+		"_postman_id": "ed474ada-5556-4391-926b-eb4b83502446",
+		"name": "SunTrack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32162716"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "login/me",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"e19349@eng.pdn.ac.lk\",\r\n  \"password\": \"1234\"\r\n}\r\n\r\n\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19413@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }\r\n\r\n// {\r\n//   \"username\": \"supun\",\r\n// //   \"user_type\": \"customer\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"passphrase\": \"1234\",\r\n//   \"contact_number\": \"1234567890\",\r\n//   \"user_address\": \"123 Main Street, Cityville\"\r\n// }\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n// {\r\n//     \"message\": \"Login Successful\",\r\n//     \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNiwiZXhwIjoxNzA2MTY4MDA2fQ.y5N_MzcQXPJ2oo0SHfKNAJbRFXxckK5BMMelp-KTN0E\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNn0.2ZWj4ShMsvCaK-ic285tQuTAhHeYC6erNGz3J4L2Ue8\",\r\n//     \"username\": \"thila\",\r\n//     \"user_type\": \"customer\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/login/me",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"login",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"supun\",\r\n  \"password\": \"1234\"\r\n}\r\n\r\n//    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwM30.e2DKJj4ozeVreL7QoYxrC4WJW79bDiJNOqELI4zG_rE\",\r\n\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19413@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }\r\n\r\n// {\r\n//   \"username\": \"supun\",\r\n// //   \"user_type\": \"customer\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"passphrase\": \"1234\",\r\n//   \"contact_number\": \"1234567890\",\r\n//   \"user_address\": \"123 Main Street, Cityville\"\r\n// }\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n// {\r\n//     \"message\": \"Login Successful\",\r\n//     \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNiwiZXhwIjoxNzA2MTY4MDA2fQ.y5N_MzcQXPJ2oo0SHfKNAJbRFXxckK5BMMelp-KTN0E\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNn0.2ZWj4ShMsvCaK-ic285tQuTAhHeYC6erNGz3J4L2Ue8\",\r\n//     \"username\": \"thila\",\r\n//     \"user_type\": \"customer\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login/token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"username\": \"supun\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjUzNH0.HerK4cceQimGM_cTi4taMvQ-Aqc5dR0AqG-AhGsUMDI\"}\r\n\r\n//    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwM30.e2DKJj4ozeVreL7QoYxrC4WJW79bDiJNOqELI4zG_rE\",\r\n\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19413@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }\r\n\r\n// {\r\n//   \"username\": \"supun\",\r\n// //   \"user_type\": \"customer\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"passphrase\": \"1234\",\r\n//   \"contact_number\": \"1234567890\",\r\n//   \"user_address\": \"123 Main Street, Cityville\"\r\n// }\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n// {\r\n//     \"message\": \"Login Successful\",\r\n//     \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNiwiZXhwIjoxNzA2MTY4MDA2fQ.y5N_MzcQXPJ2oo0SHfKNAJbRFXxckK5BMMelp-KTN0E\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNn0.2ZWj4ShMsvCaK-ic285tQuTAhHeYC6erNGz3J4L2Ue8\",\r\n//     \"username\": \"thila\",\r\n//     \"user_type\": \"customer\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/login/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"login",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login/logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"username\": \"supun\",\r\n//   \"password\": \"1234\"\r\n// }\r\n{\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NzMzMX0.LeurOMDDzTuaZCqi2cjBNFaEHSQCc6R-d1Z1tv7Kafs\"}\r\n\r\n//    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwM30.e2DKJj4ozeVreL7QoYxrC4WJW79bDiJNOqELI4zG_rE\",\r\n\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19413@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }\r\n\r\n// {\r\n//   \"username\": \"supun\",\r\n// //   \"user_type\": \"customer\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"passphrase\": \"1234\",\r\n//   \"contact_number\": \"1234567890\",\r\n//   \"user_address\": \"123 Main Street, Cityville\"\r\n// }\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n// {\r\n//     \"message\": \"Login Successful\",\r\n//     \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNiwiZXhwIjoxNzA2MTY4MDA2fQ.y5N_MzcQXPJ2oo0SHfKNAJbRFXxckK5BMMelp-KTN0E\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNn0.2ZWj4ShMsvCaK-ic285tQuTAhHeYC6erNGz3J4L2Ue8\",\r\n//     \"username\": \"thila\",\r\n//     \"user_type\": \"customer\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/login/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"login",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\r\n  \"username\": \"sanda\",\r\n//   \"user_type\": \"admin\",\r\n  \"email\": \"e19350@eng.pdn.ac.lk\",\r\n  \"passphrase\": \"1234\",\r\n  \"contact_number\": \"1234567890\",\r\n  \"user_address\": \"123 Main Street, Cityville\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n//update profile - put\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/customers/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"customers",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/admin?id=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"admin"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "12"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Unauthorized"
+				}
+			]
+		},
+		{
+			"name": "View",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "jwt",
+					"jwt": [
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "HS256",
+							"type": "string"
+						},
+						{
+							"key": "isSecretBase64Encoded",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "payload",
+							"value": "{}",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "queryParamKey",
+							"value": "token",
+							"type": "string"
+						},
+						{
+							"key": "header",
+							"value": "{}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\r\n  \"username\": \"supun\",\r\n//   \"user_type\": \"customer\",\r\n  \"email\": \"e19349@eng.pdn.ac.lk\",\r\n  \"passphrase\": \"1234\",\r\n  \"contact_number\": \"1234567890\",\r\n  \"user_address\": \"123 Main Street, Cityville\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/customers/view",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"customers",
+						"view"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/admin?id=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"admin"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "12"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Unauthorized"
+				}
+			]
+		},
+		{
+			"name": "UpdateProfile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "jwt",
+					"jwt": [
+						{
+							"key": "secret",
+							"value": "xS48A0YdcPjoX8VA0FwRdNfaQbTr1R9cwB2tVijddhs",
+							"type": "string"
+						},
+						{
+							"key": "header",
+							"value": "{\"alg\": \"HS256\",\r\n  \"typ\": \"JWT\"}",
+							"type": "string"
+						},
+						{
+							"key": "payload",
+							"value": "{\"user_type\": \"customer\",\r\n  \"id\": 3,\r\n  \"email\": \"e19413@eng.pdn.ac.lk\",\r\n  \"iat\": 1706159943}",
+							"type": "string"
+						},
+						{
+							"key": "isSecretBase64Encoded",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "algorithm",
+							"value": "HS256",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						},
+						{
+							"key": "queryParamKey",
+							"value": "token",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "id",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n//update profile - put\r\n{\r\n  \"username\": \"supun thilanka\",\r\n  \"email\": \"e19413@eng.pdn.ac.lk\",\r\n  \"contact_number\": \"0123456789\",\r\n  \"user_address\": \"123 Main Street, Peradeniya\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n  // \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE1OTk0MywiZXhwIjoxNzA2MTYxMTQzfQ.Tov6_jlDRA2SPBMRedQZlIcADlwCytQFDF8SL3CZPwU\",\r\n    // \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE1OTk0M30.VyAO8TJRxsQ-05ONuI8QEPL4qW7ciK-83r5cJC_UKKE\",\r\n    // \"username\": \"thila\",\r\n    // \"user_type\": \"customer\"",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/customers/updateProfile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"customers",
+						"updateProfile"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get by ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/admin?id=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"admin"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "12"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "Unauthorized"
+				}
+			]
+		}
+	]
+}

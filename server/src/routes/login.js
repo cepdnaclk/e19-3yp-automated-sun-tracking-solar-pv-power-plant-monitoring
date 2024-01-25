@@ -126,7 +126,7 @@ router.post("/token", (req, res, next) => {
 router.delete("/logout", (req, res) => {
   try {
     refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
-    res.sendStatus(204);
+    res.status(200).json({ message: "Logout Successful" });
   } catch (err) {
     res.sendStatus(500).json({ error: "Internal Server Error" });
   }
