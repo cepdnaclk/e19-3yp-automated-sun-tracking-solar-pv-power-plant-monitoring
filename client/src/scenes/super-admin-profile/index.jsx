@@ -6,10 +6,12 @@ import React, { useContext, useEffect } from "react";
 import * as Yup from "yup";
 import Header from "../../components/Header";
 import { AlertContext } from "../../contexts/AlertContext";
+import { DataContext } from "../../contexts/DataContext";
 import { tokens } from "../../theme";
 
 const SuperAdminProfile = () => {
   const { showAlert } = useContext(AlertContext);
+  const { data, setData } = useContext(DataContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -41,11 +43,9 @@ const SuperAdminProfile = () => {
       .then((res) => {
         const user = res.data[0];
         formikDetails.setFieldValue("username", user.username || "");
-        formikDetails.setFieldValue(
-          "contact_number",
-          user.contact_number || ""
-        );
+        formikDetails.setFieldValue("contact_number", user.contactNumber || "");
         formikDetails.setFieldValue("email", user.email || "");
+        formikDetails.setFieldValue("user_address", user.userAddress || "");
       })
       .catch((err) => {
         console.log(err);
@@ -87,7 +87,7 @@ const SuperAdminProfile = () => {
       // Handle login logic here
       axios
         .put("/admin/myProfile", {
-          id: localStorage.getItem("id"),
+          id: data.user_id,
           ...values,
         })
         .then((response) => {
@@ -113,7 +113,7 @@ const SuperAdminProfile = () => {
       console.log(values);
       axios
         .put("/admin/changePassword", {
-          id: localStorage.getItem("id"),
+          id: data.user_id,
           ...values,
         })
         .then((response) => {
@@ -163,6 +163,7 @@ const SuperAdminProfile = () => {
                   formikDetails.touched.username &&
                   formikDetails.errors.username
                 }
+                disabled
               />
             </Grid>
             <Grid item xs={12} md={6}>

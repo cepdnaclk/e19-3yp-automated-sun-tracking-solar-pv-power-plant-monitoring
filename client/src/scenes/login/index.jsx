@@ -65,7 +65,7 @@ const Login = ({ onRegisterClick }) => {
             "Bearer " + res.data.accessToken;
 
           // redirect to home page
-          window.location.href = "/";
+          navigate("/");
         })
         .catch((err) => {
           console.log(err);

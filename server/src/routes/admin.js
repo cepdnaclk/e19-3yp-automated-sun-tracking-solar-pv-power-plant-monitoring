@@ -154,8 +154,6 @@ router.put("/myProfile", authenticateToken, (req, res, next) => {
 
       const updateMemberQuery = `UPDATE user SET ${updateString} WHERE id='${id}';`;
 
-      console.log(updateMemberQuery);
-
       execQuery(updateMemberQuery)
         .then((rows) => {
           res
@@ -180,14 +178,14 @@ router.put("/myProfile", authenticateToken, (req, res, next) => {
 //   new_password: "newsecurepassword"
 // }
 router.put("/changePassword", authenticateToken, async (req, res, next) => {
-  if (req.user_type == "admin") {
+  if (req.user_type == "admin" && req.user_id == req.body.id) {
     try {
       const id = req.user_id;
-      const old_password = req.body["old_password"];
-      const new_password = req.body["new_password"];
+      const old_password = req.body["currentPassword"];
+      const new_password = req.body["newPassword"];
       const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
       const rows = await execQuery(getPassphraseQuery);
-      const passphrase = rows[0][0]["passphrase"];
+      const passphrase = rows[0]["passphrase"];
       const isMatch = await bcrypt.compare(old_password, passphrase);
 
       if (isMatch) {

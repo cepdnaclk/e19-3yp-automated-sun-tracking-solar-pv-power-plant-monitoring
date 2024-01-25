@@ -2,20 +2,18 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { useTheme } from "@mui/system";
 import axios from "axios";
 import { useFormik } from "formik";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import * as Yup from "yup";
 import Header from "../../components/Header";
+import { AlertContext } from "../../contexts/AlertContext";
+import { DataContext } from "../../contexts/DataContext";
 import { tokens } from "../../theme";
 
 const UserProfile = () => {
+  const { showAlert } = useContext(AlertContext);
+  const { data, setData } = useContext(DataContext);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [user, setUser] = React.useState({
-    name: "John Doe",
-    email: "",
-    contact_number: "",
-    address: "",
-  });
 
   const containerStyle = {
     background: `${colors.primary[400]}`,
@@ -39,88 +37,103 @@ const UserProfile = () => {
     backgroundColor: "#FFAC09",
   };
 
-  axios
-    .get("/customers/viewProfile")
-    .then((response) => {
-      setUser(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    axios
+      .get("/customers/viewProfile")
+      .then((res) => {
+        const user = res.data;
+        console.log(user);
+        formikDetails.setFieldValue("username", user.username || "");
+        formikDetails.setFieldValue("contact_number", user.contactNumber || "");
+        formikDetails.setFieldValue("email", user.email || "");
+        formikDetails.setFieldValue("user_address", user.userAddress || "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-  const formik = useFormik({
+  const validationSchemaDetails = Yup.object({
+    username: Yup.string().required("Required"),
+    contact_number: Yup.string()
+      .required("Required")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(10, "Must be exactly 10 digits")
+      .max(10, "Must be exactly 10 digits"),
+    contact_number: Yup.string()
+      .required("Contact Number is required")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(10, "Must be exactly 10 digits")
+      .max(10, "Must be exactly 10 digits"),
+    email: Yup.string().email("Invalid email address"),
+  });
+
+  const validationSchemaPassword = Yup.object({
+    currentPassword: Yup.string().required("Required"),
+    newPassword: Yup.string().required("Required"),
+    confirmNewPassword: Yup.string()
+      .required("Required")
+      .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+  });
+
+  const formikDetails = useFormik({
     initialValues: {
       username: "",
-      user_address: "",
       contact_number: "",
+      user_address: "",
+      email: "",
     },
-    validationSchema: Yup.object({
-      username: Yup.string().required("Required"),
-      user_address: Yup.string().required("Required"),
-      contact_number: Yup.string()
-        .required("Required")
-        .matches(/^[0-9]+$/, "Must be only digits")
-        .min(10, "Must be exactly 10 digits")
-        .max(10, "Must be exactly 10 digits"),
-    }),
+    validationSchema: validationSchemaDetails,
     onSubmit: (values) => {
       // Handle login logic here
       axios
-        .put("customers/updateProfile", values)
+        .put("/customers/updateProfile", {
+          id: data.user_id,
+          ...values,
+        })
         .then((response) => {
           console.log(response);
-          alert("Profile Updated Successfully");
+          showAlert("Profile Updated Successfully", "success");
         })
         .catch((error) => {
           console.log(error);
-          alert("Error Updating Profile");
+          showAlert("Error Updating Profile", "error");
+        });
+    },
+  });
+
+  const formikPassword = useFormik({
+    initialValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+    validationSchema: validationSchemaPassword,
+    onSubmit: (values) => {
+      // Handle login logic here
+      console.log(values);
+      axios
+        .put("/customers/changePassword", {
+          id: data.user_id,
+          ...values,
+        })
+        .then((response) => {
+          console.log(response);
+          showAlert("Password Updated Successfully", "success");
+        })
+        .catch((error) => {
+          console.log(error);
+          showAlert("Error Updating Password", "error");
         });
     },
   });
 
   return (
-    <Box m="20px">
+    <Box m="5px 20px" width="90%">
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="MY PROFILE" subtitle="User profile details" />
+        <Header title="SUPER ADMIN PROFILE" subtitle="Edit your profile" />
       </Box>
 
-      {/* Basic Profile Information */}
-      <form>
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Username"
-              variant="outlined"
-              fullWidth
-              style={textFieldStyle}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Address"
-              variant="outlined"
-              fullWidth
-              style={textFieldStyle}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Contact Number"
-              variant="outlined"
-              fullWidth
-              style={textFieldStyle}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField
-              label="Email"
-              variant="outlined"
-              fullWidth
-              style={textFieldStyle}
-            />
-          </Grid>
-        </Grid>
-      </form>
       <Box style={containerStyle}>
         <Typography
           variant="h5"
@@ -131,7 +144,7 @@ const UserProfile = () => {
         </Typography>
 
         {/* Basic Profile Information */}
-        <form>
+        <form onSubmit={formikDetails.handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>
               <TextField
@@ -139,27 +152,19 @@ const UserProfile = () => {
                 variant="outlined"
                 fullWidth
                 style={textFieldStyle}
-                value={formik.values.email}
-                onChange={formik.handleChange}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <TextField
-                label="Address"
-                variant="outlined"
-                fullWidth
-                style={textFieldStyle}
-                value={formik.values.user_address}
-                onChange={formik.handleChange}
+                id="username"
+                name="username"
+                value={formikDetails.values.username}
+                onChange={formikDetails.handleChange}
                 error={
-                  formik.touched.user_address &&
-                  Boolean(formik.errors.user_address)
+                  formikDetails.touched.username &&
+                  Boolean(formikDetails.errors.username)
                 }
                 helperText={
-                  formik.touched.user_address && formik.errors.user_address
+                  formikDetails.touched.username &&
+                  formikDetails.errors.username
                 }
+                disabled
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -168,27 +173,80 @@ const UserProfile = () => {
                 variant="outlined"
                 fullWidth
                 style={textFieldStyle}
-                value={formik.values.contact_number}
-                onChange={formik.handleChange}
+                id="contact_number"
+                name="contact_number"
+                value={formikDetails.values.contact_number}
+                onChange={formikDetails.handleChange}
                 error={
-                  formik.touched.contact_number &&
-                  Boolean(formik.errors.contact_number)
+                  formikDetails.touched.contact_number &&
+                  Boolean(formikDetails.errors.contact_number)
                 }
                 helperText={
-                  formik.touched.contact_number && formik.errors.contact_number
+                  formikDetails.touched.contact_number &&
+                  formikDetails.errors.contact_number
                 }
               />
             </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Address"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="user_address"
+                name="user_address"
+                value={formikDetails.values.user_address}
+                onChange={formikDetails.handleChange}
+                error={
+                  formikDetails.touched.user_address &&
+                  Boolean(formikDetails.errors.user_address)
+                }
+                helperText={
+                  formikDetails.touched.user_address &&
+                  formikDetails.errors.user_address
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="email"
+                name="email"
+                value={formikDetails.values.email}
+                onChange={formikDetails.handleChange}
+                error={
+                  formikDetails.touched.email &&
+                  Boolean(formikDetails.errors.email)
+                }
+                helperText={
+                  formikDetails.touched.email && formikDetails.errors.email
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <div style={buttonContainerStyle}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  style={buttonStyle}
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </Grid>
           </Grid>
+        </form>
 
-          {/* Change Password Section */}
+        {/* Change Password Section */}
+        <form onSubmit={formikPassword.handleSubmit}>
           <Typography
             variant="h6"
             gutterBottom
-            style={{
-              color: "#FFAC09",
-              margin: "10px 0 15px 0",
-            }}
+            style={{ color: "#FFAC09", margin: "10px 0 15px 0" }}
           >
             Change Password
           </Typography>
@@ -200,6 +258,18 @@ const UserProfile = () => {
                 variant="outlined"
                 fullWidth
                 style={textFieldStyle}
+                id="currentPassword"
+                name="currentPassword"
+                value={formikPassword.values.currentPassword}
+                onChange={formikPassword.handleChange}
+                error={
+                  formikPassword.touched.currentPassword &&
+                  Boolean(formikPassword.errors.currentPassword)
+                }
+                helperText={
+                  formikPassword.touched.currentPassword &&
+                  formikPassword.errors.currentPassword
+                }
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -209,6 +279,18 @@ const UserProfile = () => {
                 variant="outlined"
                 fullWidth
                 style={textFieldStyle}
+                id="newPassword"
+                name="newPassword"
+                value={formikPassword.values.newPassword}
+                onChange={formikPassword.handleChange}
+                error={
+                  formikPassword.touched.newPassword &&
+                  Boolean(formikPassword.errors.newPassword)
+                }
+                helperText={
+                  formikPassword.touched.newPassword &&
+                  formikPassword.errors.newPassword
+                }
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -218,12 +300,29 @@ const UserProfile = () => {
                 variant="outlined"
                 fullWidth
                 style={textFieldStyle}
+                id="confirmNewPassword"
+                name="confirmNewPassword"
+                value={formikPassword.values.confirmNewPassword}
+                onChange={formikPassword.handleChange}
+                error={
+                  formikPassword.touched.confirmNewPassword &&
+                  Boolean(formikPassword.errors.confirmNewPassword)
+                }
+                helperText={
+                  formikPassword.touched.confirmNewPassword &&
+                  formikPassword.errors.confirmNewPassword
+                }
               />
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
               <div style={buttonContainerStyle}>
-                <Button variant="contained" color="primary" style={buttonStyle}>
-                  Save Changes
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  style={buttonStyle}
+                >
+                  Change Password
                 </Button>
               </div>
             </Grid>

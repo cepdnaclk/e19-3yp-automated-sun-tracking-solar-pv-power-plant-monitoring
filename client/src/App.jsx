@@ -1,6 +1,6 @@
 // global imports
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { AlertProvider } from "./contexts/AlertContextProvider";
 import { DataContext } from "./contexts/DataContext";
 import { ColorModeContext, useMode } from "./theme";
@@ -47,6 +47,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [theme, colorMode] = useMode();
   const { data, setData } = useContext(DataContext);
+  const navigate = useNavigate();
 
   const renderSidebar = () => {
     if (data.user_type === "admin") {
@@ -90,22 +91,22 @@ function App() {
             user_type: data.user_type_mapper[user.user_type],
             user_id: user.user_id,
           });
+
+          setIsLoading(false);
         })
         .catch((err) => {
-          console.log("App.tsx error: ", err);
+          navigate("/login");
         });
     }
+  }, []);
 
-    if (data.user_type === "admin") {
-      document.title = "Company Dashboard | HelioEye";
-    } else if (data.user_type === "super-admin") {
-      document.title = "Super Admin Dashboard | HelioEye";
-    } else {
-      document.title = "User Dashboard | HelioEye";
-    }
-
-    setIsLoading(false);
-  });
+  if (data.user_type === "admin") {
+    document.title = "Company Dashboard | HelioEye";
+  } else if (data.user_type === "super-admin") {
+    document.title = "Super Admin Dashboard | HelioEye";
+  } else {
+    document.title = "User Dashboard | HelioEye";
+  }
 
   const renderRoutes = () => {
     if (data.user_type === "admin") {

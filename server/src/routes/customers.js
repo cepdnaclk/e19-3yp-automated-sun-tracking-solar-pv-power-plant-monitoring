@@ -60,7 +60,7 @@ router.get("/viewProfile", authenticateToken, (req, res, next) => {
       `SELECT user.id, user.username, user.email, user.contact_number, user.user_address FROM user WHERE id=${req.user_id}`
     )
       .then((rows) => {
-        data = objectKeysSnakeToCamel(rows[0][0]);
+        data = objectKeysSnakeToCamel(rows[0]);
         res.status(200).json(data);
       })
       .catch((err) => {
@@ -115,7 +115,7 @@ router.post("/register", async (req, res, next) => {
 // [Done]
 
 router.put("/updateProfile", authenticateToken, (req, res, next) => {
-  if (req.user_type == "customer") {
+  if (req.user_type == "customer" && req.user_id == req.body["id"]) {
     try {
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
       // Combine the two arrays into a single array.
@@ -129,7 +129,9 @@ router.put("/updateProfile", authenticateToken, (req, res, next) => {
       // remove last trailling ", "
       updateString = updateString.substring(0, updateString.length - 2);
 
-      const updateCustomerQuery = `UPDATE customer SET ${updateString} WHERE id='${req.user_id}';`;
+      const updateCustomerQuery = `UPDATE user SET ${updateString} WHERE id='${req.user_id}';`;
+
+      console.log(updateCustomerQuery);
 
       execQuery(updateCustomerQuery)
         .then((rows) => {
@@ -155,14 +157,14 @@ router.put("/updateProfile", authenticateToken, (req, res, next) => {
 //   new_password: "newsecurepassword"
 // }
 router.put("/changePassword", authenticateToken, async (req, res, next) => {
-  if (req.user_type == "admin") {
+  if (req.user_type == "customer" && req.user_id == req.body["id"]) {
     try {
       const id = req.user_id;
       const old_password = req.body["old_password"];
       const new_password = req.body["new_password"];
       const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
       const rows = await execQuery(getPassphraseQuery);
-      const passphrase = rows[0][0]["passphrase"];
+      const passphrase = rows[0]["passphrase"];
       const isMatch = await bcrypt.compare(old_password, passphrase);
 
       if (isMatch) {
