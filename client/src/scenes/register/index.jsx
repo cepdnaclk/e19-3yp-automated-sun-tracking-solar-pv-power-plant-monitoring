@@ -5,11 +5,13 @@ import {
   TextField,
   Typography,
   styled,
+  Box
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
 import React, { useContext } from "react";
 import * as Yup from "yup";
+import { Link } from 'react-router-dom';
 import { AlertContext } from "../../contexts/AlertContext";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
@@ -142,6 +144,20 @@ const Register = () => {
           >
             Register
           </StyledButton>
+          <Box>
+						<Typography variant="b1">
+							Already have an account?
+						</Typography>
+						<Link
+							component="button"
+							variant="body2"
+							to="/login"
+						>
+							<Typography variant="b1" pl="1rem">
+								Login here
+							</Typography>
+						</Link>
+					</Box>
         </StyledForm>
       </div>
     </StyledContainer>

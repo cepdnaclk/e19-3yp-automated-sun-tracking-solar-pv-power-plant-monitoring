@@ -84,95 +84,42 @@ const UserProfile = () => {
         <Header title="MY PROFILE" subtitle="User profile details" />
       </Box>
 
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        flexDirection="column"
-        colors={colors.primary[400]}
-        width="60%"
-      >
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          borderBottom={`4px solid ${colors.primary[500]}`}
-          backgroundColor={colors.primary[400]}
-          p="15px"
-        >
-          <Typography variant="h4" color={colors.grey[300]}>
-            User Details
-          </Typography>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="start"
-          alignItems="center"
-          backgroundColor={colors.primary[400]}
-          p="15px"
-        >
-          <Typography variant="h4" color={colors.grey[100]}>
-            Name :
-          </Typography>
-          <Typography variant="h4" color={colors.grey[100]} ml="20px">
-            {user.name}
-          </Typography>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="start"
-          alignItems="center"
-          backgroundColor={colors.primary[400]}
-          p="15px"
-        >
-          <Typography variant="h4" color={colors.grey[100]}>
-            Email :
-          </Typography>
-          <Typography variant="h4" color={colors.grey[100]} ml="20px">
-            {user.email}
-          </Typography>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="start"
-          alignItems="center"
-          backgroundColor={colors.primary[400]}
-          p="15px"
-        >
-          <Typography variant="h4" color={colors.grey[100]}>
-            Contact Number :
-          </Typography>
-          <Typography variant="h4" color={colors.grey[100]} ml="20px">
-            {user.contact_number}
-          </Typography>
-        </Box>
-        <Box
-          display="flex"
-          justifyContent="start"
-          alignItems="center"
-          backgroundColor={colors.primary[400]}
-          p="15px"
-        >
-          <Typography variant="h4" color={colors.grey[100]}>
-            Address :
-          </Typography>
-          <Typography variant="h4" color={colors.grey[100]} ml="20px">
-            {user.address}
-          </Typography>
-        </Box>
-      </Box>
-      <Box mt="20px" width="80%">
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          borderBottom={`4px solid ${colors.primary[500]}`}
-          backgroundColor={colors.primary[400]}
-          p="15px"
-        >
-          <Typography variant="h4" color={colors.grey[300]}>
-            Edit Profile
-          </Typography>
-        </Box>
+					{/* Basic Profile Information */}
+					<form>
+						<Grid container spacing={2}>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Username"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Address"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Contact Number"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<TextField
+									label="Email"
+									variant="outlined"
+									fullWidth
+									style={textFieldStyle}
+								/>
+							</Grid>
+						</Grid>
 
         <Box style={containerStyle}>
           <Typography

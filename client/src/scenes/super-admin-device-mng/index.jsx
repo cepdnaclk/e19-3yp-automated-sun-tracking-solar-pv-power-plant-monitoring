@@ -5,7 +5,7 @@ import { tokens } from '../../theme';
 
 import { DataGrid } from '@mui/x-data-grid';
 
-// super admin device data
+// super admin user data
 import { superAdminDeviceData } from '../../data/superAdminDeviceData';
 
 const SuperAdminDeviceMng = () => {
@@ -14,7 +14,7 @@ const SuperAdminDeviceMng = () => {
 
 	// columns of the data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID' },
+        { field: 'id', headerName: 'ID' },
 		{ field: 'companyId', headerName: 'Company ID' },
 		{
 			field: 'companyName',
@@ -23,12 +23,12 @@ const SuperAdminDeviceMng = () => {
 			cellClassName: 'name-column--cell',
 		},
 		{
-			field: 'email',
-			headerName: 'User Email',
+			field: 'devices',
+			headerName: 'Devices',
 			flex: 1,
 		},
-		{ field: 'devices', headerName: 'Devices', flex: 1 },
-		{ field: 'status', headerName: 'Registered/Unregistered', flex: 1 },
+		{ field: 'registered', headerName: 'Registered', flex: 1 },
+		{ field: 'unregistered', headerName: 'Unregistered', flex: 1 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -63,16 +63,16 @@ const SuperAdminDeviceMng = () => {
 
 	const handleEdit = (companyId) => {
 		// Handle edit logic here
-		console.log(`Editing company with ID: ${companyId}`);
+		console.log(`Editing device with ID: ${companyId}`);
 	};
 
 	const handleDelete = (companyId) => {
 		// Handle delete logic here
-		console.log(`Deleting company with ID: ${companyId}`);
+		console.log(`Deleting device with ID: ${companyId}`);
 	};
 
 	return (
-		<Box m="20px" width="90%">
+		<Box m="10px 20px 20px 20px" width="90%">
 			{/* Header */}
 			<Box
 				display="flex"

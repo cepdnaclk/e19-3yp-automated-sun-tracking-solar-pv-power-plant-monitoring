@@ -249,7 +249,7 @@ router.get("/", authenticateToken, (req, res, next) => {
 
   // Add device by customer to their app - [Done]
   //  { 
-  //   id: 123456, //device id
+  //    id: 123456, //device id
   //    device_name_by_customer: "Roof 1 Home 1",
   //    device_latitude:"79.256598"
   //    device_longitude:"10.125689"
