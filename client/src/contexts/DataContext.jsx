@@ -1,3 +1,3 @@
 import React from "react";
 
-export const AlertContext = React.createContext();
+export const DataContext = React.createContext();
