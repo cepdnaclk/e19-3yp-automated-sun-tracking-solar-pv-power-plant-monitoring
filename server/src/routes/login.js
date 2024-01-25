@@ -7,7 +7,7 @@ const { connection } = require("../database/database");
 
 const jwt = require("jsonwebtoken");
 
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const {
   generateAccessToken,
