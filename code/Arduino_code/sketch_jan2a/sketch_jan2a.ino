@@ -1,4 +1,6 @@
 #include <WiFi.h>
+#include <WiFiClient.h>
+#include <WiFiAP.h>
 #include <WebServer.h>
 #include <SPIFFS.h>
 #include <ArduinoJson.h>
@@ -12,14 +14,19 @@
 #include <PubSubClient.h>
 #include "secret.h"
 
+// Task handles
+TaskHandle_t Task1;
+TaskHandle_t Task2;
+
 #define AP_MODE 0
 #define CONNECTED 1
+#define CALIBRATE 2
 
 #define AWS_IOT_PUBLISH_TOPIC "mount/data"
 #define AWS_IOT_SUBSCRIBE_TOPIC "mount/control"
 
 const char *ssid = "HelioEyeMount";
-const char *password = "admin123";
+const char *password = "12345678";
 
 String wifi = "";
 String pass = "";
@@ -56,18 +63,96 @@ int trigger_value[4];
 
 bool logedin = false;
 
+void startAP()
+{
+  WiFi.disconnect();
+  WiFi.softAPdisconnect(true);
+
+  WiFi.mode(WIFI_MODE_AP);
+  while (!WiFi.softAP(ssid, password))
+  {
+    Serial.println("Soft AP creation failed.");
+    delay(2000);
+  }
+  Serial.print("AP IP address: ");
+  Serial.println(WiFi.softAPIP());
+  state = AP_MODE;
+}
+
 void handleScan()
 {
   int n = WiFi.scanNetworks();
   DynamicJsonDocument doc(1024);
   JsonArray array = doc.to<JsonArray>();
-  for (int i = 0; i < n; ++i)
+  Serial.println("Scan done");
+  if (n == 0)
   {
-    array.add(WiFi.SSID(i));
+    Serial.println("no networks found");
   }
+  else
+  {
+    Serial.print(n);
+    Serial.println(" networks found");
+    Serial.println("Nr | SSID                             | RSSI | CH | Encryption");
+    for (int i = 0; i < n; ++i)
+    {
+      // Print SSID and RSSI for each network found
+      Serial.printf("%2d", i + 1);
+      Serial.print(" | ");
+      Serial.printf("%-32.32s", WiFi.SSID(i).c_str());
+      Serial.print(" | ");
+      Serial.printf("%4d", WiFi.RSSI(i));
+      Serial.print(" | ");
+      Serial.printf("%2d", WiFi.channel(i));
+      Serial.print(" | ");
+      switch (WiFi.encryptionType(i))
+      {
+      case WIFI_AUTH_OPEN:
+        Serial.print("open");
+        break;
+      case WIFI_AUTH_WEP:
+        Serial.print("WEP");
+        break;
+      case WIFI_AUTH_WPA_PSK:
+        Serial.print("WPA");
+        break;
+      case WIFI_AUTH_WPA2_PSK:
+        Serial.print("WPA2");
+        break;
+      case WIFI_AUTH_WPA_WPA2_PSK:
+        Serial.print("WPA+WPA2");
+        break;
+      case WIFI_AUTH_WPA2_ENTERPRISE:
+        Serial.print("WPA2-EAP");
+        break;
+      case WIFI_AUTH_WPA3_PSK:
+        Serial.print("WPA3");
+        break;
+      case WIFI_AUTH_WPA2_WPA3_PSK:
+        Serial.print("WPA2+WPA3");
+        break;
+      case WIFI_AUTH_WAPI_PSK:
+        Serial.print("WAPI");
+        break;
+      default:
+        Serial.print("unknown");
+      }
+      Serial.println();
+      delay(10);
+      array.add(WiFi.SSID(i));
+    }
+  }
+  Serial.println("");
+
   String response;
   serializeJson(doc, response);
   server.send(200, "application/json", response);
+
+  // Delete the scan result to free memory for code below.
+  WiFi.scanDelete();
+
+  // Wait a bit before scanning again.
+  delay(5000);
 }
 
 void handleSetWifi()
@@ -86,6 +171,8 @@ void handleSetWifi()
 
 String setWifi(String ssid, String password)
 {
+  WiFi.disconnect();
+  WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
 
   if (WiFi.waitForConnectResult() != WL_CONNECTED)
@@ -100,6 +187,18 @@ String setWifi(String ssid, String password)
     String ip = WiFi.localIP().toString();
     Serial.println(ip);
     connectAWS();
+
+    if (!MDNS.begin("esp32"))
+    {
+      Serial.println("Error setting up MDNS responder!");
+      while (1)
+      {
+        delay(1000);
+      }
+    }
+    Serial.println("mDNS responder started");
+    MDNS.addService("http", "tcp", 80);
+
     return ip;
   }
 }
@@ -190,6 +289,9 @@ int min_array(int arr[])
 
 void calibrate_sensors()
 {
+  int beforeState = state;
+  state = CALIBRATE;
+
   const int numPositions = 3;   // Set this to the desired number of positions
   const float thresholdX = 0.9; // Set this to the desired threshold
   const float thresholdZ = 0.9; // Set this to the desired threshold
@@ -251,6 +353,8 @@ void calibrate_sensors()
   Serial.println(trigger_value[1]);
   Serial.println(trigger_value[2]);
   Serial.println(trigger_value[3]);
+
+  state = beforeState;
 }
 
 void setServoPosition(int servo, int position)
@@ -416,14 +520,6 @@ String read_voltage_current()
   return String(loadvoltage) + "," + String(current_mA) + "," + String(power);
 }
 
-void startAP()
-{
-  WiFi.softAP(ssid, password);
-  Serial.println("AP mode");
-  Serial.println(WiFi.softAPIP());
-  state = AP_MODE;
-}
-
 void setup()
 {
   Serial.begin(9600);
@@ -432,10 +528,17 @@ void setup()
 
   loadPreferences();
 
-  String ip = setWifi(wifi, pass);
-  if (ip == "")
+  if (wifi == "" || pass == "")
   {
     startAP();
+  }
+  else
+  {
+    String ip = setWifi(wifi, pass);
+    if (ip == "")
+    {
+      startAP();
+    }
   }
 
   if (!SPIFFS.begin(true))
@@ -443,6 +546,7 @@ void setup()
     Serial.println("An Error has occurred while mounting SPIFFS");
     return;
   }
+  Serial.println("SPIFFS mounted successfully");
 
   server.on("/scan", handleScan);
   server.on("/set-wifi", handleSetWifi);
@@ -457,8 +561,6 @@ void setup()
       logedin = true;
       server.send(200, "application/json", "{\"status\": \"success\"}");
     } });
-  server.on("/favicon", []()
-            { handleFileServe("/favicon.ico", "image/x-icon"); });
   server.on("/style.css", []()
             { handleFileServe("/style.css", "text/css"); });
   server.on("/logo", []()
@@ -494,15 +596,18 @@ void setup()
   myservo1.attach(26);
   myservo2.attach(27);
 
+  Serial.println("servos attached");
+
   ina219.begin();
+  Serial.println("Setup INA219");
 
   if (posX > maxX || posX < minX)
     posX = minX;
   if (posZ > maxZ || posZ < minZ)
     posZ = minZ;
 
-  setServoPosition(1, posX);
-  setServoPosition(2, posZ);
+  delay(1000);
+
   setServoPosition(1, minX);
   setServoPosition(2, minZ);
 
@@ -513,7 +618,9 @@ void setup()
     // Handle text message from client
   } });
 
-  if (trigger_value[0] == 0)
+  Serial.println("Websocket started");
+
+  if (trigger_value[0] == 0 || trigger_value[1] == 0 || trigger_value[2] == 0 || trigger_value[3] == 0)
     calibrate_sensors();
 
   switch (state)
@@ -526,43 +633,72 @@ void setup()
     break;
   }
 
+  // Create tasks
+  xTaskCreatePinnedToCore(
+      rotationTask,   /* Task function. */
+      "RotationTask", /* name of task. */
+      10000,          /* Stack size of task */
+      NULL,           /* parameter of the task */
+      1,              /* priority of the task */
+      &Task1,         /* Task handle to keep track of created task */
+      0);             /* pin task to core 0 */
+
+  xTaskCreatePinnedToCore(
+      dataSendingTask,
+      "DataSendingTask",
+      10000,
+      NULL,
+      1,
+      &Task2,
+      1); /* pin task to core 1 */
+
   delay(1000);
+  Serial.println("Setup done");
 }
 
 void loop()
 {
-  server.handleClient();
+}
 
-  switch (state)
+void rotationTask(void *parameter)
+{
+  for (;;)
   {
-  case AP_MODE:
-    // Code to run in AP mode
-    break;
-  case CONNECTED:
-    // Code to run when connected
+    unsigned long uptime = millis();
+    if (uptime - previousRotation > 10000 && state == CONNECTED)
+    {
+      readAndControlServos();
+      previousRotation = uptime;
+    }
+    delay(1); // Allow other tasks to run
+  }
+}
+
+void dataSendingTask(void *parameter)
+{
+  for (;;)
+  {
+    server.handleClient();
     webSocket.loop();
-    break;
-  }
-
-  unsigned long uptime = millis();
-
-  if (uptime - previousRotation > 1000)
-  {
-    readAndControlServos();
-    previousRotation = uptime;
-  }
-
-  if (uptime - previousDatasend > 10000)
-  {
-    String current_voltage_power = read_voltage_current();
-    String data = String(posX) + "," +
-                  String(posZ) + "," +
-                  current_voltage_power;
-    float voltage = current_voltage_power.substring(0, current_voltage_power.indexOf(",")).toFloat();
-    float current = current_voltage_power.substring(current_voltage_power.indexOf(",") + 1, current_voltage_power.lastIndexOf(",")).toFloat();
-    float power = current_voltage_power.substring(current_voltage_power.lastIndexOf(",") + 1).toFloat();
-    publishMessage(posX, posZ, voltage, current, power);
-    webSocket.broadcastTXT(data);
-    previousDatasend = uptime;
+    if (!client.connected())
+    {
+      connectAWS();
+      Serial.println("AWS IoT Connected!");
+    }
+    unsigned long uptime = millis();
+    if (uptime - previousDatasend > 5000 && state == CONNECTED)
+    {
+      String current_voltage_power = read_voltage_current();
+      String data = String(posX) + "," +
+                    String(posZ) + "," +
+                    current_voltage_power;
+      float voltage = current_voltage_power.substring(0, current_voltage_power.indexOf(",")).toFloat();
+      float current = current_voltage_power.substring(current_voltage_power.indexOf(",") + 1, current_voltage_power.lastIndexOf(",")).toFloat();
+      float power = current_voltage_power.substring(current_voltage_power.lastIndexOf(",") + 1).toFloat();
+      publishMessage(posX, posZ, voltage, current, power);
+      webSocket.broadcastTXT(data);
+      previousDatasend = uptime;
+    }
+    delay(1); // Allow other tasks to run
   }
 }

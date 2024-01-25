@@ -75,7 +75,9 @@ function App() {
       window.location.href = "/login";
     } else {
       axios.defaults.headers.common["Authorization"] = "Bearer " + userToken;
-      axios.get("/login/me").catch((err) => {});
+      axios.get("/login/me").catch((err) => {
+        console.log("App.tsx error: ", err);
+      });
     }
 
     if (userRole === "admin") {

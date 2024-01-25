@@ -54,6 +54,22 @@ router.get("/view", authenticateToken, (req, res, next) => {
 });
 
 // get own profile - only for the respective customer - [Done]
+router.get("/viewProfile", authenticateToken, (req, res, next) => {
+  if (req.user_type == "customer") {
+    execQuery(
+      `SELECT user.id, user.username, user.email, user.contact_number, user.user_address FROM user WHERE id=${req.user_id}`
+    )
+      .then((rows) => {
+        data = objectKeysSnakeToCamel(rows[0][0]);
+        res.status(200).json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+  } else {
+    return res.sendStatus(401).json({ error: "Unauthorized" });
+  }
+});
 
 //add new customer - only accessible for customers and customer registration
 // [Done]

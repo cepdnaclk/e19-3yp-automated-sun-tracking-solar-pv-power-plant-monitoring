@@ -62,7 +62,7 @@
         .then((data) => {
           alert(data.status);
           // redirect to router ip
-          window.location.href = `http://${data.ip}`;
+          window.location.href = `http://${data.newip}`;
         })
         .catch((err) => {
           alert(err);
