@@ -24,11 +24,11 @@ let refreshTokens = [];
 // }
 router.post("/", (req, res, next) => {
   try {
-    const email = req.body.email;
+    const username = req.body.username;
     const password = req.body.password;
     // console.log(email, password);
 
-    const queryFindUser = `SELECT username, user_type, id, passphrase FROM user WHERE email = '${email}';`;
+    const queryFindUser = `SELECT email, user_type, id, passphrase FROM user WHERE username = '${username}';`;
 
     // connection.query(queryFindUser, [email], (err, result) => {
     connection.query(queryFindUser, async (err, result) => {
@@ -40,7 +40,7 @@ router.post("/", (req, res, next) => {
         return res.status(404).json({ message: "User not found" });
       }
 
-      const username = result[0]["username"];
+      const email = result[0]["email"];
       const user_type = result[0]["user_type"];
       const user_id = result[0]["id"];
       const passphrase = result[0]["passphrase"];
