@@ -84,157 +84,151 @@ const UserProfile = () => {
         <Header title="MY PROFILE" subtitle="User profile details" />
       </Box>
 
-					{/* Basic Profile Information */}
-					<form>
-						<Grid container spacing={2}>
-							<Grid item xs={12} md={6}>
-								<TextField
-									label="Username"
-									variant="outlined"
-									fullWidth
-									style={textFieldStyle}
-								/>
-							</Grid>
-							<Grid item xs={12} md={6}>
-								<TextField
-									label="Address"
-									variant="outlined"
-									fullWidth
-									style={textFieldStyle}
-								/>
-							</Grid>
-							<Grid item xs={12} md={6}>
-								<TextField
-									label="Contact Number"
-									variant="outlined"
-									fullWidth
-									style={textFieldStyle}
-								/>
-							</Grid>
-							<Grid item xs={12} md={6}>
-								<TextField
-									label="Email"
-									variant="outlined"
-									fullWidth
-									style={textFieldStyle}
-								/>
-							</Grid>
-						</Grid>
+      {/* Basic Profile Information */}
+      <form>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Username"
+              variant="outlined"
+              fullWidth
+              style={textFieldStyle}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Address"
+              variant="outlined"
+              fullWidth
+              style={textFieldStyle}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Contact Number"
+              variant="outlined"
+              fullWidth
+              style={textFieldStyle}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              label="Email"
+              variant="outlined"
+              fullWidth
+              style={textFieldStyle}
+            />
+          </Grid>
+        </Grid>
+      </form>
+      <Box style={containerStyle}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          style={{ color: "#FFAC09", margin: "10px 0 15px 0" }}
+        >
+          Basic Information
+        </Typography>
 
-        <Box style={containerStyle}>
+        {/* Basic Profile Information */}
+        <form>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Username"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                helperText={formik.touched.email && formik.errors.email}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Address"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                value={formik.values.user_address}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.user_address &&
+                  Boolean(formik.errors.user_address)
+                }
+                helperText={
+                  formik.touched.user_address && formik.errors.user_address
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Contact Number"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                value={formik.values.contact_number}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.contact_number &&
+                  Boolean(formik.errors.contact_number)
+                }
+                helperText={
+                  formik.touched.contact_number && formik.errors.contact_number
+                }
+              />
+            </Grid>
+          </Grid>
+
+          {/* Change Password Section */}
           <Typography
-            variant="h5"
+            variant="h6"
             gutterBottom
-            style={{ color: "#FFAC09", margin: "10px 0 15px 0" }}
+            style={{
+              color: "#FFAC09",
+              margin: "10px 0 15px 0",
+            }}
           >
-            Basic Information
+            Change Password
           </Typography>
-
-          {/* Basic Profile Information */}
-          <form>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Username"
-                  variant="outlined"
-                  fullWidth
-                  style={textFieldStyle}
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Address"
-                  variant="outlined"
-                  fullWidth
-                  style={textFieldStyle}
-                  value={formik.values.user_address}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.user_address &&
-                    Boolean(formik.errors.user_address)
-                  }
-                  helperText={
-                    formik.touched.user_address && formik.errors.user_address
-                  }
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Contact Number"
-                  variant="outlined"
-                  fullWidth
-                  style={textFieldStyle}
-                  value={formik.values.contact_number}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.contact_number &&
-                    Boolean(formik.errors.contact_number)
-                  }
-                  helperText={
-                    formik.touched.contact_number &&
-                    formik.errors.contact_number
-                  }
-                />
-              </Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Current Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+              />
             </Grid>
-
-            {/* Change Password Section */}
-            <Typography
-              variant="h6"
-              gutterBottom
-              style={{
-                color: "#FFAC09",
-                margin: "10px 0 15px 0",
-              }}
-            >
-              Change Password
-            </Typography>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Current Password"
-                  type="password"
-                  variant="outlined"
-                  fullWidth
-                  style={textFieldStyle}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="New Password"
-                  type="password"
-                  variant="outlined"
-                  fullWidth
-                  style={textFieldStyle}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <TextField
-                  label="Confirm New Password"
-                  type="password"
-                  variant="outlined"
-                  fullWidth
-                  style={textFieldStyle}
-                />
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <div style={buttonContainerStyle}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    style={buttonStyle}
-                  >
-                    Save Changes
-                  </Button>
-                </div>
-              </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="New Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+              />
             </Grid>
-          </form>
-        </Box>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Confirm New Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <div style={buttonContainerStyle}>
+                <Button variant="contained" color="primary" style={buttonStyle}>
+                  Save Changes
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        </form>
       </Box>
     </Box>
   );
