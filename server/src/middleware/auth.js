@@ -11,18 +11,14 @@ function authenticateToken(req, res, next) {
     if (token == null)
       return res.sendStatus(401).json({ error: "Unauthorized" });
 
-    jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET,
-      (err, username, user_type, id, email) => {
-        if (err) throw err;
-        req.username = username;
-        req.user_type = user_type;
-        req.user_id = id;
-        req.email = email;
-        next();
-      }
-    );
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+      if (err) throw err;
+      req.username = decoded.username;
+      req.user_type = decoded.user_type;
+      req.user_id = decoded.id;
+      req.email = decoded.email;
+      next();
+    });
   } catch (err) {
     next(err);
   }

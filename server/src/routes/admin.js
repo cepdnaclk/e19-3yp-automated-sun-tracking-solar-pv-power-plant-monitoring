@@ -21,7 +21,6 @@ const { execQuery } = require("../database/database");
 // [Done]
 //change req.query to req.body if necessary
 router.get("/view", authenticateToken, (req, res, next) => {
-  console.log(req.user_type);
   if (req.user_type === "admin") {
     if (req.query.id) {
       const userId = req.query.id || req.user_id;
@@ -138,10 +137,9 @@ router.post("/create", async (req, res, next) => {
 //   user_address: "123 Main Street, Cityville"
 // }
 router.put("/myProfile", authenticateToken, (req, res, next) => {
-  if (req.user_type == "admin") {
+  if (req.user_type == "admin" && req.user_id == req.body.id) {
     try {
-      const id = req.body["id"];
-      delete req.body["id"];
+      const id = req.user_id;
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
       // Combine the two arrays into a single array.
       let updateString = "";
@@ -155,6 +153,8 @@ router.put("/myProfile", authenticateToken, (req, res, next) => {
       updateString = updateString.substring(0, updateString.length - 2);
 
       const updateMemberQuery = `UPDATE user SET ${updateString} WHERE id='${id}';`;
+
+      console.log(updateMemberQuery);
 
       execQuery(updateMemberQuery)
         .then((rows) => {

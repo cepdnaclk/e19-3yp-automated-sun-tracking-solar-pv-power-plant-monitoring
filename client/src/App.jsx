@@ -13,11 +13,11 @@ import SuperAdminAppbar from "./components/global/SuperAdminAppbar";
 import SuperAdminSidebar from "./components/global/SuperAdminSidebar";
 
 // User pages imports
-import UserDashboard from './scenes/user-dashboard';
-import UserDevices from './scenes/user-devices';
-import UserAddDevice from './scenes/user-add-device';
-import UserFaq from './scenes/user-faq';
-import UserProfile from './scenes/user-profile';
+import UserAddDevice from "./scenes/user-add-device";
+import UserDashboard from "./scenes/user-dashboard";
+import UserDevices from "./scenes/user-devices";
+import UserFaq from "./scenes/user-faq";
+import UserProfile from "./scenes/user-profile";
 
 // Admin pages imports
 import AdminAddUser from "./scenes/admin-add-user";
@@ -28,8 +28,8 @@ import AdminProfile from "./scenes/admin-profile";
 import AdminUserMng from "./scenes/admin-user-mng";
 
 // Super Admin pages imports
-import SuperAdminAddUser from "./scenes/super-admin-add-user";
 import SuperAdminAddDevice from "./scenes/super-admin-add-device";
+import SuperAdminAddUser from "./scenes/super-admin-add-user";
 import SuperAdminDashboard from "./scenes/super-admin-dashboard";
 import SuperAdminDeviceMng from "./scenes/super-admin-device-mng";
 import SuperAdminFaq from "./scenes/super-admin-faq";
@@ -38,12 +38,12 @@ import SuperAdminUserMng from "./scenes/super-admin-user-mng";
 
 // login, register imports
 import axios from "axios";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./scenes/login";
 import Register from "./scenes/register";
 
 function App() {
-
+  const [isLoading, setIsLoading] = useState(true);
   const [theme, colorMode] = useMode();
   const userRole = localStorage.getItem("user_type"); // Replace with actual user role
 
@@ -68,6 +68,8 @@ function App() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     const userRole = localStorage.getItem("user_type");
     const userToken = localStorage.getItem("token");
     if (
@@ -90,97 +92,86 @@ function App() {
     } else {
       document.title = "User Dashboard | HelioEye";
     }
+
+    setIsLoading(false);
   });
 
   const renderRoutes = () => {
-		if (userRole === 'admin') {
-			return (
-				<Routes>
-					<Route path="/" element={<AdminDashboard />} />
-					<Route
-						path="/admin-user-management"
-						element={<AdminUserMng />}
-					/>
-					<Route
-						path="/admin-device-management"
-						element={<AdminDeviceMng />}
-					/>
-					<Route path="/admin-faq" element={<AdminFaq />} />
-					<Route path="/admin-profile" element={<AdminProfile />} />
-					<Route path="/admin-add-user" element={<AdminAddUser />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-				</Routes>
-			);
-		} else if (userRole === 'super-admin') {
-			return (
-				<Routes>
-					<Route path="/" element={<SuperAdminDashboard />} />
-					<Route
-						path="/super-admin-user-management"
-						element={<SuperAdminUserMng />}
-					/>
-					<Route
-						path="/super-admin-device-management"
-						element={<SuperAdminDeviceMng />}
-					/>
-					<Route
-						path="/super-admin-profile"
-						element={<SuperAdminProfile />}
-					/>
-					<Route
-						path="/super-admin-add-user"
-						element={<SuperAdminAddUser />}
-					/>
-					<Route
-						path="/super-admin-add-device"
-						element={<SuperAdminAddDevice />}
-					/>
-					<Route
-						path="/super-admin-faq"
-						element={<SuperAdminFaq />}
-					/>
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-				</Routes>
-			);
-		} else {
-			return (
-				<Routes>
-					<Route path="/" element={<UserDashboard />} />
-					<Route path="/my-devices" element={<UserDevices />} />
-					<Route path="/add-device" element={<UserAddDevice />} />
-					<Route path="/my-profile" element={<UserProfile />} />
-					<Route path="/user-faq" element={<UserFaq />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-				</Routes>
-			);
-		}
-	};
+    if (userRole === "admin") {
+      return (
+        <Routes>
+          <Route path="/" element={<AdminDashboard />} />
+          <Route path="/admin-user-management" element={<AdminUserMng />} />
+          <Route path="/admin-device-management" element={<AdminDeviceMng />} />
+          <Route path="/admin-faq" element={<AdminFaq />} />
+          <Route path="/admin-profile" element={<AdminProfile />} />
+          <Route path="/admin-add-user" element={<AdminAddUser />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      );
+    } else if (userRole === "super-admin") {
+      return (
+        <Routes>
+          <Route path="/" element={<SuperAdminDashboard />} />
+          <Route
+            path="/super-admin-user-management"
+            element={<SuperAdminUserMng />}
+          />
+          <Route
+            path="/super-admin-device-management"
+            element={<SuperAdminDeviceMng />}
+          />
+          <Route path="/super-admin-profile" element={<SuperAdminProfile />} />
+          <Route path="/super-admin-add-user" element={<SuperAdminAddUser />} />
+          <Route
+            path="/super-admin-add-device"
+            element={<SuperAdminAddDevice />}
+          />
+          <Route path="/super-admin-faq" element={<SuperAdminFaq />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      );
+    } else {
+      return (
+        <Routes>
+          <Route path="/" element={<UserDashboard />} />
+          <Route path="/my-devices" element={<UserDevices />} />
+          <Route path="/add-device" element={<UserAddDevice />} />
+          <Route path="/my-profile" element={<UserProfile />} />
+          <Route path="/user-faq" element={<UserFaq />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      );
+    }
+  };
 
-	return (
-		<>
-			<AlertProvider>
-				<ColorModeContext.Provider value={colorMode}>
-					<ThemeProvider theme={theme}>
-						<CssBaseline />
-						<div className="app">
-							{window.location.pathname !== '/login' &&
-								window.location.pathname !== '/register' &&
-								renderSidebar()}
-							<main className="content">
-								{window.location.pathname !== '/login' &&
-									window.location.pathname !== '/register' &&
-									renderAppbar()}
-								{renderRoutes()}
-							</main>
-						</div>
-					</ThemeProvider>
-				</ColorModeContext.Provider>
-			</AlertProvider>
-		</>
-	);
+  if (isLoading) return null;
+
+  return (
+    <>
+      <AlertProvider>
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div className="app">
+              {window.location.pathname !== "/login" &&
+                window.location.pathname !== "/register" &&
+                renderSidebar()}
+              <main className="content">
+                {window.location.pathname !== "/login" &&
+                  window.location.pathname !== "/register" &&
+                  renderAppbar()}
+                {renderRoutes()}
+              </main>
+            </div>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      </AlertProvider>
+    </>
+  );
 }
 
 export default App;

@@ -1,262 +1,334 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Header from '../../components/Header';
-import { useTheme } from '@mui/system';
-import { tokens } from '../../theme';
-import { TextField, Button, Typography, Container, Grid, Box } from '@mui/material';
-import axios from 'axios';
+import { Box, Button, Grid, TextField, Typography } from "@mui/material";
+import { useTheme } from "@mui/system";
+import axios from "axios";
+import { useFormik } from "formik";
+import React, { useContext, useEffect } from "react";
+import * as Yup from "yup";
+import Header from "../../components/Header";
+import { AlertContext } from "../../contexts/AlertContext";
+import { tokens } from "../../theme";
 
 const SuperAdminProfile = () => {
-  	const theme = useTheme();
-  	const colors = tokens(theme.palette.mode);
+  const { showAlert } = useContext(AlertContext);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
-  	const containerStyle = {
-		background: `${colors.primary[400]}`,
-		padding: '20px',
-		justifyContent: 'flex-start',
-  	};
-
-  	const textFieldStyle = {
-    	marginBottom: '10px',
-  	};
-
-  	const buttonContainerStyle = {
-		marginTop: '15px',
-		display: 'flex',
-		justifyContent: 'flex-end',
-  	};
-
-	const buttonStyle = {
-		marginLeft: '20px',
-		color: 'black',
-		backgroundColor: '#FFAC09',
-	};
-
-	const validationSchema = Yup.object({
-		username: Yup.string().required('Username is required'),
-		role: Yup.string().required('Role is required'),
-		contactNumber: Yup.string()
-			.required('Contact Number is required')
-			.matches(/^[0-9]+$/, "Must be only digits")
-			.min(10, "Must be exactly 10 digits")
-			.max(10, "Must be exactly 10 digits"),
-		email: Yup.string().email('Invalid email address').required('Email is required'),
-		newEmail: Yup.string().email('Invalid email address'),
-		confirmNewEmail: Yup.string().oneOf([Yup.ref('newEmail'), null], 'Emails must match'),
-		currentPassword: Yup.string().required('Current Password is required'),
-		newPassword: Yup.string().required('New Password is required'),
-		confirmNewPassword: Yup.string().oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),
-	});
-
-  	const formik = useFormik({
-    	initialValues: {
-			username: '',
-			role: '',
-			contactNumber: '',
-			email: '',
-			newEmail: '',
-			confirmNewEmail: '',
-			currentPassword: '',
-			newPassword: '',
-			confirmNewPassword: '',
-    	},
-    	validationSchema: validationSchema,
-    	onSubmit: (values) => {
-		// Handle login logic here
-		axios
-		  .put("admin/myProfile", values)
-		  .then((response) => {
-			console.log(response);
-			alert("Profile Updated Successfully");
-		  })
-		  .catch((error) => {
-			console.log(error);
-			alert("Error Updating Profile");
-		  });
-		},
-  	});
-  
-	return (
-		<Box m="5px 20px" width="90%">
-			<Box
-				display="flex"
-				justifyContent="space-between"
-				alignItems="center"
-			>
-				<Header
-					title="SUPER ADMIN PROFILE"
-					subtitle="Edit your profile"
-				/>
-			</Box>	
-
-			<Box style={containerStyle}>
-				<Typography variant="h5" gutterBottom style={{ color: '#FFAC09', margin: '10px 0 15px 0' }}>
-				Basic Information
-				</Typography>
-		
-				{/* Basic Profile Information */}
-				<form onSubmit={formik.handleSubmit}>
-				<Grid container spacing={2}>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Username"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="username"
-						name="username"
-						value={formik.values.username}
-						onChange={formik.handleChange}
-						error={formik.touched.username && Boolean(formik.errors.username)}
-						helperText={formik.touched.username && formik.errors.username}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Role"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="role"
-						name="role"
-						value={formik.values.role}
-						onChange={formik.handleChange}
-						error={formik.touched.role && Boolean(formik.errors.role)}
-						helperText={formik.touched.role && formik.errors.role}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Contact Number"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="contactNumber"
-						name="contactNumber"
-						value={formik.values.contactNumber}
-						onChange={formik.handleChange}
-						error={formik.touched.contactNumber && Boolean(formik.errors.contactNumber)}
-						helperText={formik.touched.contactNumber && formik.errors.contactNumber}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Email"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="email"
-						name="email"
-						value={formik.values.email}
-						onChange={formik.handleChange}
-						error={formik.touched.email && Boolean(formik.errors.email)}
-						helperText={formik.touched.email && formik.errors.email}
-					/>
-					</Grid>
-				</Grid>
-		
-				{/* Change Email Section */}
-				<Typography variant="h6" gutterBottom style={{ color: '#FFAC09', margin: '10px 0 15px 0' }}>
-					Change Email
-				</Typography>
-				<Grid container spacing={2}>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="New Email"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="newEmail"
-						name="newEmail"
-						value={formik.values.newEmail}
-						onChange={formik.handleChange}
-						error={formik.touched.newEmail && Boolean(formik.errors.newEmail)}
-						helperText={formik.touched.newEmail && formik.errors.newEmail}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Confirm New Email"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="confirmNewEmail"
-						name="confirmNewEmail"
-						value={formik.values.confirmNewEmail}
-						onChange={formik.handleChange}
-						error={formik.touched.confirmNewEmail && Boolean(formik.errors.confirmNewEmail)}
-						helperText={formik.touched.confirmNewEmail && formik.errors.confirmNewEmail}
-					/>
-					</Grid>
-				</Grid>
-		
-				{/* Change Password Section */}
-				<Typography variant="h6" gutterBottom style={{ color: '#FFAC09', margin: '10px 0 15px 0' }}>
-					Change Password
-				</Typography>
-				<Grid container spacing={2}>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Current Password"
-						type="password"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="currentPassword"
-						name="currentPassword"
-						value={formik.values.currentPassword}
-						onChange={formik.handleChange}
-						error={formik.touched.currentPassword && Boolean(formik.errors.currentPassword)}
-						helperText={formik.touched.currentPassword && formik.errors.currentPassword}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="New Password"
-						type="password"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="newPassword"
-						name="newPassword"
-						value={formik.values.newPassword}
-						onChange={formik.handleChange}
-						error={formik.touched.newPassword && Boolean(formik.errors.newPassword)}
-						helperText={formik.touched.newPassword && formik.errors.newPassword}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-					<TextField
-						label="Confirm New Password"
-						type="password"
-						variant="outlined"
-						fullWidth
-						style={textFieldStyle}
-						id="confirmNewPassword"
-						name="confirmNewPassword"
-						value={formik.values.confirmNewPassword}
-						onChange={formik.handleChange}
-						error={formik.touched.confirmNewPassword && Boolean(formik.errors.confirmNewPassword)}
-						helperText={formik.touched.confirmNewPassword && formik.errors.confirmNewPassword}
-					/>
-					</Grid>
-					<Grid item xs={12} md={6}>
-						<div style={buttonContainerStyle}>
-						<Button type="submit" variant="contained" color="primary" style={buttonStyle}>
-							Save Changes
-						</Button>
-						<Button variant="contained" color="primary" style={buttonStyle}>
-							Cancel
-						</Button>
-						</div>
-					</Grid>
-				</Grid>		  
-				</form>
-			</Box>
-	  </Box>
-	);
+  const containerStyle = {
+    background: `${colors.primary[400]}`,
+    padding: "20px",
+    justifyContent: "flex-start",
   };
-  
+
+  const textFieldStyle = {
+    marginBottom: "10px",
+  };
+
+  const buttonContainerStyle = {
+    marginTop: "15px",
+    display: "flex",
+    justifyContent: "flex-end",
+  };
+
+  const buttonStyle = {
+    marginLeft: "20px",
+    color: "black",
+    backgroundColor: "#FFAC09",
+  };
+
+  useEffect(() => {
+    axios
+      .get("/admin/view")
+      .then((res) => {
+        const user = res.data[0];
+        formikDetails.setFieldValue("username", user.username || "");
+        formikDetails.setFieldValue(
+          "contact_number",
+          user.contact_number || ""
+        );
+        formikDetails.setFieldValue("email", user.email || "");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const validationSchemaDetails = Yup.object({
+    username: Yup.string().required("Required"),
+    contact_number: Yup.string()
+      .required("Required")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(10, "Must be exactly 10 digits")
+      .max(10, "Must be exactly 10 digits"),
+    contact_number: Yup.string()
+      .required("Contact Number is required")
+      .matches(/^[0-9]+$/, "Must be only digits")
+      .min(10, "Must be exactly 10 digits")
+      .max(10, "Must be exactly 10 digits"),
+    email: Yup.string().email("Invalid email address"),
+  });
+
+  const validationSchemaPassword = Yup.object({
+    currentPassword: Yup.string().required("Required"),
+    newPassword: Yup.string().required("Required"),
+    confirmNewPassword: Yup.string()
+      .required("Required")
+      .oneOf([Yup.ref("newPassword"), null], "Passwords must match"),
+  });
+
+  const formikDetails = useFormik({
+    initialValues: {
+      username: "",
+      contact_number: "",
+      user_address: "",
+      email: "",
+    },
+    validationSchema: validationSchemaDetails,
+    onSubmit: (values) => {
+      // Handle login logic here
+      axios
+        .put("/admin/myProfile", {
+          id: localStorage.getItem("id"),
+          ...values,
+        })
+        .then((response) => {
+          console.log(response);
+          showAlert("Profile Updated Successfully", "success");
+        })
+        .catch((error) => {
+          console.log(error);
+          showAlert("Error Updating Profile", "error");
+        });
+    },
+  });
+
+  const formikPassword = useFormik({
+    initialValues: {
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+    validationSchema: validationSchemaPassword,
+    onSubmit: (values) => {
+      // Handle login logic here
+      console.log(values);
+      axios
+        .put("/admin/changePassword", {
+          id: localStorage.getItem("id"),
+          ...values,
+        })
+        .then((response) => {
+          console.log(response);
+          showAlert("Password Updated Successfully", "success");
+        })
+        .catch((error) => {
+          console.log(error);
+          showAlert("Error Updating Password", "error");
+        });
+    },
+  });
+
+  return (
+    <Box m="5px 20px" width="90%">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header title="SUPER ADMIN PROFILE" subtitle="Edit your profile" />
+      </Box>
+
+      <Box style={containerStyle}>
+        <Typography
+          variant="h5"
+          gutterBottom
+          style={{ color: "#FFAC09", margin: "10px 0 15px 0" }}
+        >
+          Basic Information
+        </Typography>
+
+        {/* Basic Profile Information */}
+        <form onSubmit={formikDetails.handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Username"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="username"
+                name="username"
+                value={formikDetails.values.username}
+                onChange={formikDetails.handleChange}
+                error={
+                  formikDetails.touched.username &&
+                  Boolean(formikDetails.errors.username)
+                }
+                helperText={
+                  formikDetails.touched.username &&
+                  formikDetails.errors.username
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Contact Number"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="contact_number"
+                name="contact_number"
+                value={formikDetails.values.contact_number}
+                onChange={formikDetails.handleChange}
+                error={
+                  formikDetails.touched.contact_number &&
+                  Boolean(formikDetails.errors.contact_number)
+                }
+                helperText={
+                  formikDetails.touched.contact_number &&
+                  formikDetails.errors.contact_number
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Address"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="user_address"
+                name="user_address"
+                value={formikDetails.values.user_address}
+                onChange={formikDetails.handleChange}
+                error={
+                  formikDetails.touched.user_address &&
+                  Boolean(formikDetails.errors.user_address)
+                }
+                helperText={
+                  formikDetails.touched.user_address &&
+                  formikDetails.errors.user_address
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Email"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="email"
+                name="email"
+                value={formikDetails.values.email}
+                onChange={formikDetails.handleChange}
+                error={
+                  formikDetails.touched.email &&
+                  Boolean(formikDetails.errors.email)
+                }
+                helperText={
+                  formikDetails.touched.email && formikDetails.errors.email
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <div style={buttonContainerStyle}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  style={buttonStyle}
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        </form>
+
+        {/* Change Password Section */}
+        <form onSubmit={formikPassword.handleSubmit}>
+          <Typography
+            variant="h6"
+            gutterBottom
+            style={{ color: "#FFAC09", margin: "10px 0 15px 0" }}
+          >
+            Change Password
+          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Current Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="currentPassword"
+                name="currentPassword"
+                value={formikPassword.values.currentPassword}
+                onChange={formikPassword.handleChange}
+                error={
+                  formikPassword.touched.currentPassword &&
+                  Boolean(formikPassword.errors.currentPassword)
+                }
+                helperText={
+                  formikPassword.touched.currentPassword &&
+                  formikPassword.errors.currentPassword
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="New Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="newPassword"
+                name="newPassword"
+                value={formikPassword.values.newPassword}
+                onChange={formikPassword.handleChange}
+                error={
+                  formikPassword.touched.newPassword &&
+                  Boolean(formikPassword.errors.newPassword)
+                }
+                helperText={
+                  formikPassword.touched.newPassword &&
+                  formikPassword.errors.newPassword
+                }
+              />
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <TextField
+                label="Confirm New Password"
+                type="password"
+                variant="outlined"
+                fullWidth
+                style={textFieldStyle}
+                id="confirmNewPassword"
+                name="confirmNewPassword"
+                value={formikPassword.values.confirmNewPassword}
+                onChange={formikPassword.handleChange}
+                error={
+                  formikPassword.touched.confirmNewPassword &&
+                  Boolean(formikPassword.errors.confirmNewPassword)
+                }
+                helperText={
+                  formikPassword.touched.confirmNewPassword &&
+                  formikPassword.errors.confirmNewPassword
+                }
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <div style={buttonContainerStyle}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  style={buttonStyle}
+                >
+                  Change Password
+                </Button>
+              </div>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
+    </Box>
+  );
+};
 
 export default SuperAdminProfile;
