@@ -15,7 +15,7 @@ axios.interceptors.response.use(
       // send refresh token to server
       const refreshToken = localStorage.getItem("refreshToken");
       axios
-        .post("/api/login/token", { refreshToken })
+        .post("/login/token", { refreshToken })
         .then((res) => {
           // set token, refresh token and username in local storage
           localStorage.setItem("token", res.data.accessToken);

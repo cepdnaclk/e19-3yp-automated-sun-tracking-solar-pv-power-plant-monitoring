@@ -80,6 +80,11 @@ function App() {
     ) {
       window.location.href = "/login";
     } else {
+      if (
+        window.location.pathname === "/login" ||
+        window.location.pathname === "/register"
+      )
+        return setIsLoading(false);
       axios.defaults.headers.common["Authorization"] = "Bearer " + userToken;
       axios
         .get("/login/me")

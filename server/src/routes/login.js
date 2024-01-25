@@ -130,7 +130,7 @@ router.post("/token", (req, res, next) => {
     const refreshToken = req.body.refreshToken;
 
     if (refreshToken == null)
-      return res.sendStatus(401).json({ error: "Unauthorized" });
+      return res.sendStatus(404).json({ error: "Unauthorized" });
     if (refreshTokens.includes(refreshToken)) {
       jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, id) => {
         if (err) throw err;
