@@ -81,6 +81,7 @@ router.post("/", (req, res, next) => {
         refreshToken: refreshToken,
         username: username,
         user_type: user_type,
+        user_id: user_id,
       });
     });
   } catch (err) {
@@ -98,7 +99,26 @@ router.get("/me", (req, res, next) => {
       if (err) {
         return res.status(403).json({ message: "Forbidden" });
       }
-      res.status(200).json({ message: "Authorized" });
+
+      const username = user.username;
+
+      const queryFindUser = `SELECT user_type, id, passphrase FROM user WHERE username = '${username}';`;
+
+      // connection.query(queryFindUser, [email], (err, result) => {
+      connection.query(queryFindUser, async (err, result) => {
+        if (err || result.length === 0) {
+          return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const user_type = result[0]["user_type"];
+        const user_id = result[0]["id"];
+
+        res.json({
+          username: username,
+          user_type: user_type,
+          user_id: user_id,
+        });
+      });
     });
   } catch (err) {
     next(err);

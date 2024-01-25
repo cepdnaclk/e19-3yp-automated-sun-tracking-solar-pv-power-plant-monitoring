@@ -3,6 +3,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
+import { DataContext } from "./contexts/DataContext";
+import { DataProvider } from "./contexts/DataContextProvider";
 import "./index.css";
 
 axios.defaults.baseURL = "http://localhost:8081/api";
@@ -11,6 +13,7 @@ axios.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response.status === 401) {
+      const { data, setData } = useContext(DataContext);
       // send refresh token to server
       const refreshToken = localStorage.getItem("refreshToken");
       axios
@@ -19,11 +22,17 @@ axios.interceptors.response.use(
           // set token, refresh token and username in local storage
           localStorage.setItem("token", res.data.accessToken);
           localStorage.setItem("refreshToken", res.data.refreshToken);
-          localStorage.setItem("username", res.data.username);
 
           // set token in axios header
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + res.data.accessToken;
+
+          setData({
+            ...data,
+            username: res.data.username,
+            user_type: user_type_mapper[res.data.user_type],
+            user_id: res.data.user_id,
+          });
 
           // retry request
           return axios(err.config);
@@ -36,7 +45,6 @@ axios.interceptors.response.use(
           ) {
             localStorage.removeItem("token");
             localStorage.removeItem("refreshToken");
-            localStorage.removeItem("username");
 
             window.location.href = "/login?error=Login%20expired";
           }
@@ -50,7 +58,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
-      <App />
+      <DataProvider>
+        <App />
+      </DataProvider>
     </Router>
   </React.StrictMode>
 );

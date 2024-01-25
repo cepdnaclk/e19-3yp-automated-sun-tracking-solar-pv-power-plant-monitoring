@@ -2,6 +2,7 @@
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { AlertProvider } from "./contexts/AlertContextProvider";
+import { DataContext } from "./contexts/DataContext";
 import { ColorModeContext, useMode } from "./theme";
 
 // Appbar , Sidebar imports
@@ -38,19 +39,19 @@ import SuperAdminUserMng from "./scenes/super-admin-user-mng";
 
 // login, register imports
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Login from "./scenes/login";
 import Register from "./scenes/register";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [theme, colorMode] = useMode();
-  const userRole = localStorage.getItem("user_type"); // Replace with actual user role
+  const { data, setData } = useContext(DataContext);
 
   const renderSidebar = () => {
-    if (userRole === "admin") {
+    if (data.user_type === "admin") {
       return <AdminSidebar />;
-    } else if (userRole === "super-admin") {
+    } else if (data.user_type === "super-admin") {
       return <SuperAdminSidebar />;
     } else {
       return <Sidebar />;
@@ -58,9 +59,9 @@ function App() {
   };
 
   const renderAppbar = () => {
-    if (userRole === "admin") {
+    if (data.user_type === "admin") {
       return <AdminAppbar />;
-    } else if (userRole === "super-admin") {
+    } else if (data.user_type === "super-admin") {
       return <SuperAdminAppbar />;
     } else {
       return <Appbar />;
@@ -70,7 +71,6 @@ function App() {
   useEffect(() => {
     setIsLoading(true);
 
-    const userRole = localStorage.getItem("user_type");
     const userToken = localStorage.getItem("token");
     if (
       !userToken &&
@@ -80,14 +80,25 @@ function App() {
       window.location.href = "/login";
     } else {
       axios.defaults.headers.common["Authorization"] = "Bearer " + userToken;
-      axios.get("/login/me").catch((err) => {
-        console.log("App.tsx error: ", err);
-      });
+      axios
+        .get("/login/me")
+        .then((res) => {
+          const user = res.data;
+          setData({
+            ...data,
+            username: user.username,
+            user_type: data.user_type_mapper[user.user_type],
+            user_id: user.user_id,
+          });
+        })
+        .catch((err) => {
+          console.log("App.tsx error: ", err);
+        });
     }
 
-    if (userRole === "admin") {
+    if (data.user_type === "admin") {
       document.title = "Company Dashboard | HelioEye";
-    } else if (userRole === "super-admin") {
+    } else if (data.user_type === "super-admin") {
       document.title = "Super Admin Dashboard | HelioEye";
     } else {
       document.title = "User Dashboard | HelioEye";
@@ -97,7 +108,7 @@ function App() {
   });
 
   const renderRoutes = () => {
-    if (userRole === "admin") {
+    if (data.user_type === "admin") {
       return (
         <Routes>
           <Route path="/" element={<AdminDashboard />} />
@@ -110,7 +121,7 @@ function App() {
           <Route path="/register" element={<Register />} />
         </Routes>
       );
-    } else if (userRole === "super-admin") {
+    } else if (data.user_type === "super-admin") {
       return (
         <Routes>
           <Route path="/" element={<SuperAdminDashboard />} />

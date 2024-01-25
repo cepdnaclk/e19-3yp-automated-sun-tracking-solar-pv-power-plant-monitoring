@@ -13,6 +13,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { AlertContext } from "../../contexts/AlertContext";
+import { DataContext } from "../../contexts/DataContext";
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   display: "flex",
@@ -30,14 +31,9 @@ const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(3, 0, 2),
 }));
 
-const user_type = {
-  company: "admin",
-  admin: "super-admin",
-  customer: "customer",
-};
-
 const Login = ({ onRegisterClick }) => {
   const { showAlert } = useContext(AlertContext);
+  const { data, setData } = useContext(DataContext);
   const navigate = useNavigate();
 
   const formik = useFormik({
@@ -57,8 +53,13 @@ const Login = ({ onRegisterClick }) => {
           // set token, refresh token and username in local storage
           localStorage.setItem("token", res.data.accessToken);
           localStorage.setItem("refreshToken", res.data.refreshToken);
-          localStorage.setItem("username", res.data.username);
-          localStorage.setItem("user_type", user_type[res.data.user_type]);
+
+          setData({
+            ...data,
+            username: res.data.username,
+            user_type: data.user_type_mapper[res.data.user_type],
+            user_id: res.data.user_id,
+          });
 
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + res.data.accessToken;

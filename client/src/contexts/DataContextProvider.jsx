@@ -3,10 +3,14 @@ import { DataContext } from "./DataContext";
 
 export function DataProvider({ children }) {
   const [data, setData] = useState({
-    id: "",
-    name: "",
-    email: "",
-    role: "",
+    user_id: "",
+    username: "",
+    user_type: "",
+    user_type_mapper: {
+      company: "admin",
+      admin: "super-admin",
+      customer: "customer",
+    },
   });
 
   return (
