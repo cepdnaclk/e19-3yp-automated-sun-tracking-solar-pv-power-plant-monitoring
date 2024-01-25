@@ -21,9 +21,10 @@ const { execQuery } = require("../database/database");
 // [Done]
 //change req.query to req.body if necessary
 router.get("/view", authenticateToken, (req, res, next) => {
+  console.log(req.user_type);
   if (req.user_type === "admin") {
     if (req.query.id) {
-      const userId = req.query.id;
+      const userId = req.query.id || req.user_id;
       execQuery(
         `SELECT id, username, email, contact_number, user_address FROM user WHERE id=${userId}`
       )
