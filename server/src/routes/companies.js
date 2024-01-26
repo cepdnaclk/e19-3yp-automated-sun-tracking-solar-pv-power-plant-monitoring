@@ -54,7 +54,7 @@ router.get("/myprofile", authenticateToken, (req, res, next) => {
     //view own profile
     execQuery(`SELECT id, username, email, contact_number, user_address
                   FROM user
-                  WHERE id = ${req.user_id}}`)
+                  WHERE id = ${req.user_id};`)
       .then((rows) => {
         data = objectKeysSnakeToCamel(rows[0]);
         res.status(200).json(data);
@@ -154,11 +154,11 @@ router.put("/changePassword", authenticateToken, async (req, res, next) => {
   if (req.user_type == "company") {
     try {
       const id = req.user_id;
-      const old_password = req.body["old_password"];
-      const new_password = req.body["new_password"];
+      const old_password = req.body["currentPassword"];
+      const new_password = req.body["newPassword"];
       const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
       const rows = await execQuery(getPassphraseQuery);
-      const passphrase = rows[0][0]["passphrase"];
+      const passphrase = rows[0]["passphrase"];
       const isMatch = await bcrypt.compare(old_password, passphrase);
 
       if (isMatch) {
