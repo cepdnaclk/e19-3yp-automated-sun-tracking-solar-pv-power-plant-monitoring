@@ -74,17 +74,14 @@ function App() {
 
     const userToken = localStorage.getItem("token");
     if (
-      !userToken &&
-      window.location.pathname !== "/login" &&
-      window.location.pathname !== "/register"
-    ) {
+      window.location.pathname === "/login" ||
+      window.location.pathname === "/register"
+    )
+      return setIsLoading(false);
+
+    if (!userToken) {
       window.location.href = "/login";
     } else {
-      if (
-        window.location.pathname === "/login" ||
-        window.location.pathname === "/register"
-      )
-        return setIsLoading(false);
       axios.defaults.headers.common["Authorization"] = "Bearer " + userToken;
       axios
         .get("/login/me")

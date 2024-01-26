@@ -42,7 +42,6 @@ const UserProfile = () => {
       .get("/customers/viewProfile")
       .then((res) => {
         const user = res.data;
-        console.log(user);
         formikDetails.setFieldValue("username", user.username || "");
         formikDetails.setFieldValue("contact_number", user.contactNumber || "");
         formikDetails.setFieldValue("email", user.email || "");
@@ -60,11 +59,7 @@ const UserProfile = () => {
       .matches(/^[0-9]+$/, "Must be only digits")
       .min(10, "Must be exactly 10 digits")
       .max(10, "Must be exactly 10 digits"),
-    contact_number: Yup.string()
-      .required("Contact Number is required")
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .min(10, "Must be exactly 10 digits")
-      .max(10, "Must be exactly 10 digits"),
+
     email: Yup.string().email("Invalid email address"),
   });
 
@@ -131,7 +126,7 @@ const UserProfile = () => {
   return (
     <Box m="5px 20px" width="90%">
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="SUPER ADMIN PROFILE" subtitle="Edit your profile" />
+        <Header title="My Profile" subtitle="Edit your profile" />
       </Box>
 
       <Box style={containerStyle}>

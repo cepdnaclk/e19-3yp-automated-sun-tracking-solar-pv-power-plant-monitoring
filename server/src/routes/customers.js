@@ -160,11 +160,12 @@ router.put("/changePassword", authenticateToken, async (req, res, next) => {
   if (req.user_type == "customer" && req.user_id == req.body["id"]) {
     try {
       const id = req.user_id;
-      const old_password = req.body["old_password"];
-      const new_password = req.body["new_password"];
+      const old_password = req.body["currentPassword"];
+      const new_password = req.body["newPassword"];
       const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
       const rows = await execQuery(getPassphraseQuery);
       const passphrase = rows[0]["passphrase"];
+      console.log(old_password);
       const isMatch = await bcrypt.compare(old_password, passphrase);
 
       if (isMatch) {
