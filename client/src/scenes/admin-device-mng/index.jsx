@@ -14,22 +14,22 @@ const AdminDeviceMng = () => {
 
 	// columns of the data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID' },
-		{ field: 'userId', headerName: 'User ID' },
+		{ field: 'id', headerName: 'ID', width: 60 },
+		{ field: 'userId', headerName: 'User ID', width: 80 },
 		{
 			field: 'userName',
 			headerName: 'User Name',
 			flex: 1,
 			cellClassName: 'name-column--cell',
 		},
-		{ field: 'deviceId', headerName: 'Device ID' },
+		{ field: 'deviceId', headerName: 'Device ID', width: 80 },
 		{
 			field: 'deviceName',
 			headerName: 'Device Name',
 			flex: 1,
 			cellClassName: 'name-column--cell',
 		},
-		{ field: 'status', headerName: 'Status', flex: 1 },
+		{ field: 'status', headerName: 'Status', flex: 1, width: 60 },
 		{ field: 'location', headerName: 'Location', flex: 1 },
 		{
 			field: 'actions',
@@ -42,7 +42,7 @@ const AdminDeviceMng = () => {
 						size="small"
 						onClick={() => handleEdit(params.id)} // Use params.id instead of params.row.deviceId
 						sx={{
-							ml: 0,
+							ml: 2,
 							color: colors.yellowAccent[400],
 							borderColor: colors.yellowAccent[400],
 						}}
