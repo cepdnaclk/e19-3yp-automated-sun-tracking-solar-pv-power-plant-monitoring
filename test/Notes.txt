@@ -1,3 +1,12 @@
 login.js{
     1.when logout accesstoken already valid, it should be invalid.
+fixed.
+done test.
+}
+
+customer.js - done test
+
+device.js{
+    1.can company add longitude things?
+    2.want to check customer can add all the things also if he wrongly typed the correspong field
 }

@@ -90,6 +90,7 @@ router.get("/viewProfile", authenticateToken, (req, res, next) => {
 //   user_address: "123 Main Street, Cityville"
 // } - authentication token not needed
 router.post("/register", async (req, res, next) => {
+  console.log(req.body);
   try {
     // const [fields, values] = requestBodyToFieldsAndValues(req.body);
     // delete req.body["id"];
@@ -123,7 +124,7 @@ router.post("/register", async (req, res, next) => {
     } else {
       // Handle other unexpected errors
       console.error("Unexpected Error:", error.message);
-      return res.status(500).json({ error: "An unexpected error occurred." });
+      return res.status(500).send({ error: "An unexpected error occurred." });
     }
   }
 });
@@ -207,7 +208,7 @@ router.put("/changePassword", authenticateToken, async (req, res, next) => {
       next(err);
     }
   } else {
-    return res.status(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 

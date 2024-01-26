@@ -25,8 +25,8 @@ app.use(express.json()); // for parsing application/json
 app.use("/api/login", require("./src/routes/login")); //edit this accordingly
 
 // jwt authentication
-const { authenticateToken } = require("./src/middleware/auth");
-app.use(authenticateToken)
+// const { authenticateToken } = require("./src/middleware/auth");
+// app.use(authenticateToken)
 
 //main router
 app.use("/api", require("./src/mainRouter"));

@@ -37,7 +37,7 @@ router.get("/", authenticateToken, (req, res, next) => {
         });
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
   });
 
@@ -131,25 +131,28 @@ router.get("/", authenticateToken, (req, res, next) => {
   // "model_number": "example@example.com",
   // "assigned_company_id" : xxxx
   //}
-  router.post("/", (req, res, next) => {
+  router.post("/", authenticateToken, (req, res, next) => {
     if(req.user_type == "admin"){
       try {
-        // const [fields, values] = requestBodyToFieldsAndValues(req.body);
         const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-        const createdeviceQuery = `INSERT INTO device (${fields.toString()}) VALUES (${values.toString()})`;
-    
-        execQuery(createdeviceQuery)
+        // Use parameterized query to prevent SQL injection
+        const placeholders = values.map(() => '?').join(', ');
+        const createdeviceQuery = `INSERT INTO device (${fields.join(', ')}) VALUES (${placeholders})`;
+
+        execQuery(createdeviceQuery, values)
           .then((rows) => {
             res.status(200).json({ message: "New Device created successfully" });
           })
           .catch((err) => {
+            console.error(err); // Log the error to the console
             next(err);
           });
       } catch (err) {
+        console.error(err); // Log the error to the console
         next(err);
       }
     } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
+      return res.sendStatus(401).send({ error: "Unauthorized" });
     }
     
   });
@@ -164,7 +167,8 @@ router.get("/", authenticateToken, (req, res, next) => {
   // "assigned_company_id" : xxxx   
   // }
 
-  router.put("/", (req, res, next) => {
+  router.put("/",authenticateToken, (req, res, next) => {
+    
     if(req.user_type == "admin"){
       try {
         const id = req.body["id"];
@@ -195,11 +199,9 @@ router.get("/", authenticateToken, (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
     }
-  }); 
-
+    
+    
   // adding necessary details by the company - only from company 
   // (edit device by company)
   // request format 
@@ -211,8 +213,9 @@ router.get("/", authenticateToken, (req, res, next) => {
 
   // This API updates anything that is given by the request format
   
-  router.put("/", (req, res, next) => {
-    if(req.user_type == "company"){
+
+
+    else if (req.user_type == "company"){
       try {
         const id = req.body["id"];
         delete req.body["id"]; //id used in the UPDATE query, not needed in the update string
@@ -242,11 +245,8 @@ router.get("/", authenticateToken, (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
     }
-  });
-
+    
   // Add device by customer to their app - [Done]
   //  { 
   //    id: 123456, //device id
@@ -254,21 +254,29 @@ router.get("/", authenticateToken, (req, res, next) => {
   //    device_latitude:"79.256598"
   //    device_longitude:"10.125689"
   // }
-
-  router.put("/", authenticateToken, (req, res, next) => {
-    if(req.user_type == "customer"){
+    
+    else if(req.user_type == "customer"){
       try {
         // set the devices's assigned customer id to user's id, 
         // used the purchased customer email to check whether the correct user is adding the device
         const assignCustomertoDeviceQuery = `UPDATE device SET 
-                                              assigned_customer_id=${req.user_id}, 
-                                              device_latitude=${req.body.device_latitude}, 
-                                              device_longitude=${req.body.device_longitude} 
-                                              WHERE id=${req.body.id} AND
-                                              (SELECT purchased_customer_email FROM device 
-                                              WHERE id=${req.body.id}) = ${req.email};`;
+                                       assigned_customer_id=?, 
+                                       device_latitude=?, 
+                                       device_longitude=? 
+                                        WHERE id=? AND
+                                       (SELECT purchased_customer_email FROM device 
+                                        WHERE id=?) = ?`;
+
+        const values = [
+          req.user_id,
+          req.body.device_latitude,
+          req.body.device_longitude,
+          req.body.id,
+          req.body.id,
+          req.email
+        ];
     
-        execQuery(assignCustomertoDeviceQuery)
+        execQuery(assignCustomertoDeviceQuery,values)
           .then((rows) => {
             res
               .status(200)
@@ -280,18 +288,20 @@ router.get("/", authenticateToken, (req, res, next) => {
       } catch (err) {
         next(err);
       }
-    } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
     }
-    
-  });
+
+    else {
+      return res.status(401).send({ error: "Unauthorized" });
+    }
+  }); 
+
   
   //remove device from customer's app - [Done]
   // request format
   // {
   //   "deviceId": 123
   // }
-  router.put("/", authenticateToken, (req, res, next) => {
+  router.put("remove/", authenticateToken, (req, res, next) => {
     if(req.user_type == "customer"){
       try {
         // set the devices's assigned customer id to user's id, 
