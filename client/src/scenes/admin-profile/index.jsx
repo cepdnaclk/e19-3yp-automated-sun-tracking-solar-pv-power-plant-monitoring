@@ -39,7 +39,7 @@ const AdminProfile = () => {
 
   useEffect(() => {
     axios
-      .get("/comapanies/myprofile")
+      .get("/companies/myprofile")
       .then((res) => {
         const user = res.data;
         formikDetails.setFieldValue("username", user.username || "");
@@ -86,7 +86,7 @@ const AdminProfile = () => {
     onSubmit: (values) => {
       // Handle login logic here
       axios
-        .put("/comapanies/update", {
+        .put("/companies/update", {
           id: data.user_id,
           ...values,
         })
@@ -112,7 +112,7 @@ const AdminProfile = () => {
       // Handle login logic here
       console.log(values);
       axios
-        .put("/comapanies/changePassword", {
+        .put("/companies/changePassword", {
           id: data.user_id,
           ...values,
         })

@@ -36,7 +36,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
         `SELECT id, username, email, contact_number, user_address FROM user WHERE user_type="company"`
       )
         .then((rows) => {
-          data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+          data = rows.map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
         })
         .catch((err) => {

@@ -1,24 +1,33 @@
 import { Box, Button, useTheme } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 
 import { DataGrid } from "@mui/x-data-grid";
 
-// super admin user data
-import { superAdminUserData } from "../../data/superAdminUserData";
-
 const SuperAdminUserMng = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [superAdminUserData, setSuperAdminUserData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/companies/view")
+      .then((res) => {
+        setSuperAdminUserData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // columns of the data grid
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "companyId", headerName: "Company ID" },
     {
-      field: "companyName",
+      field: "username",
       headerName: "Company Name",
       flex: 1,
       cellClassName: "name-column--cell",
@@ -28,12 +37,12 @@ const SuperAdminUserMng = () => {
       headerName: "Company Email",
       flex: 1,
     },
-    { field: "devices", headerName: "Devices", flex: 1 },
-    { field: "address", headerName: "Company Address", flex: 1 },
+    { field: "userAddress", headerName: "Company Address", flex: 1 },
+    { field: "contactNumber", headerName: "Company Contact", flex: 1 },
     {
       field: "actions",
       headerName: "Actions",
-      flex: 1,
+      flex: 2,
       renderCell: (params) => (
         <>
           <Button
