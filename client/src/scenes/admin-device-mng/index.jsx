@@ -42,7 +42,7 @@ const AdminDeviceMng = () => {
 						size="small"
 						onClick={() => handleEdit(params.id)} // Use params.id instead of params.row.deviceId
 						sx={{
-							ml: 2,
+							ml: 0,
 							color: colors.yellowAccent[400],
 							borderColor: colors.yellowAccent[400],
 						}}
