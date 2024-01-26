@@ -11,6 +11,8 @@ const {
 
 const { authenticateToken } = require("../middleware/auth");
 
+const bcrypt = require("bcryptjs");
+
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
 
@@ -261,14 +263,15 @@ router.get("/", authenticateToken, (req, res, next) => {
         // used the purchased customer email to check whether the correct user is adding the device
         const assignCustomertoDeviceQuery = `UPDATE device SET 
                                        assigned_customer_id=?, 
+                                       device_name_by_customer=?,
                                        device_latitude=?, 
                                        device_longitude=? 
                                         WHERE id=? AND
                                        (SELECT purchased_customer_email FROM device 
                                         WHERE id=?) = ?`;
-
         const values = [
           req.user_id,
+          req.body.device_name_by_customer,
           req.body.device_latitude,
           req.body.device_longitude,
           req.body.id,
@@ -301,13 +304,14 @@ router.get("/", authenticateToken, (req, res, next) => {
   // {
   //   "deviceId": 123
   // }
-  router.put("remove/", authenticateToken, (req, res, next) => {
+  router.put("/remove", authenticateToken, (req, res, next) => {
     if(req.user_type == "customer"){
       try {
         // set the devices's assigned customer id to user's id, 
         // used the purchased customer email to check whether the correct user is adding the device
         const assignCustomertoDeviceQuery = `UPDATE device SET 
                                               assigned_customer_id=NULL, 
+                                              device_name_by_customer=NULL,
                                               device_latitude=NULL, 
                                               device_longitude=NULL 
                                               WHERE id=${req.body.deviceId} AND
@@ -317,7 +321,7 @@ router.get("/", authenticateToken, (req, res, next) => {
           .then((rows) => {
             res
               .status(200)
-              .json({ message: "Device Specifications updated successfully" });
+              .json({ message: "Device removed successfully" });
           })
           .catch((err) => {
             next(err);
@@ -342,27 +346,42 @@ router.get("/", authenticateToken, (req, res, next) => {
   //   "password": "admin_password"
   // }
 
-  router.delete("/", authenticateToken, (req, res, next) => {
-    if(req.user_type == "admin"){
-      try {
-        const deleteDeviceQuery = `DELETE FROM device WHERE id=${req.body.deviceId} 
-          AND (SELECT passphrase FROM admin
-          WHERE admin.id=${req.user_id}) = ${req.body.password}`;
-        execQuery(deleteDeviceQuery)
-          .then((rows) => {
+  
+
+  router.delete("/", authenticateToken, async (req, res, next) => {
+    try {
+      if (req.user_type === "admin") {
+        const getPasswordQuery = `SELECT passphrase FROM user WHERE id=${req.user_id}`;
+        const rows = await execQuery(getPasswordQuery);
+  
+        if (rows.length > 0) {
+          const storedHashedPassword = rows[0].passphrase;
+  
+          // Compare the provided password with the stored hashed password
+          const passwordMatch = await bcrypt.compare(req.body.password, storedHashedPassword);
+  
+          if (passwordMatch) {
+            const deleteDeviceQuery = `DELETE FROM device WHERE id=${req.body.deviceId}`;
+            await execQuery(deleteDeviceQuery);
+  
+            console.log(req.user_id);
             res.status(200).json({ message: "Device Deleted Successfully" });
-          })
-          .catch((err) => {
-            next(err);
-          });
-      } catch (err) {
-        next(err);
+          } else {
+            // Passwords don't match
+            res.status(401).json({ error: "Unauthorized: Incorrect Password" });
+          }
+        } else {
+          // User not found
+          res.status(404).json({ error: "User not found" });
+        }
+      } else {
+        res.status(401).json({ error: "Unauthorized" });
       }
-    } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
+    } catch (err) {
+      next(err);
     }
-    
   });
+  
   
 
 module.exports = router;
