@@ -2,6 +2,16 @@
 const express = require("express");
 const router = express.Router();
 
+function generatePassword(length) {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+}
+
 //for json mapping
 const {
   requestBodyToFieldsAndValues,
@@ -79,13 +89,15 @@ router.get("/myprofile", authenticateToken, (req, res, next) => {
 router.post("/new", authenticateToken, async (req, res, next) => {
   if (req.user_type == "admin") {
     try {
-      req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
+      req.body.passphrase = await bcrypt.hash(generatePassword(10), 10);
+      req.body.user_type = "company";
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-      const createCompanyQuery = `INSERT INTO user (${fields.toString()}) VALUES (${values.toString()})`;
+      const quotedValues = values.map((value) => `'${value}'`).join(", ");
+      const createCompanyQuery = `INSERT INTO user (${fields.toString()}) VALUES (${quotedValues.toString()})`;
 
       execQuery(createCompanyQuery)
         .then((rows) => {
-          res.status(200).json({ message: "New Company created successfully" });
+          res.status(200).json(req.body);
         })
         .catch((err) => {
           next(err);

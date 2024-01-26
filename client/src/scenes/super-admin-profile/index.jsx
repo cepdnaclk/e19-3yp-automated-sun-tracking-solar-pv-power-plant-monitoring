@@ -59,11 +59,6 @@ const SuperAdminProfile = () => {
       .matches(/^[0-9]+$/, "Must be only digits")
       .min(10, "Must be exactly 10 digits")
       .max(10, "Must be exactly 10 digits"),
-    contact_number: Yup.string()
-      .required("Contact Number is required")
-      .matches(/^[0-9]+$/, "Must be only digits")
-      .min(10, "Must be exactly 10 digits")
-      .max(10, "Must be exactly 10 digits"),
     email: Yup.string().email("Invalid email address"),
   });
 

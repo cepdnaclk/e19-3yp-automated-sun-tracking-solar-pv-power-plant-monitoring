@@ -12,6 +12,7 @@ axios.interceptors.response.use(
   (res) => res,
   (err) => {
     if (err.response.status === 401) {
+      console.log("interceptor starting");
       // send refresh token to server
       const refreshToken = localStorage.getItem("refreshToken");
       axios
