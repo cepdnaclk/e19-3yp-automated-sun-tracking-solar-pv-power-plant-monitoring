@@ -3,7 +3,7 @@ import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
-import { Box, Typography, TextField, Button } from '@mui/material';
+import { Box, TextField, Button, Input } from '@mui/material';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -23,6 +23,7 @@ const SuperAdminAddDevice = () => {
     model_number: Yup.string().required("Required"),
     company_id: Yup.string().required("Required"),
     company_name: Yup.string().required("Required"),
+    file: Yup.mixed().required("Required"),
   });
 
   const formik = useFormik({
@@ -32,6 +33,7 @@ const SuperAdminAddDevice = () => {
       model_number: "",
       company_id: "",
       company_name: "",
+      file: null,
     },
     validationSchema: validationSchema,
     onSubmit: () => {
@@ -119,7 +121,20 @@ const SuperAdminAddDevice = () => {
             error={formik.touched.company_name && Boolean(formik.errors.company_name)}
             helperText={formik.touched.company_name && formik.errors.company_name}
           />
-
+          <Input
+            type="file"
+            fullWidth
+            margin="normal"
+            inputProps={{ accept: '.pdf, .doc, .docx', multiple: true }} // Specify accepted file types
+            onChange={(event) => {
+              // Handle file upload logic here
+              // You can access the selected file using event.target.files[0]
+              formik.setFieldValue('file', event.target.files[0]);
+            }}
+            error={formik.touched.file && Boolean(formik.errors.file)}
+            helperText={formik.touched.file && formik.errors.file}
+            style={{ marginTop: '10px' }}
+          />
           <Box style={{ display: 'flex' }}>
             <Button
               type="submit"

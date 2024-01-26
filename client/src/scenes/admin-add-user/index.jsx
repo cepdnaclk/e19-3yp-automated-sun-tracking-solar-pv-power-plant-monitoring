@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
-import { Box, TextField, Button, Grid } from '@mui/material';
+import { Box, TextField, Button, Grid, Input } from '@mui/material';
 
 const AdminAdduser = () => {
   const theme = useTheme();
@@ -22,7 +22,6 @@ const AdminAdduser = () => {
     username: Yup.string().required("Required"),
     device_id: Yup.string().required("Required"),
     devicename: Yup.string().required("Required"),
-    email: Yup.string().email("Invalid email address").required("Required"),
     contact_number: Yup.string()
       .required("Required")
       .matches(/^[0-9]+$/, "Must be only digits")
@@ -30,6 +29,7 @@ const AdminAdduser = () => {
       .max(10, "Must be exactly 10 digits"),
     address: Yup.string().required("Required"),
     location: Yup.string().required("Required"),
+    file: Yup.mixed().required("Required"),
   });
 
   const formik = useFormik({
@@ -38,10 +38,10 @@ const AdminAdduser = () => {
       username: "",
       device_id: "",
       devicename: "",
-      email: "",
       address: "",
       contact_number: "",
       location: "",
+      file: null,
     },
     validationSchema: validationSchema,
     onSubmit: () => {
@@ -130,19 +130,6 @@ const AdminAdduser = () => {
             </Grid>
           </Grid>
           <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            required
-            id="email"
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
-          />
-          <TextField
             label="Address"
             variant="outlined"
             fullWidth
@@ -185,6 +172,20 @@ const AdminAdduser = () => {
             onChange={formik.handleChange}
             error={formik.touched.location && Boolean(formik.errors.location)}
             helperText={formik.touched.location && formik.errors.location}
+          />
+          <Input
+            type="file"
+            fullWidth
+            margin="normal"
+            inputProps={{ accept: '.pdf, .doc, .docx', multiple: true }} // Specify accepted file types
+            onChange={(event) => {
+              // Handle file upload logic here
+              // You can access the selected file using event.target.files[0]
+              formik.setFieldValue('file', event.target.files[0]);
+            }}
+            error={formik.touched.file && Boolean(formik.errors.file)}
+            helperText={formik.touched.file && formik.errors.file}
+            style={{ marginTop: '10px' }}
           />
           <Box style={{ display: 'flex' }}>
             <Button
