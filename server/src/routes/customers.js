@@ -33,7 +33,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
       execQuery(`SELECT user.id, user.username, user.user_type, user.email, user.contact_number, user.user_address
                 FROM user
                 JOIN device ON user.id = ${req.query.id}
-                WHERE device.assigned_company_id = ${req.user_id}}`)
+                WHERE device.assigned_company_id = ${req.user_id}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
           res.status(200).json(data);
@@ -46,7 +46,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
       execQuery(`SELECT user.id, user.username, user.user_type, user.email, user.contact_number, user.user_address
                 FROM user
                 JOIN device ON user.id = device.assigned_customer_id
-                WHERE device.assigned_company_id = ${req.user_id}}`)
+                WHERE device.assigned_company_id = ${req.user_id}`)
         .then((rows) => {
           data = rows[0].map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
@@ -56,7 +56,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
         });
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 
@@ -74,7 +74,7 @@ router.get("/viewProfile", authenticateToken, (req, res, next) => {
         next(err);
       });
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 
@@ -140,7 +140,9 @@ router.post("/register", async (req, res, next) => {
 // [Done]
 
 router.put("/updateProfile", authenticateToken, (req, res, next) => {
+  console.log(req.user_type, req.user_id, req.body["id"], "here");  
   if (req.user_type == "customer" && req.user_id == req.body["id"]) {
+    console.log("issue1");
     try {
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
       // Combine the two arrays into a single array.
@@ -156,7 +158,7 @@ router.put("/updateProfile", authenticateToken, (req, res, next) => {
 
       const updateCustomerQuery = `UPDATE user SET ${updateString} WHERE id='${req.user_id}';`;
 
-      console.log(updateCustomerQuery);
+      console.log(updateCustomerQuery, "\nUpadated successfully");
 
       execQuery(updateCustomerQuery)
         .then((rows) => {
@@ -171,7 +173,7 @@ router.put("/updateProfile", authenticateToken, (req, res, next) => {
       next(err);
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 

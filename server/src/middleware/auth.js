@@ -8,11 +8,14 @@ function authenticateToken(req, res, next) {
     const authHeader = req.headers.authorization;
     const token = authHeader?.split(" ")[1];
 
-    if (token == null)
-      return res.sendStatus(401).json({ error: "Unauthorized" });
+    if (token == null){
+      return res.status(401).json({ error: "Unauthorized" });
+    }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
-      if (err) throw err;
+      if (err) {
+        throw err;
+      }
       req.username = decoded.username;
       req.user_type = decoded.user_type;
       req.user_id = decoded.id;

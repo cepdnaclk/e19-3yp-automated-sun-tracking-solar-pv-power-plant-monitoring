@@ -24,14 +24,15 @@ app.use(express.json()); // for parsing application/json
 //user authentication
 app.use("/api/login", require("./src/routes/login")); //edit this accordingly
 
-//jwt authentication
-//const { authenticateToken } = require("./src/middleware/auth");
-//app.use(authenticateToken)
+// jwt authentication
+const { authenticateToken } = require("./src/middleware/auth");
+app.use(authenticateToken)
 
 //main router
 app.use("/api", require("./src/mainRouter"));
 
 //database connection and query setup
+
 
 // error logging
 app.use(require("./src/middleware/errorLogger"));
