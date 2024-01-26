@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { Box, Typography, TextField, Button } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const SuperAdminAddDevice = () => {
   const theme = useTheme();
@@ -15,6 +16,28 @@ const SuperAdminAddDevice = () => {
     // You can access form data using event.target.elements
     // For example: event.target.elements.companyName.value
   };
+
+  const validationSchema = Yup.object({
+    device_id: Yup.string().required("Required"),
+    model_name: Yup.string().required("Required"),
+    model_number: Yup.string().required("Required"),
+    company_id: Yup.string().required("Required"),
+    company_name: Yup.string().required("Required"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      device_id: "",
+      model_name: "",
+      model_number: "",
+      company_id: "",
+      company_name: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: () => {
+      // Handle login logic here
+    },
+  });
 
   return (
     <Box style={{ margin: '15px 100px 15px 25px' }}>
@@ -37,6 +60,12 @@ const SuperAdminAddDevice = () => {
             fullWidth
             margin="normal"
             required
+            id="device_id"
+            name="device_id"
+            value={formik.values.device_id}
+            onChange={formik.handleChange}
+            error={formik.touched.device_id && Boolean(formik.errors.device_id)}
+            helperText={formik.touched.device_id && formik.errors.device_id}
           />
           <TextField
             label="Model Name"
@@ -44,6 +73,12 @@ const SuperAdminAddDevice = () => {
             fullWidth
             margin="normal"
             required
+            id="model_name"
+            name="model_name"
+            value={formik.values.model_name}
+            onChange={formik.handleChange}
+            error={formik.touched.model_name && Boolean(formik.errors.model_name)}
+            helperText={formik.touched.model_name && formik.errors.model_name}
           />
           <TextField
             label="Model Number"
@@ -51,6 +86,12 @@ const SuperAdminAddDevice = () => {
             fullWidth
             margin="normal"
             required
+            id="model_number"
+            name="model_number"
+            value={formik.values.model_number}
+            onChange={formik.handleChange}
+            error={formik.touched.model_number && Boolean(formik.errors.model_number)}
+            helperText={formik.touched.model_number && formik.errors.model_number}
           />
           <TextField
             label="Company ID"
@@ -58,6 +99,25 @@ const SuperAdminAddDevice = () => {
             fullWidth
             margin="normal"
             required
+            id="company_id"
+            name="company_id"
+            value={formik.values.company_id}
+            onChange={formik.handleChange}
+            error={formik.touched.company_id && Boolean(formik.errors.company_id)}
+            helperText={formik.touched.company_id && formik.errors.company_id}
+          />
+          <TextField
+            label="Company Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            required
+            id="company_name"
+            name="company_name"
+            value={formik.values.company_name}
+            onChange={formik.handleChange}
+            error={formik.touched.company_name && Boolean(formik.errors.company_name)}
+            helperText={formik.touched.company_name && formik.errors.company_name}
           />
 
           <Box style={{ display: 'flex' }}>
