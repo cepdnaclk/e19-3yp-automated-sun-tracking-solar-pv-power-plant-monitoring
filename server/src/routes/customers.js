@@ -12,6 +12,13 @@ const {
   objectKeysSnakeToCamel,
 } = require("../utils/parse");
 
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
+
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
 
@@ -86,6 +93,15 @@ router.post("/register", async (req, res, next) => {
   try {
     // const [fields, values] = requestBodyToFieldsAndValues(req.body);
     // delete req.body["id"];
+
+    if (!req.body.email) {
+      throw new ValidationError("Email is required.");
+    }
+
+    if (!req.body.passphrase || req.body.passphrase.trim() === '') {
+      throw new ValidationError("Password is required.");
+    }
+    
     req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
     const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
     const quotedValues = values.map((value) => `'${value}'`);
@@ -98,8 +114,17 @@ router.post("/register", async (req, res, next) => {
       .catch((err) => {
         res.status(400).json({ message: err.toString() });
       });
-  } catch (err) {
-    res.status(400).json({ message: err.toString() });
+  } catch (error) {
+    // Handle specific types of errors with custom messages
+    if (error instanceof ValidationError) {
+      // Handle validation errors (e.g., missing or empty email or password)
+      console.error("Validation Error:", error.message);
+      return res.status(400).json({ error: error.message });
+    } else {
+      // Handle other unexpected errors
+      console.error("Unexpected Error:", error.message);
+      return res.status(500).json({ error: "An unexpected error occurred." });
+    }
   }
 });
 
