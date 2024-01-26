@@ -217,7 +217,7 @@ router.delete("/deleteAccount", authenticateToken, async (req, res, next) => {
       const password = req.body["password"];
       const getPassphraseQuery = `SELECT passphrase FROM user WHERE id=${id}`;
       const rows = await execQuery(getPassphraseQuery);
-      const passphrase = rows[0][0]["passphrase"];
+      const passphrase = rows[0]["passphrase"];
       const isMatch = await bcrypt.compare(password, passphrase);
 
       if (isMatch) {
