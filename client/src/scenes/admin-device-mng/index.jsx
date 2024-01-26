@@ -22,10 +22,12 @@ const AdminDeviceMng = () => {
 			flex: 1,
 			cellClassName: 'name-column--cell',
 		},
+		{ field: 'deviceId', headerName: 'Device ID' },
 		{
-			field: 'email',
-			headerName: 'User Email',
+			field: 'deviceName',
+			headerName: 'Device Name',
 			flex: 1,
+			cellClassName: 'name-column--cell',
 		},
 		{ field: 'status', headerName: 'Status', flex: 1 },
 		{ field: 'location', headerName: 'Location', flex: 1 },
@@ -81,7 +83,7 @@ const AdminDeviceMng = () => {
 			>
 				<Header
 					title="DEVICE MANAGEMENT"
-					subtitle="Mange Devices and Device Overview"
+					subtitle="Manage Devices and Device Overview"
 				/>
 			</Box>
 
