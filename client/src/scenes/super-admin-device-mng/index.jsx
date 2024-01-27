@@ -1,35 +1,46 @@
 import { Box, Button, useTheme } from "@mui/material";
-import React from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
 
 import { DataGrid } from "@mui/x-data-grid";
 
-// super admin user data
-import { superAdminDeviceData } from "../../data/superAdminDeviceData";
-
 const SuperAdminDeviceMng = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const [superAdminDeviceData, setSuperAdminDeviceData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("/devices/view")
+      .then((res) => {
+        setSuperAdminDeviceData(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   // columns of the data grid
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "companyId", headerName: "Company ID" },
+    { field: "model_name", 
+      headerName: "Model Name", 
+      flex: 1 },
     {
-      field: "companyName",
+      field: "model_number",
+      headerName: "Model Number",
+      flex: 1, },
+    { field: "assigned_company_id", 
+      headerName: "Company ID", 
+      flex: 1, },
+    {
+      field: "assigned_company_name",
       headerName: "Company Name",
       flex: 1,
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "devices",
-      headerName: "Devices",
-      flex: 1,
-    },
-    { field: "registered", headerName: "Registered", flex: 1 },
-    { field: "unregistered", headerName: "Unregistered", flex: 1 },
+      cellClassName: "name-column--cell", },
     {
       field: "actions",
       headerName: "Actions",
@@ -64,12 +75,12 @@ const SuperAdminDeviceMng = () => {
 
   const handleEdit = (companyId) => {
     // Handle edit logic here
-    console.log(`Editing device with ID: ${companyId}`);
+    console.log(`Editing device with ID: ${deviceId}`);
   };
 
   const handleDelete = (companyId) => {
     // Handle delete logic here
-    console.log(`Deleting device with ID: ${companyId}`);
+    console.log(`Deleting device with ID: ${deviceId}`);
   };
 
   return (

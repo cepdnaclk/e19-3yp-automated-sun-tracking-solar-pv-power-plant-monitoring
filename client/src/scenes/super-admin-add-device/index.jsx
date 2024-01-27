@@ -1,43 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../../components/Header';
+import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { Box, TextField, Button, Input } from '@mui/material';
+import { AlertContext } from "../../contexts/AlertContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 const SuperAdminAddDevice = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission logic here
-    // You can access form data using event.target.elements
-    // For example: event.target.elements.companyName.value
-  };
+  const { showAlert } = useContext(AlertContext);
 
   const validationSchema = Yup.object({
-    device_id: Yup.string().required("Required"),
+    // device_id: Yup.string().required("Required"),
     model_name: Yup.string().required("Required"),
     model_number: Yup.string().required("Required"),
-    company_id: Yup.string().required("Required"),
-    company_name: Yup.string().required("Required"),
-    file: Yup.mixed().required("Required"),
+    assigned_company_id: Yup.string().required("Required"),
+    assigned_company_name: Yup.string().required("Required"),
+    // file: Yup.mixed().required("Required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      device_id: "",
+      // device_id: "",
       model_name: "",
       model_number: "",
-      company_id: "",
-      company_name: "",
-      file: null,
+      assigned_company_id: "",
+      assigned_company_name: "",
+      // file: null,
     },
     validationSchema: validationSchema,
-    onSubmit: () => {
+    onSubmit: (values, { resetForm }) => {
       // Handle login logic here
+      axios
+        .post("/devices/", {
+          ...values,
+        })
+        .then((response) => {
+          console.log(response);
+          showAlert("Device Added Successfully", "success");
+          resetForm();
+        })
+        .catch((error) => {
+          console.log(error);
+          showAlert("Error Adding Device", "error");
+        });
     },
   });
 
@@ -54,9 +64,9 @@ const SuperAdminAddDevice = () => {
 				/>
 			</Box>
 
-      <form onSubmit={handleSubmit} style={{ background: `${colors.primary[400]}` }}>
+      <form onSubmit={formik.handleSubmit} style={{ background: `${colors.primary[400]}` }}>
         <Box m="0px 25px">
-          <TextField
+          {/* <TextField
             label="Device ID"
             variant="outlined"
             fullWidth
@@ -68,7 +78,7 @@ const SuperAdminAddDevice = () => {
             onChange={formik.handleChange}
             error={formik.touched.device_id && Boolean(formik.errors.device_id)}
             helperText={formik.touched.device_id && formik.errors.device_id}
-          />
+          /> */}
           <TextField
             label="Model Name"
             variant="outlined"
@@ -101,12 +111,12 @@ const SuperAdminAddDevice = () => {
             fullWidth
             margin="normal"
             required
-            id="company_id"
-            name="company_id"
-            value={formik.values.company_id}
+            id="assigned_company_id"
+            name="assigned_company_id"
+            value={formik.values.assigned_company_id}
             onChange={formik.handleChange}
-            error={formik.touched.company_id && Boolean(formik.errors.company_id)}
-            helperText={formik.touched.company_id && formik.errors.company_id}
+            error={formik.touched.assigned_company_id && Boolean(formik.errors.assigned_company_id)}
+            helperText={formik.touched.assigned_company_id && formik.errors.assigned_company_id}
           />
           <TextField
             label="Company Name"
@@ -114,27 +124,26 @@ const SuperAdminAddDevice = () => {
             fullWidth
             margin="normal"
             required
-            id="company_name"
-            name="company_name"
-            value={formik.values.company_name}
+            id="assigned_company_name"
+            name="assigned_company_name"
+            value={formik.values.assigned_company_name}
             onChange={formik.handleChange}
-            error={formik.touched.company_name && Boolean(formik.errors.company_name)}
-            helperText={formik.touched.company_name && formik.errors.company_name}
+            error={formik.touched.assigned_company_name && Boolean(formik.errors.assigned_company_name)}
+            helperText={formik.touched.assigned_company_name && formik.errors.assigned_company_name}
           />
-          <Input
+          {/* <Input
+            id="file"
             type="file"
             fullWidth
             margin="normal"
-            inputProps={{ accept: '.pdf, .doc, .docx', multiple: true }} // Specify accepted file types
+            inputProps={{ accept: '.pdf, .doc, .docx', multiple: true }}
             onChange={(event) => {
-              // Handle file upload logic here
-              // You can access the selected file using event.target.files[0]
               formik.setFieldValue('file', event.target.files[0]);
             }}
             error={formik.touched.file && Boolean(formik.errors.file)}
             helperText={formik.touched.file && formik.errors.file}
             style={{ marginTop: '10px' }}
-          />
+          /> */}
           <Box style={{ display: 'flex' }}>
             <Button
               type="submit"

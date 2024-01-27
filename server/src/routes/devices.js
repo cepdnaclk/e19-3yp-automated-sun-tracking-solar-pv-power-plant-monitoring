@@ -17,10 +17,10 @@ const bcrypt = require("bcryptjs");
 const { execQuery } = require("../database/database");
 
 // View devices - for the admins - [Done]
-router.get("/", authenticateToken, (req, res, next) => {
+router.get("/view", authenticateToken, (req, res, next) => {
   if(req.user_type == "admin"){
     if (req.query.id) {
-      execQuery(`SELECT id, model_name, model_number, assigned_company_id FROM device WHERE id=${req.query.id}`)
+      execQuery(`SELECT id, model_name, model_number, assigned_company_id, assigned_company_name FROM device WHERE id=${req.query.id}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
           res.status(200).json(data);
@@ -29,7 +29,7 @@ router.get("/", authenticateToken, (req, res, next) => {
           next(err);
         });
     } else {
-      execQuery(`SELECT id, model_name, model_number, assigned_company_id FROM device`)
+      execQuery(`SELECT id, model_name, model_number, assigned_company_id, assigned_company_name FROM device`)
         .then((rows) => {
           data = rows[0].map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
