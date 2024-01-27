@@ -21,7 +21,7 @@ import UserFaq from "./scenes/user-faq";
 import UserProfile from "./scenes/user-profile";
 
 // Admin pages imports
-import AdminAddUser from "./scenes/admin-add-user";
+import AdminAddDevice from "./scenes/admin-add-device";
 import AdminDashboard from "./scenes/admin-dashboard";
 import AdminDeviceMng from "./scenes/admin-device-mng";
 import AdminFaq from "./scenes/admin-faq";
@@ -119,7 +119,7 @@ function App() {
           <Route path="/admin-device-management" element={<AdminDeviceMng />} />
           <Route path="/admin-faq" element={<AdminFaq />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
-          <Route path="/admin-add-user" element={<AdminAddUser />} />
+          <Route path="/admin-add-device" element={<AdminAddDevice />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
