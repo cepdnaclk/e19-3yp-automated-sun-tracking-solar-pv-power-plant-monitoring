@@ -1,8 +1,8 @@
 // companies.test.js
 const request = require('supertest');
 const express = require('express');
-const companiesRouter = require('../src/routes/companies');
-const { execQuery } = require('../src/database/database');
+const companiesRouter = require('../server/src/routes/companies');
+const { execQuery } = require('../server/src/database/database');
 
 const app = express();
 app.use(express.json());

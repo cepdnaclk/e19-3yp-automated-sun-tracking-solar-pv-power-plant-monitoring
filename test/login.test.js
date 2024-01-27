@@ -6,7 +6,7 @@ const app = express();
 const loginRoutes = require("../server/src/routes/login");
 
 // Mocking the database connection
-jest.mock("../database/database", () => ({
+jest.mock("../server/src/database/database", () => ({
   connection: {
     query: jest.fn(),
   },

@@ -3,10 +3,10 @@ const express = require("express");
 const app = express();
 
 // Importing your routes
-const deviceRoutes = require("../path/to/your/routes");
+const deviceRoutes = require("../server/src/routes/devices");
 
 // Mocking the authenticateToken middleware
-jest.mock("../path/to/middleware/auth", () => ({
+jest.mock("../server/src/middleware/auth", () => ({
   authenticateToken: jest.fn((req, res, next) => {
     req.user_type = "admin"; // Mocking user_type as "admin" for testing
     next();
@@ -14,7 +14,7 @@ jest.mock("../path/to/middleware/auth", () => ({
 }));
 
 // Mocking the execQuery function
-jest.mock("../path/to/database/database", () => ({
+jest.mock("../server/src/database/database", () => ({
   execQuery: jest.fn(() => Promise.resolve([])), // You can adjust the mock as needed
 }));
 
@@ -41,10 +41,10 @@ const express = require("express");
 const app = express();
 
 // Importing your routes
-const deviceRoutes = require("../path/to/your/routes");
+const deviceRoutes = require("../server/src/routes/devices");
 
 // Mocking the authenticateToken middleware
-jest.mock("../path/to/middleware/auth", () => ({
+jest.mock("../server/src/middleware/auth", () => ({
   authenticateToken: jest.fn((req, res, next) => {
     req.user_type = "admin"; // Mocking user_type as "admin" for testing
     next();
@@ -52,7 +52,7 @@ jest.mock("../path/to/middleware/auth", () => ({
 }));
 
 // Mocking the execQuery function
-jest.mock("../path/to/database/database", () => ({
+jest.mock("../server/src/database/database", () => ({
   execQuery: jest.fn(() => Promise.resolve([])), // You can adjust the mock as needed
 }));
 
