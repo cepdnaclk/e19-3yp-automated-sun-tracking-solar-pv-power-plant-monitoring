@@ -9,7 +9,6 @@
 #include <WebSocketsServer.h>
 #include <ESPmDNS.h>
 #include <Wire.h>
-#include <Adafruit_INA219.h>
 #include <WiFiClientSecure.h>
 #include <PubSubClient.h>
 #include "secret.h"
@@ -32,8 +31,6 @@ String wifi = "";
 String pass = "";
 
 WebServer server(80);
-
-Adafruit_INA219 ina219;
 
 Preferences preferences;
 
@@ -502,9 +499,9 @@ String read_voltage_current()
   float loadvoltage = 0;
   float power = 0;
 
-  busvoltage = ina219.getBusVoltage_V();
-  current_mA = ina219.getCurrent_mA();
-  power = ina219.getPower_mW();
+  busvoltage = readAnalog(36);
+  current_mA = "00";
+  power = "00";
 
   Serial.print("Load Voltage:  ");
   Serial.print(loadvoltage);
@@ -598,9 +595,6 @@ void setup()
 
   Serial.println("servos attached");
 
-  ina219.begin();
-  Serial.println("Setup INA219");
-
   if (posX > maxX || posX < minX)
     posX = minX;
   if (posZ > maxZ || posZ < minZ)
@@ -608,6 +602,10 @@ void setup()
 
   delay(1000);
 
+  setServoPosition(1, minX);
+  setServoPosition(2, minZ);
+  setServoPosition(1, maxX);
+  setServoPosition(2, maxZ);
   setServoPosition(1, minX);
   setServoPosition(2, minZ);
 
