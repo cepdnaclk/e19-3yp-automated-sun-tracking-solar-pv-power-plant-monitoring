@@ -17,12 +17,13 @@ app.use(express.json()); // for parsing application/json
 // Set up storage for multer
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, 'src', 'public')); // Set the destination folder
+    cb(null, path.join(__dirname, 'src', 'public'));
   },
   filename: function (req, file, cb) {
-    cb(null, 'UserManual.docx'); // Set the filename
+    cb(null, file.originalname); // Use the original file name
   }
 });
+
 
 const upload = multer({ storage: storage });
 
