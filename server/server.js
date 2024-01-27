@@ -20,9 +20,11 @@ const storage = multer.diskStorage({
     cb(null, path.join(__dirname, 'src', 'public')); // Set the destination folder
   },
   filename: function (req, file, cb) {
-    cb(null, 'HeliyoEYE_UserManual.docx'); // Set the filename
+    cb(null, 'UserManual.docx'); // Set the filename
   }
 });
+
+const upload = multer({ storage: storage });
 
 // File upload route
 app.post('/upload', upload.single('userManual'), (req, res) => {
@@ -32,9 +34,6 @@ app.post('/upload', upload.single('userManual'), (req, res) => {
 ///////////
 //end of upload file part
 
-
-
-const upload = multer({ storage: storage });
 //middleware setup
 
 //sample app api
