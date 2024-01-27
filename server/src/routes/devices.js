@@ -23,6 +23,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
       execQuery(`SELECT id, model_name, model_number, assigned_company_id, assigned_company_name FROM device WHERE id=${req.query.id}`)
         .then((rows) => {
           data = objectKeysSnakeToCamel(rows[0]);
+          console.log(data);
           res.status(200).json(data);
         })
         .catch((err) => {
@@ -31,13 +32,17 @@ router.get("/view", authenticateToken, (req, res, next) => {
     } else {
       execQuery(`SELECT id, model_name, model_number, assigned_company_id, assigned_company_name FROM device`)
         .then((rows) => {
-          data = rows[0].map((row) => objectKeysSnakeToCamel(row));
-          res.status(200).json(data);
+          if (Array.isArray(rows) && rows.length > 0) {
+            data = rows.map((row) => objectKeysSnakeToCamel(row));
+            res.status(200).json(data);
+          } else {
+            res.status(200).json([]); // Sending an empty array if there are no results
+          }
         })
         .catch((err) => {
           next(err);
         });
-    }
+    }    
   } else {
     return res.status(401).send({ error: "Unauthorized" });
   }
