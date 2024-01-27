@@ -43,6 +43,50 @@ router.get("/view", authenticateToken, (req, res, next) => {
   }
   });
 
+// get number of devices - [Done]
+// only accessble for admins
+
+router.get("/deviceCount", authenticateToken, (req, res, next) => {
+  if (req.user_type == "admin") {
+    
+    execQuery(
+      `SELECT COUNT(*) FROM device";`
+    )
+      .then((rows) => {
+        data = objectKeysSnakeToCamel(rows[0]);
+        res.status(200).json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+    
+  } else {
+    return res.sendStatus(401).json({ error: "Unauthorized" });
+  }
+});
+
+// get number of devices under each company - [Done]
+// only accessble for companies
+
+router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
+  if (req.user_type == "company") {
+    
+    execQuery(
+      `SELECT COUNT(*) FROM device WHERE assigned_company_id = ${req.user_id}";`
+    )
+      .then((rows) => {
+        data = objectKeysSnakeToCamel(rows[0]);
+        res.status(200).json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+    
+  } else {
+    return res.sendStatus(401).json({ error: "Unauthorized" });
+  }
+});
+
   //view devices - for companies - [Done]
   // request format { id: device_id}
   router.get("/", authenticateToken, (req, res, next) => {
