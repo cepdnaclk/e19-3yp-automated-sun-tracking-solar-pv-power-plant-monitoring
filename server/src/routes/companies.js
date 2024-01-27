@@ -58,6 +58,29 @@ router.get("/view", authenticateToken, (req, res, next) => {
   }
 });
 
+// get number of companies - [Done]
+// only accessble for admins
+
+router.get("/companyCount", authenticateToken, (req, res, next) => {
+  if (req.user_type == "admin") {
+    
+    execQuery(
+      `SELECT COUNT(*) FROM user WHERE user_type = "company";`
+    )
+      .then((rows) => {
+        data = objectKeysSnakeToCamel(rows[0]);
+        res.status(200).json(data);
+      })
+      .catch((err) => {
+        next(err);
+      });
+    
+  } else {
+    return res.sendStatus(401).json({ error: "Unauthorized" });
+  }
+});
+
+
 // get own profile - only for the respective company - [Done]
 router.get("/myprofile", authenticateToken, (req, res, next) => {
   if (req.user_type == "company") {
