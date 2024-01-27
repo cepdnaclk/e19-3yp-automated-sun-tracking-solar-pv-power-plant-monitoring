@@ -74,7 +74,7 @@ router.post("/new", authenticateToken, async (req, res, next) => {
       // make the password hashed
       req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-      const addAdmins = `INSERT INTO user (${fields.toString()}) VALUES (${values.toString()})`;
+      const addAdmins = `INSERT INTO user (${fields.toString()}) VALUES ('${values.join("', '")}')`;
 
       execQuery(addAdmins)
         .then((rows) => {
