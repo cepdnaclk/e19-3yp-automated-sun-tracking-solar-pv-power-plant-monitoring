@@ -8,6 +8,11 @@
     <title>HelioEye | Login</title>
   </head>
   <body>
+    <div class="loading">
+      <div class="loading__container">
+        <div class="loading__circle"></div>
+      </div>
+    </div>
     <div class="container">
       <form onsubmit="handleSubmit(event)">
         <img src="/logo" alt="" />
@@ -19,16 +24,17 @@
       </form>
     </div>
     <script>
-      const body = document.querySelector("body");
+      const loading = document.querySelector(".loading");
 
       const handleSubmit = (event) => {
         event.preventDefault();
-        body.classList.add("loading");
+        loading.classList.add("show");
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
         fetch(`/loginin?username=${username}&password=${password}`)
           .then((res) => res.json())
           .then((data) => {
+            loading.classList.remove("show");
             if (data.status === "success") {
               window.location.href = "/";
             } else {
@@ -37,8 +43,8 @@
           })
           .catch((err) => {
             alert(err);
+            loading.classList.remove("show");
           });
-        body.classList.remove("loading");
       };
     </script>
   </body>

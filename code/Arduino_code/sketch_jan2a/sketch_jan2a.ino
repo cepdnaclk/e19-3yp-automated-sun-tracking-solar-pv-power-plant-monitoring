@@ -240,8 +240,51 @@ void messageHandler(char *topic, byte *payload, unsigned int length)
 
   StaticJsonDocument<200> doc;
   deserializeJson(doc, payload);
-  const char *message = doc["message"];
-  Serial.println(message);
+  if (doc["message"])
+  {
+    const char *message = doc["message"];
+    Serial.println(message);
+  }
+  if (doc["control"])
+  {
+    const char *control = doc["control"];
+    Serial.println(control);
+    if (strcmp(control, "left") == 0)
+    {
+      setServoPosition(1, posX - 10);
+    }
+    else if (strcmp(control, "right") == 0)
+    {
+      setServoPosition(1, posX + 10);
+    }
+    else if (strcmp(control, "up") == 0)
+    {
+      setServoPosition(2, posZ + 10);
+    }
+    else if (strcmp(control, "down") == 0)
+    {
+      setServoPosition(2, posZ - 10);
+    }
+    else if (strcmp(control, "calibrate") == 0)
+    {
+      calibrate_sensors();
+    }
+    else if (strcmp(control, "reset") == 0)
+    {
+      preferences.clear();
+      setServoPosition(1, minX);
+      setServoPosition(2, minZ);
+      // reboot
+      ESP.restart();
+    }
+    else if (strcmp(control, "set") == 0)
+    {
+      int incomingPosX = doc["posX"];
+      int incomingPosZ = doc["posZ"];
+      setServoPosition(1, incomingPosX * (maxX - minX) / 100 + minX);
+      setServoPosition(2, incomingPosZ * (maxZ - minZ) / 100 + minZ);
+    }
+  }
 }
 
 void publishMessage(int posX, int posZ, float voltage, float current, float power)
@@ -286,6 +329,8 @@ int min_array(int arr[])
 
 void calibrate_sensors()
 {
+  digitalWrite(19, HIGH);
+
   int beforeState = state;
   state = CALIBRATE;
 
@@ -352,6 +397,8 @@ void calibrate_sensors()
   Serial.println(trigger_value[3]);
 
   state = beforeState;
+
+  digitalWrite(19, LOW);
 }
 
 void setServoPosition(int servo, int position)
@@ -475,6 +522,8 @@ void handleReset()
 {
   preferences.clear();
   server.send(200, "application/json", "{\"status\":\"reset\"}");
+  setServoPosition(1, minX);
+  setServoPosition(2, minZ);
   // reboot
   ESP.restart();
 }
@@ -493,15 +542,15 @@ void handleFileServe(String path, String type = "text/html")
 
 String read_voltage_current()
 {
-  float shuntvoltage = 0;
-  float busvoltage = 0;
   float current_mA = 0;
   float loadvoltage = 0;
   float power = 0;
 
-  busvoltage = readAnalog(36);
-  current_mA = "00";
-  power = "00";
+  float voltageSensorReading = analogRead(36);
+
+  loadvoltage = voltageSensorReading * (3.3 / 4096.0) * 3.3 / 0.56;
+  current_mA = 0;
+  power = 0;
 
   Serial.print("Load Voltage:  ");
   Serial.print(loadvoltage);
@@ -522,6 +571,9 @@ void setup()
   Serial.begin(9600);
 
   delay(1000);
+
+  pinMode(21, OUTPUT);
+  digitalWrite(21, HIGH);
 
   loadPreferences();
 
@@ -590,6 +642,8 @@ void setup()
   server.begin();
 
   pinMode(13, OUTPUT);
+  pinMode(18, OUTPUT);
+  pinMode(19, OUTPUT);
   myservo1.attach(26);
   myservo2.attach(27);
 
@@ -652,6 +706,7 @@ void setup()
 
   delay(1000);
   Serial.println("Setup done");
+  digitalWrite(21, LOW);
 }
 
 void loop()
@@ -662,6 +717,24 @@ void rotationTask(void *parameter)
 {
   for (;;)
   {
+    if (state == AP_MODE)
+    {
+      digitalWrite(18, HIGH);
+      digitalWrite(19, LOW);
+      delay(1000);
+      continue;
+    }
+    else if (state == CALIBRATE)
+    {
+      digitalWrite(19, HIGH);
+      digitalWrite(18, LOW);
+    }
+    else
+    {
+      digitalWrite(18, LOW);
+      digitalWrite(19, LOW);
+    }
+
     unsigned long uptime = millis();
     if (uptime - previousRotation > 10000 && state == CONNECTED)
     {
@@ -678,10 +751,14 @@ void dataSendingTask(void *parameter)
   {
     server.handleClient();
     webSocket.loop();
-    if (!client.connected())
+    if (state == CONNECTED)
     {
-      connectAWS();
-      Serial.println("AWS IoT Connected!");
+      if (!client.connected())
+      {
+        connectAWS();
+        Serial.println("AWS IoT Connected!");
+      }
+      client.loop();
     }
     unsigned long uptime = millis();
     if (uptime - previousDatasend > 5000 && state == CONNECTED)

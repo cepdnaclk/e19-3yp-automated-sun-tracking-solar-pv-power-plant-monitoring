@@ -8,6 +8,11 @@
     <title>HelioEye | Wifi Settings</title>
   </head>
   <body>
+    <div class="loading">
+      <div class="loading__container">
+        <div class="loading__circle"></div>
+      </div>
+    </div>
     <div class="container">
       <form onsubmit="setWifi(event)">
         <img src="/logo" alt="" />
@@ -20,8 +25,9 @@
     </div>
   </body>
   <script>
-    const body = document.querySelector("body");
+    const loading = document.querySelector(".loading");
 
+    loading.classList.add("show");
     const wifiList = fetch("/scan")
       .then((res) => res.json())
       .then((data) => {
@@ -32,6 +38,11 @@
           option.innerText = wifi;
           selectElement.appendChild(option);
         });
+        loading.classList.remove("show");
+      })
+      .catch((err) => {
+        alert(err);
+        loading.classList.remove("show");
       });
 
     const timeout = (ms, promise) => {
@@ -54,7 +65,7 @@
 
     const setWifi = (event) => {
       event.preventDefault();
-      body.classList.add("loading");
+      loading.classList.add("show");
       const wifi = document.getElementById("wifi-list").value;
       const pass = document.getElementById("pass").value;
       timeout(10000, fetch(`/set-wifi?wifi=${wifi}&pass=${pass}`))
@@ -63,11 +74,12 @@
           alert(data.status);
           // redirect to router ip
           window.location.href = `http://${data.newip}`;
+          loading.classList.remove("show");
         })
         .catch((err) => {
           alert(err);
+          loading.classList.remove("show");
         });
-      body.classList.remove("loading");
     };
   </script>
 </html>
