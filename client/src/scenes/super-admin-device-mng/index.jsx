@@ -124,7 +124,7 @@ const SuperAdminDeviceMng = () => {
 							icon={<SaveIcon />}
 							label="Save"
 							sx={{
-								color: 'primary.main',
+								color: colors.yellowAccent[400],
 							}}
 							onClick={handleSaveClick(id)}
 						/>,
@@ -133,7 +133,9 @@ const SuperAdminDeviceMng = () => {
 							label="Cancel"
 							className="textPrimary"
 							onClick={handleCancelClick(id)}
-							color="inherit"
+							sx={{
+								color: colors.redAccent[500],
+							}}
 						/>,
 					];
 				}
@@ -144,13 +146,17 @@ const SuperAdminDeviceMng = () => {
 						label="Edit"
 						className="textPrimary"
 						onClick={handleEditClick(id)}
-						color="inherit"
+						sx={{
+							color: colors.yellowAccent[400],
+						}}
 					/>,
 					<GridActionsCellItem
 						icon={<DeleteIcon />}
 						label="Delete"
 						onClick={handleDeleteClick(id)}
-						color="inherit"
+						sx={{
+							color: colors.redAccent[500],
+						}}
 					/>,
 				];
 			},
