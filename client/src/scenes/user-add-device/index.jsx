@@ -1,50 +1,53 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
+import axios from "axios";
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
 import { Box, TextField, Button, Grid } from '@mui/material';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { AlertContext } from "../../contexts/AlertContext";
 
 const UserAddDevice = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const handleSubmit = (event) => {
-      event.preventDefault();
-      // Handle form submission logic here
-      // You can access form data using event.target.elements
-      // For example: event.target.elements.companyName.value
-    };
+    const { showAlert } = useContext(AlertContext);
 
     const validationSchema = Yup.object({
-      devicename: Yup.string().required("Required"),
-      model_number: Yup.string().required("Required"),
-      model_name: Yup.string().required("Required"),
-      user_id: Yup.string().required("Required"),
-      username: Yup.string().required("Required"),
-      company_id: Yup.string().required("Required"),
-      company_name: Yup.string().required("Required"),
-      latitude: Yup.string().required("Required"),
-      longitude: Yup.string().required("Required"),
+      id: Yup.string().required("Required"),
+      assigned_customer_id: Yup.string().required("Required"),
+      device_name_by_customer: Yup.string().required("Required"),
+      device_latitude: Yup.string().required("Required"),
+      device_longitude: Yup.string().required("Required"),
     });
   
     const formik = useFormik({
       initialValues: {
-        devicename: "",
-        model_name: "",
-        model_number: "",
-        user_id: "",
-        username: "",
-        company_id: "",
-        company_name: "",
-        latitude: "",
-        longitude: "",
+        id: "",
+        assigned_customer_id: "",
+        device_name_by_customer: "",
+        device_latitude: "",
+        device_longitude: "",
       },
       validationSchema: validationSchema,
-      onSubmit: () => {
+      onSubmit: (values, { resetForm }) => {
         // Handle login logic here
+        axios
+          .put("/devices/", {
+            ...values,
+          })
+          .then((response) => {
+            console.log(response);
+            showAlert("Device Assigned Successfully", "success");
+            resetForm();
+          })
+          .catch((error) => {
+            console.log(error);
+            showAlert("Error Assigning Device", "error");
+          });
       },
+  
     });
   
     return (
@@ -60,149 +63,73 @@ const UserAddDevice = () => {
                   />
               </Box>
   
-        <form onSubmit={handleSubmit} style={{ background: `${colors.primary[400]}` }}>
+        <form onSubmit={formik.handleSubmit} style={{ background: `${colors.primary[400]}` }}>
           <Box m="0px 25px">
+          <TextField
+              label="Device Id"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+              id="id"
+              name="id"
+              value={formik.values.id}
+              onChange={formik.handleChange}
+              error={formik.touched.id && Boolean(formik.errors.id)}
+              helperText={formik.touched.id && formik.errors.id}
+            />
             <TextField
-                label="Device Name"
+              label="User Id"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+              id="assigned_customer_id"
+              name="assigned_customer_id"
+              value={formik.values.assigned_customer_id}
+              onChange={formik.handleChange}
+              error={formik.touched.assigned_customer_id && Boolean(formik.errors.assigned_customer_id)}
+              helperText={formik.touched.assigned_customer_id && formik.errors.assigned_customer_id}
+            />
+            <TextField
+              label="Device Name"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              required
+              id="device_name_by_customer"
+              name="device_name_by_customer"
+              value={formik.values.device_name_by_customer}
+              onChange={formik.handleChange}
+              error={formik.touched.device_name_by_customer && Boolean(formik.errors.device_name_by_customer)}
+              helperText={formik.touched.device_name_by_customer && formik.errors.device_name_by_customer}
+            />
+            <TextField
+                label="Latitude"
                 variant="outlined"
                 fullWidth
                 margin="normal"
                 required
-                id="devicename"
-                name="devicename"
-                value={formik.values.devicename}
+                id="device_latitude"
+                name="device_latitude"
+                value={formik.values.device_latitude}
                 onChange={formik.handleChange}
-                error={formik.touched.devicename && Boolean(formik.errors.devicename)}
-                helperText={formik.touched.devicename && formik.errors.devicename}
-              />
-            <Grid container spacing={2}>              
-                <Grid item xs={6}>
-                    <TextField
-                        label="Model Number"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        required
-                        id="model_number"
-                        name="model_number"
-                        value={formik.values.model_number}
-                        onChange={formik.handleChange}
-                        error={formik.touched.model_number && Boolean(formik.errors.model_number)}
-                        helperText={formik.touched.model_number && formik.errors.model_number}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        label="Model Name"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        required
-                        id="model_name"
-                        name="model_name"
-                        value={formik.values.model_name}
-                        onChange={formik.handleChange}
-                        error={formik.touched.model_name && Boolean(formik.errors.model_name)}
-                        helperText={formik.touched.model_name && formik.errors.model_name}
-                                />
-                </Grid>
-            </Grid>
-            <Grid container spacing={2}>              
-                <Grid item xs={6}>
-                    <TextField
-                        label="User ID"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        required
-                        id="user_id"
-                        name="user_id"
-                        value={formik.values.user_id}
-                        onChange={formik.handleChange}
-                        error={formik.touched.user_id && Boolean(formik.errors.user_id)}
-                        helperText={formik.touched.user_id && formik.errors.user_id}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        label="User Name"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        required
-                        id="username"
-                        name="username"
-                        value={formik.values.username}
-                        onChange={formik.handleChange}
-                        error={formik.touched.username && Boolean(formik.errors.username)}
-                        helperText={formik.touched.username && formik.errors.username}
-                                />
-                </Grid>
-            </Grid>
-            <Grid container spacing={2}>              
-                <Grid item xs={6}>
-                    <TextField
-                        label="Company ID"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        required
-                        id="company_id"
-                        name="company_id"
-                        value={formik.values.company_id}
-                        onChange={formik.handleChange}
-                        error={formik.touched.company_id && Boolean(formik.errors.company_id)}
-                        helperText={formik.touched.company_id && formik.errors.company_id}
-                    />
-                </Grid>
-                <Grid item xs={6}>
-                    <TextField
-                        label="Company Name"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        required
-                        id="company_name"
-                        name="company_name"
-                        value={formik.values.company_name}
-                        onChange={formik.handleChange}
-                        error={formik.touched.company_name && Boolean(formik.errors.company_name)}
-                        helperText={formik.touched.company_name && formik.errors.company_name}
-                    />
-                </Grid>
-            </Grid>
-            <Grid container spacing={2}>              
-              <Grid item xs={6}>
-                  <TextField
-                      label="Latitude"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      required
-                      id="latitude"
-                      name="latitude"
-                      value={formik.values.latitude}
-                      onChange={formik.handleChange}
-                      error={formik.touched.latitude && Boolean(formik.errors.latitude)}
-                      helperText={formik.touched.latitude && formik.errors.latitude}
-                  />
-              </Grid>
-              <Grid item xs={6}>
-                  <TextField
-                      label="Longitude"
-                      variant="outlined"
-                      fullWidth
-                      margin="normal"
-                      required
-                      id="longitude"
-                      name="longitude"
-                      value={formik.values.longitude}
-                      onChange={formik.handleChange}
-                      error={formik.touched.longitude && Boolean(formik.errors.longitude)}
-                      helperText={formik.touched.longitude && formik.errors.longitude}
-                  />
-              </Grid>
-          </Grid>
+                error={formik.touched.device_latitude && Boolean(formik.errors.device_latitude)}
+                helperText={formik.touched.device_latitude && formik.errors.device_latitude}
+            />
+            <TextField
+                label="Longitude"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                required
+                id="device_longitude"
+                name="device_longitude"
+                value={formik.values.device_longitude}
+                onChange={formik.handleChange}
+                error={formik.touched.device_longitude && Boolean(formik.errors.device_longitude)}
+                helperText={formik.touched.device_longitude && formik.errors.device_longitude}
+            />
             <Box style={{ display: 'flex' }}>
               <Button
                 type="submit"
