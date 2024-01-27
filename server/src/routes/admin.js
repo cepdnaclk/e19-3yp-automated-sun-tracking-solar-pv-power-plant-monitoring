@@ -167,15 +167,15 @@ router.put("/myProfile", authenticateToken, (req, res, next) => {
       next(err);
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 
 //create a put request to change password [Done]
 // request format
 // {
-//   old_password: "securepassword",
-//   new_password: "newsecurepassword"
+//   currentpassword: "securepassword",
+//   newpassword: "newsecurepassword"
 // }
 router.put("/changePassword", authenticateToken, async (req, res, next) => {
   if (req.user_type == "admin" && req.user_id == req.body.id) {
@@ -231,7 +231,7 @@ router.delete("/deleteAccount", authenticateToken, async (req, res, next) => {
       next(err);
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 
