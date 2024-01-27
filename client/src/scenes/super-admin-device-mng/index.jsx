@@ -26,18 +26,18 @@ const SuperAdminDeviceMng = () => {
   // columns of the data grid
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "model_name", 
+    { field: "modelName", 
       headerName: "Model Name", 
       flex: 1 },
     {
-      field: "model_number",
+      field: "modelNumber",
       headerName: "Model Number",
       flex: 1, },
-    { field: "assigned_company_id", 
+    { field: "assignedCompanyId", 
       headerName: "Company ID", 
       flex: 1, },
     {
-      field: "assigned_company_name",
+      field: "assignedCompanyName",
       headerName: "Company Name",
       flex: 1,
       cellClassName: "name-column--cell", },
