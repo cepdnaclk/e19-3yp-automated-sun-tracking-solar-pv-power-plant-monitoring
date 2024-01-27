@@ -97,7 +97,7 @@ router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
   router.get("/", authenticateToken, (req, res, next) => {
     if(req.user_type == "company"){
       if (req.query.id) {
-        execQuery(`SELECT id, model_name, model_number, description_, purchased_customer_email FROM device 
+        execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
         WHERE id=${req.query.id} AND assigned_company_id=${req.user_id}`)
           .then((rows) => {
             data = objectKeysSnakeToCamel(rows[0]);
@@ -107,11 +107,15 @@ router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
             next(err);
           });
       } else {
-        execQuery(`SELECT id, model_name, model_number, description_, purchased_customer_email FROM device 
+        execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
         WHERE assigned_company_id=${req.user_id}`)
           .then((rows) => {
-            data = rows[0].map((row) => objectKeysSnakeToCamel(row));
-            res.status(200).json(data);
+            if (Array.isArray(rows) && rows.length > 0) {
+              data = rows.map((row) => objectKeysSnakeToCamel(row));
+              res.status(200).json(data);
+            } else {
+              res.status(200).json([]); // Sending an empty array if there are no results
+            }
           })
           .catch((err) => {
             next(err);
@@ -126,7 +130,7 @@ router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
   router.get("/", authenticateToken, (req, res, next) => {
     if(req.user_type == "customer"){
       if (req.query.id) {
-        execQuery(`SELECT device_name_by_customer, model_name, model_number, description_ 
+        execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
                     FROM device WHERE assigned_customer_id=${req.user_id} AND id=${req.query.id}`)
           .then((rows) => {
             data = objectKeysSnakeToCamel(rows[0]);
@@ -136,7 +140,7 @@ router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
             next(err);
           });
       } else {
-        execQuery(`SELECT device_name_by_customer, model_name, model_number, description_ 
+        execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
         FROM device WHERE assigned_customer_id=${req.user_id}`)
           .then((rows) => {
             data = rows[0].map((row) => objectKeysSnakeToCamel(row));

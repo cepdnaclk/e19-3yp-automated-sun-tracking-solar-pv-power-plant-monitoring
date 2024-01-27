@@ -16,7 +16,7 @@ CREATE TABLE device(
     id                          INT(6) AUTO_INCREMENT PRIMARY KEY,
     model_name                  VARCHAR(50),
     model_number                VARCHAR(20),
-    description_                VARCHAR(255),
+    device_description          VARCHAR(255),
     assigned_company_id         INT(4),
     assigned_company_name       VARCHAR(50),
     purchased_customer_email    VARCHAR(255),

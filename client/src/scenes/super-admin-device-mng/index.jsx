@@ -1,5 +1,4 @@
 import { Box, Button, useTheme } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -22,6 +21,18 @@ const SuperAdminDeviceMng = () => {
 	const [superAdminDeviceData, setSuperAdminDeviceData] = useState([]);
 	const [rows, setRows] = useState([]);
 	const [rowModesModel, setRowModesModel] = useState({});
+
+	useEffect(() => {
+		axios
+			.get('/devices/view')
+			.then((res) => {
+				setSuperAdminDeviceData(res.data);
+				setRows(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
 	const handleRowEditStop = (params, event) => {
 		if (params.reason === GridRowEditStopReasons.rowFocusOut) {
@@ -68,18 +79,6 @@ const SuperAdminDeviceMng = () => {
 	const handleRowModesModelChange = (newRowModesModel) => {
 		setRowModesModel(newRowModesModel);
 	};
-
-	useEffect(() => {
-		axios
-			.get('/devices/view')
-			.then((res) => {
-				setSuperAdminDeviceData(res.data);
-				setRows(res.data);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
 
 	const columns = [
 		{ field: 'id', headerName: 'ID' },
