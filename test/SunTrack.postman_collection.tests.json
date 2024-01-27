@@ -31,7 +31,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhcnV3YW4iLCJ1c2VyX3R5cGUiOiJjdXN0b21lciIsImlkIjoxNiwiZW1haWwiOiJlMTkyNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI5MDk3OH0.6XJ555XUYwv7K3HM_6KeRGrfN7EcDFJt700IvvJb9Hc",
 									"type": "string"
 								}
 							]
@@ -89,7 +89,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI3ODExNCwiZXhwIjoxNzA2Mjc5MzE0fQ.UKOFSONPAnB-qnxm6yFeV3_dYOw8I4JCOIOlVQSBxis",
 									"type": "string"
 								}
 							]
@@ -220,7 +220,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "// {\r\n//   \"username\": \"supun\",\r\n//   \"password\": \"1234\"\r\n// }\r\n{\"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NzMzMX0.LeurOMDDzTuaZCqi2cjBNFaEHSQCc6R-d1Z1tv7Kafs\"}\r\n\r\n//    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwM30.e2DKJj4ozeVreL7QoYxrC4WJW79bDiJNOqELI4zG_rE\",\r\n\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19413@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }\r\n\r\n// {\r\n//   \"username\": \"supun\",\r\n// //   \"user_type\": \"customer\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"passphrase\": \"1234\",\r\n//   \"contact_number\": \"1234567890\",\r\n//   \"user_address\": \"123 Main Street, Cityville\"\r\n// }\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n// {\r\n//     \"message\": \"Login Successful\",\r\n//     \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNiwiZXhwIjoxNzA2MTY4MDA2fQ.y5N_MzcQXPJ2oo0SHfKNAJbRFXxckK5BMMelp-KTN0E\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNn0.2ZWj4ShMsvCaK-ic285tQuTAhHeYC6erNGz3J4L2Ue8\",\r\n//     \"username\": \"thila\",\r\n//     \"user_type\": \"customer\"\r\n// }",
+							"raw": "// {\r\n//   \"username\": \"supun\",\r\n//   \"password\": \"1234\"\r\n// }\r\n{\"token\": \"4\"}\r\n\r\n//    \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwMywiZXhwIjoxNzA2MTc3NTAzfQ.B9xN9X8hIvQ4pPCb-r-dRtTmynpVEWdbsRGMoNgf1D4\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE3NjMwM30.e2DKJj4ozeVreL7QoYxrC4WJW79bDiJNOqELI4zG_rE\",\r\n\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19413@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }\r\n\r\n// {\r\n//   \"username\": \"supun\",\r\n// //   \"user_type\": \"customer\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"passphrase\": \"1234\",\r\n//   \"contact_number\": \"1234567890\",\r\n//   \"user_address\": \"123 Main Street, Cityville\"\r\n// }\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n// {\r\n//     \"message\": \"Login Successful\",\r\n//     \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNiwiZXhwIjoxNzA2MTY4MDA2fQ.y5N_MzcQXPJ2oo0SHfKNAJbRFXxckK5BMMelp-KTN0E\",\r\n//     \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2NjgwNn0.2ZWj4ShMsvCaK-ic285tQuTAhHeYC6erNGz3J4L2Ue8\",\r\n//     \"username\": \"thila\",\r\n//     \"user_type\": \"customer\"\r\n// }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -246,60 +246,44 @@
 			]
 		},
 		{
-			"name": "Register",
-			"event": [
+			"name": "Customers",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "id",
-						"value": "",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\r\n  \"username\": \"sanda\",\r\n//   \"user_type\": \"admin\",\r\n  \"email\": \"e19350@eng.pdn.ac.lk\",\r\n  \"passphrase\": \"1234\",\r\n  \"contact_number\": \"1234567890\",\r\n  \"user_address\": \"123 Main Street, Cityville\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n//update profile - put\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }",
-					"options": {
-						"raw": {
-							"language": "json"
+					"name": "UpdateProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/customers/register",
-					"protocol": "http",
-					"host": [
-						"localhost"
 					],
-					"port": "8081",
-					"path": [
-						"api",
-						"customers",
-						"register"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get by ID",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhbmthIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI1ODg5OCwiZXhwIjoxNzA2MjYwMDk4fQ.ewfTbaFyj9z7pmzJw-dRWUXFOqQYUFGRLRUJ0GmGBC8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n//update profile - put\r\n{\r\n  \"id\":\"3\",\r\n  \"username\": \"thilanka\",\r\n  \"user_type\": \"company\",\r\n  \"email\": \"e19413@eng.pdn.ac.lk\",\r\n  \"contact_number\": \"0123456789\",\r\n  \"user_address\": \"123 Main Street, Peradeniya\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n    // \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2MzE3NywiZXhwIjoxNzA2MTY0Mzc3fQ.j7hJMY-iS5YfgOElzvW0Nn2y2lMI5Q75aTXLbhcZuhI\",\r\n    // \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE2MzE3N30.GdPxs4kuGMBhD4S8vM9EGOZrenMdii6pgWuuNIe0PBQ\",",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -307,156 +291,752 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/admin?id=6",
+							"raw": "http://localhost:8081/api/customers/updateProfile",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"admin"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "6"
-								}
+								"api",
+								"customers",
+								"updateProfile"
 							]
 						}
 					},
-					"status": "Unauthorized",
-					"code": 401,
-					"_postman_previewlanguage": "plain",
-					"header": [
+					"response": [
 						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
+							"name": "Get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/admin?id=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"admin"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"event": [
 						{
-							"key": "Content-Type",
-							"value": "text/plain; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "12"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 08 Jan 2024 19:29:30 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
 						}
 					],
-					"cookie": [],
-					"body": "Unauthorized"
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\r\n  \"username\": \"sandaruwan\",\r\n  \"email\": \"e19249@eng.pdn.ac.lk\",\r\n  \"passphrase\": \"1234\"\r\n  \r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n//update profile - put\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customers/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customers",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/admin?id=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"admin"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "viewProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhbmthIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI1ODg5OCwiZXhwIjoxNzA2MjYwMDk4fQ.ewfTbaFyj9z7pmzJw-dRWUXFOqQYUFGRLRUJ0GmGBC8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\r\n  \r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n//update profile - put\r\n// {\r\n//   \"username\": \"supun thilanka\",\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"contact_number\": \"0123456789\",\r\n//   \"user_address\": \"123 Main Street, Peradeniya\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customers/viewProfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customers",
+								"viewProfile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/admin?id=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"admin"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "View",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhbmthIiwidXNlcl90eXBlIjoiY29tcGFueSIsImlkIjozLCJlbWFpbCI6ImUxOTQxM0BlbmcucGRuLmFjLmxrIiwiaWF0IjoxNzA2MjU5MTg0LCJleHAiOjE3MDYyNjAzODR9.oOKM-QzDC_qH3pWK30qifH4MpN8LBnOD-I6T0Ea_K5Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customers/view",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customers",
+								"view"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/admin?id=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"admin"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "changePassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6NiwiZW1haWwiOiJlMTkzNTBAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI3NzE4MCwiZXhwIjoxNzA2Mjc4MzgwfQ.frMLRUTSMpPoqGNa5Vkyi2F55I4qacOZf8eQxM4mgX8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"6\",\r\n     \"currentPassword\": \"1234\",\r\n  \"newPassword\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customers/changePassword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customers",
+								"changePassword"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/admin?id=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"admin"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
+				},
+				{
+					"name": "deleteProfile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6NiwiZW1haWwiOiJlMTkzNTBAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI3NzE4MCwiZXhwIjoxNzA2Mjc4MzgwfQ.frMLRUTSMpPoqGNa5Vkyi2F55I4qacOZf8eQxM4mgX8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "id",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"password\": \"12345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/customers/deleteProfile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"customers",
+								"deleteProfile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/admin?id=6",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"admin"
+									],
+									"query": [
+										{
+											"key": "id",
+											"value": "6"
+										}
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 08 Jan 2024 19:29:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Unauthorized"
+						}
+					]
 				}
 			]
 		},
 		{
-			"name": "View",
-			"event": [
+			"name": "Devices",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "jwt",
-					"jwt": [
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						},
-						{
-							"key": "algorithm",
-							"value": "HS256",
-							"type": "string"
-						},
-						{
-							"key": "isSecretBase64Encoded",
-							"value": false,
-							"type": "boolean"
-						},
-						{
-							"key": "payload",
-							"value": "{}",
-							"type": "string"
-						},
-						{
-							"key": "headerPrefix",
-							"value": "Bearer",
-							"type": "string"
-						},
-						{
-							"key": "queryParamKey",
-							"value": "token",
-							"type": "string"
-						},
-						{
-							"key": "header",
-							"value": "{}",
-							"type": "string"
-						}
-					]
-				},
-				"method": "POST",
-				"header": [
-					{
-						"key": "id",
-						"value": "",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n{\r\n  \"username\": \"supun\",\r\n//   \"user_type\": \"customer\",\r\n  \"email\": \"e19349@eng.pdn.ac.lk\",\r\n  \"passphrase\": \"1234\",\r\n  \"contact_number\": \"1234567890\",\r\n  \"user_address\": \"123 Main Street, Cityville\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/customers/view",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"customers",
-						"view"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get by ID",
-					"originalRequest": {
+					"name": "view",
+					"request": {
 						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "add device",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI4OTUyNiwiZXhwIjoxNzA2MjkwNzI2fQ.gxWUWvrEq2aKZnHRJYEv71yAVh0PIOtihZt1Qf1_IVk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "  {\r\n  \"model_name\": \"SAMSUNG\",\r\n  \"model_number\": \"1111\",\r\n  \"assigned_company_id\" : \"3\"\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -464,220 +1044,267 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/admin?id=6",
+							"raw": "http://localhost:8081/api/devices",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8081",
 							"path": [
-								"admin"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "6"
-								}
+								"api",
+								"devices"
 							]
 						}
 					},
-					"status": "Unauthorized",
-					"code": 401,
-					"_postman_previewlanguage": "plain",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
+					"response": []
+				},
+				{
+					"name": "update device by admin",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI4NzEyMSwiZXhwIjoxNzA2Mjg4MzIxfQ.kqPU3nQqtc2vhjiHbLSAEtIz-7ZIYw-8LsnR6SFr6VA",
+									"type": "string"
+								}
+							]
 						},
-						{
-							"key": "Content-Type",
-							"value": "text/plain; charset=utf-8"
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "  {\r\n    \"id\":1,\r\n  \"model_name\": \"Updated Company\",\r\n  \"model_number\": \"updatede@example.com\",\r\n  \"assigned_company_id\" : \"3\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
-						{
-							"key": "Content-Length",
-							"value": "12"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 08 Jan 2024 19:29:30 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
+						"url": {
+							"raw": "http://localhost:8081/api/devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"devices"
+							]
 						}
-					],
-					"cookie": [],
-					"body": "Unauthorized"
+					},
+					"response": []
+				},
+				{
+					"name": "update device by company",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhcnV3YW4iLCJ1c2VyX3R5cGUiOiJjdXN0b21lciIsImlkIjoxNiwiZW1haWwiOiJlMTkyNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI5MTk4OCwiZXhwIjoxNzA2MjkzMTg4fQ.RA2A9Xj7HeMsKEfyk5FL-cJ5lM0pmEH4ksmgN6svIwk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//   {\r\n//     \"id\":1,\r\n//   \"model_name\": \"Updated Company\",\r\n//   \"model_number\": \"updatede@example.com\",\r\n//   \"assigned_company_id\" : \"3\"\r\n//   }\r\n\r\n  {\r\n    \"id\": \"2\", //device id\r\n    \"description_\": \"123 Descrption\",\r\n   \"purchased_customer_email\": \"e19249@eng.pdn.ac.lk\" \r\n   }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update device by customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhcnV3YW4iLCJ1c2VyX3R5cGUiOiJjdXN0b21lciIsImlkIjoxNiwiZW1haWwiOiJlMTkyNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI5MDMwMiwiZXhwIjoxNzA2MjkxNTAyfQ.4_leupPP2WmgiDWKNEYjRoaiMkG8CXgCZbP9o0Oh3GQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//   {\r\n//     \"id\":1,\r\n//   \"model_name\": \"Updated Company\",\r\n//   \"model_number\": \"updatede@example.com\",\r\n//   \"assigned_company_id\" : \"3\"\r\n//   }\r\n\r\n//   {\r\n//     \"id\": \"1\", //device id\r\n//     \"description_\": \"123 Descrption\",\r\n//    \"purchased_customer_email\": \"purchasedcustomer@gmail.com\" \r\n//    }\r\n\r\n\r\n  { \r\n     \"id\": 2, //device id\r\n     \"device_name_by_customer\": \"Roof 1 Home 1\",\r\n     \"device_latitude\":\"1000\",\r\n     \"device_longitude\":\"2249\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove device by customer",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhcnV3YW4iLCJ1c2VyX3R5cGUiOiJjdXN0b21lciIsImlkIjoxNiwiZW1haWwiOiJlMTkyNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI5MDMwMiwiZXhwIjoxNzA2MjkxNTAyfQ.4_leupPP2WmgiDWKNEYjRoaiMkG8CXgCZbP9o0Oh3GQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//   {\r\n//     \"id\":1,\r\n//   \"model_name\": \"Updated Company\",\r\n//   \"model_number\": \"updatede@example.com\",\r\n//   \"assigned_company_id\" : \"3\"\r\n//   }\r\n\r\n//   {\r\n//     \"id\": \"1\", //device id\r\n//     \"description_\": \"123 Descrption\",\r\n//    \"purchased_customer_email\": \"purchasedcustomer@gmail.com\" \r\n//    }\r\n\r\n\r\n  { \r\n     \"deviceId\": 2, //device id\r\n\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/devices/remove",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"devices",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete device",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1cHVuIiwidXNlcl90eXBlIjoiYWRtaW4iLCJpZCI6MiwiZW1haWwiOiJlMTkzNDlAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjI5MjQyOCwiZXhwIjoxNzA2MjkzNjI4fQ.b_BHQ_dz__clbLu0L_1TR_0NPrRpNIVdym4UdTWae5Y",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//   {\r\n//     \"id\":1,\r\n//   \"model_name\": \"Updated Company\",\r\n//   \"model_number\": \"updatede@example.com\",\r\n//   \"assigned_company_id\" : \"3\"\r\n//   }\r\n\r\n//   {\r\n//     \"id\": \"1\", //device id\r\n//     \"description_\": \"123 Descrption\",\r\n//    \"purchased_customer_email\": \"purchasedcustomer@gmail.com\" \r\n//    }\r\n\r\n\r\n  { \r\n    \"deviceId\":\"2\",\r\n     \"password\":\"1234\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"devices"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update device by customer Copy 3",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbmRhMiIsInVzZXJfdHlwZSI6ImN1c3RvbWVyIiwiaWQiOjcsImVtYWlsIjoiZTE5MzUxQGVuZy5wZG4uYWMubGsiLCJpYXQiOjE3MDYyODg5MzcsImV4cCI6MTcwNjI5MDEzN30.6XnIVp0c7h7V5hyrrYJGcIrIBgMk5BLO_rdIJL6N6ZU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "//   {\r\n//     \"id\":1,\r\n//   \"model_name\": \"Updated Company\",\r\n//   \"model_number\": \"updatede@example.com\",\r\n//   \"assigned_company_id\" : \"3\"\r\n//   }\r\n\r\n//   {\r\n//     \"id\": \"1\", //device id\r\n//     \"description_\": \"123 Descrption\",\r\n//    \"purchased_customer_email\": \"purchasedcustomer@gmail.com\" \r\n//    }\r\n\r\n\r\n  { \r\n     \"id\": 1, //device id\r\n     \"device_name_by_customer\": \"Roof 1 Home 1\",\r\n     \"device_latitude\":\"79.256598\",\r\n     \"device_longitude\":\"10.125689\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/api/devices",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"devices"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "UpdateProfile",
-			"event": [
+			"name": "Admin",
+			"item": [
 				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"auth": {
-					"type": "jwt",
-					"jwt": [
-						{
-							"key": "secret",
-							"value": "xS48A0YdcPjoX8VA0FwRdNfaQbTr1R9cwB2tVijddhs",
-							"type": "string"
-						},
-						{
-							"key": "header",
-							"value": "{\"alg\": \"HS256\",\r\n  \"typ\": \"JWT\"}",
-							"type": "string"
-						},
-						{
-							"key": "payload",
-							"value": "{\"user_type\": \"customer\",\r\n  \"id\": 3,\r\n  \"email\": \"e19413@eng.pdn.ac.lk\",\r\n  \"iat\": 1706159943}",
-							"type": "string"
-						},
-						{
-							"key": "isSecretBase64Encoded",
-							"value": false,
-							"type": "boolean"
-						},
-						{
-							"key": "addTokenTo",
-							"value": "header",
-							"type": "string"
-						},
-						{
-							"key": "algorithm",
-							"value": "HS256",
-							"type": "string"
-						},
-						{
-							"key": "headerPrefix",
-							"value": "Bearer",
-							"type": "string"
-						},
-						{
-							"key": "queryParamKey",
-							"value": "token",
-							"type": "string"
-						}
-					]
-				},
-				"method": "PUT",
-				"header": [
-					{
-						"key": "id",
-						"value": "",
-						"type": "text",
-						"disabled": true
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "// {\r\n//   \"email\": \"e19349@eng.pdn.ac.lk\",\r\n//   \"password\": \"1234\"\r\n// }\r\n\r\n//update profile - put\r\n{\r\n  \"username\": \"supun thilanka\",\r\n  \"email\": \"e19413@eng.pdn.ac.lk\",\r\n  \"contact_number\": \"0123456789\",\r\n  \"user_address\": \"123 Main Street, Peradeniya\"\r\n}\r\n\r\n// {\r\n//   \"email\": \"john.doe@example\",\r\n//   \"password\": \"securepassword\",\r\n// }\r\n\r\n  // \"accessToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE1OTk0MywiZXhwIjoxNzA2MTYxMTQzfQ.Tov6_jlDRA2SPBMRedQZlIcADlwCytQFDF8SL3CZPwU\",\r\n    // \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRoaWxhIiwidXNlcl90eXBlIjoiY3VzdG9tZXIiLCJpZCI6MywiZW1haWwiOiJlMTk0MTNAZW5nLnBkbi5hYy5sayIsImlhdCI6MTcwNjE1OTk0M30.VyAO8TJRxsQ-05ONuI8QEPL4qW7ciK-83r5cJC_UKKE\",\r\n    // \"username\": \"thila\",\r\n    // \"user_type\": \"customer\"",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8081/api/customers/updateProfile",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8081",
-					"path": [
-						"api",
-						"customers",
-						"updateProfile"
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get by ID",
-					"originalRequest": {
+					"name": "New Request",
+					"request": {
 						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8081/admin?id=6",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"admin"
-							],
-							"query": [
-								{
-									"key": "id",
-									"value": "6"
-								}
-							]
-						}
+						"header": []
 					},
-					"status": "Unauthorized",
-					"code": 401,
-					"_postman_previewlanguage": "plain",
-					"header": [
-						{
-							"key": "X-Powered-By",
-							"value": "Express"
-						},
-						{
-							"key": "Content-Type",
-							"value": "text/plain; charset=utf-8"
-						},
-						{
-							"key": "Content-Length",
-							"value": "12"
-						},
-						{
-							"key": "ETag",
-							"value": "W/\"c-dAuDFQrdjS3hezqxDTNgW7AOlYk\""
-						},
-						{
-							"key": "Date",
-							"value": "Mon, 08 Jan 2024 19:29:30 GMT"
-						},
-						{
-							"key": "Connection",
-							"value": "keep-alive"
-						},
-						{
-							"key": "Keep-Alive",
-							"value": "timeout=5"
-						}
-					],
-					"cookie": [],
-					"body": "Unauthorized"
+					"response": []
 				}
 			]
 		}
