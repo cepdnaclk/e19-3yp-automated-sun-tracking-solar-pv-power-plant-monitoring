@@ -8,6 +8,11 @@
     <title>HelioEye | Home</title>
   </head>
   <body>
+    <div class="loading">
+      <div class="loading__container">
+        <div class="loading__circle"></div>
+      </div>
+    </div>
     <div class="container home">
       <img src="/logo" alt="" />
       <h1>Welcome to HelioEye</h1>
@@ -45,24 +50,32 @@
     </div>
   </body>
   <script>
+    const loading = document.querySelector(".loading");
+
     const calibrate = () => {
+      loading.classList.add("show");
       fetch("/calibrate")
         .then((res) => res.json())
         .then((data) => {
+          loading.classList.remove("show");
           alert(data.status);
         })
         .catch((err) => {
+          loading.classList.remove("show");
           alert(err);
         });
     };
 
     const reset = () => {
+      loading.classList.add("show");
       fetch("/reset")
         .then((res) => res.json())
         .then((data) => {
+          loading.classList.remove("show");
           alert(data.status);
         })
         .catch((err) => {
+          loading.classList.remove("show");
           alert(err);
         });
     };

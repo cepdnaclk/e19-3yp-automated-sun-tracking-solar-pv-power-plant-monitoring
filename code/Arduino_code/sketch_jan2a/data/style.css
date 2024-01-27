@@ -11,11 +11,6 @@ body {
   font-family: sans-serif;
 }
 
-body.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
-
 .container {
   width: clamp(300px, 90%, 1024px);
   margin: 0 auto;
@@ -134,4 +129,45 @@ form img {
 
 .home .content button:last-child {
   background-color: red;
+}
+
+.loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(16, 12, 31, 0.5);
+  z-index: 5;
+  position: absolute;
+}
+
+.loading.show {
+  display: flex;
+}
+
+.loading__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading__circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  border-top-color: transparent;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
