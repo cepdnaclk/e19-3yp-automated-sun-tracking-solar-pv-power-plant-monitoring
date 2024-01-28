@@ -64,7 +64,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
 // only accessble for companies
 
 router.get("/companyCustomerCount", authenticateToken, (req, res, next) => {
-  if (req.user_type == "admin") {
+  if (req.user_type == "company") {
     
     execQuery(
       `SELECT COUNT(*) FROM user 

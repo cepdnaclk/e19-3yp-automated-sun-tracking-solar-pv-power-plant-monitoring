@@ -76,7 +76,7 @@ router.get("/deviceCount", authenticateToken, (req, res, next) => {
 router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
   if (req.user_type == "company") {
     execQuery(
-      `SELECT COUNT(*) FROM device WHERE assigned_company_id = ${req.user_id}";`
+      `SELECT COUNT(*) FROM device WHERE assigned_company_id = ${req.user_id};`
     )
       .then((rows) => {
         data = objectKeysSnakeToCamel(rows[0]);
