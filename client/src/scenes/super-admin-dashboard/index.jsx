@@ -18,7 +18,7 @@ const SuperAdminDashboard = () => {
 	const colors = tokens(theme.palette.mode);
 
 	return (
-		<Box m="20px 100px 20px 20px">
+		<Box m="20px 100px 20px 20px" width={"70%"}>
 			{/* Header */}
 			<Box
 				display="flex"
@@ -36,7 +36,7 @@ const SuperAdminDashboard = () => {
 				gap="10px"
 			>
 				<Box
-					gridColumn="span 10"
+					gridColumn="span 12"
 					backgroundColor={colors.primary[400]}
 					display="flex"
 					alignItems="center"
@@ -53,7 +53,7 @@ const SuperAdminDashboard = () => {
 					</Typography>
 				</Box>
 				<Box
-					gridColumn="span 5"
+					gridColumn="span 6"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"
@@ -62,7 +62,7 @@ const SuperAdminDashboard = () => {
 					sx={{ minHeight: '150px' }}
 				>
 					<StatBoxVal
-						title="REGISTERED USERS"
+						title="REGISTERED COMPANIES"
 						value="17"
 						icon={
 							<HowToRegOutlinedIcon
@@ -75,7 +75,7 @@ const SuperAdminDashboard = () => {
 					></StatBoxVal>
 				</Box>
 				<Box
-					gridColumn="span 5"
+					gridColumn="span 6"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"
@@ -84,7 +84,7 @@ const SuperAdminDashboard = () => {
 					sx={{ minHeight: '150px' }}
 				>
 					<StatBoxVal
-						title="ACTIVE USERS"
+						title="REGISTERED CUSTOMERS"
 						value="17"
 						icon={
 							<PeopleAltOutlinedIcon
@@ -104,7 +104,7 @@ const SuperAdminDashboard = () => {
 				gap="10px"
 			>
 				<Box m="40px 0"
-					gridColumn="span 10"
+					gridColumn="span 12"
 					backgroundColor={colors.primary[400]}
 					display="flex"
 					alignItems="center"
@@ -121,7 +121,7 @@ const SuperAdminDashboard = () => {
 					</Typography>
 				</Box>
 				<Box m="30px 0"
-					gridColumn="span 5"
+					gridColumn="span 4"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"
@@ -130,7 +130,7 @@ const SuperAdminDashboard = () => {
 					sx={{ minHeight: '150px' }}
 				>
 					<StatBoxVal
-						title="ACTIVE DEVICES"
+						title="REGISTERED DEVICES"
 						value="15"
 						icon={
 							<TapAndPlayIcon
@@ -143,7 +143,29 @@ const SuperAdminDashboard = () => {
 					></StatBoxVal>
 				</Box>
 				<Box m="30px 0"
-					gridColumn="span 5"
+					gridColumn="span 4"
+					gridRow="span 3"
+					backgroundColor={colors.primary[400]}
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					sx={{ minHeight: '150px' }}
+				>
+					<StatBoxVal
+						title="ACTIVE DEVICES"
+						value="8"
+						icon={
+							<PhonelinkEraseIcon
+								sx={{
+									color: '#FF0A0A',
+									fontSize: '26px',
+								}}
+							/>
+						}
+					></StatBoxVal>
+				</Box>
+				<Box m="30px 0"
+					gridColumn="span 4"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"

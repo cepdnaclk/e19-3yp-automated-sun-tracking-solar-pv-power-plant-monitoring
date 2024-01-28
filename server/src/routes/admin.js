@@ -74,7 +74,7 @@ router.post("/new", authenticateToken, async (req, res, next) => {
       // make the password hashed
       req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
       const [fields, values] = [Object.keys(req.body), Object.values(req.body)];
-      const addAdmins = `INSERT INTO user (${fields.toString()}) VALUES (${values.toString()})`;
+      const addAdmins = `INSERT INTO user (${fields.toString()}) VALUES ('${values.join("', '")}')`;
 
       execQuery(addAdmins)
         .then((rows) => {
@@ -167,15 +167,15 @@ router.put("/myProfile", authenticateToken, (req, res, next) => {
       next(err);
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 
 //create a put request to change password [Done]
 // request format
 // {
-//   old_password: "securepassword",
-//   new_password: "newsecurepassword"
+//   currentpassword: "securepassword",
+//   newpassword: "newsecurepassword"
 // }
 router.put("/changePassword", authenticateToken, async (req, res, next) => {
   if (req.user_type == "admin" && req.user_id == req.body.id) {
@@ -231,7 +231,7 @@ router.delete("/deleteAccount", authenticateToken, async (req, res, next) => {
       next(err);
     }
   } else {
-    return res.sendStatus(401).json({ error: "Unauthorized" });
+    return res.status(401).send({ error: "Unauthorized" });
   }
 });
 

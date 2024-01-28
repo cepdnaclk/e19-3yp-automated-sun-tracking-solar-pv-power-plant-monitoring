@@ -3,14 +3,37 @@
 // get libraries
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+const path = require("path");
 
 //initialize app
 const app = express();
 const port = 8081;
 
 app.use(cors());
-
 app.use(express.json()); // for parsing application/json
+
+///upload file part
+// Set up storage for multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, 'src', 'public'));
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // Use the original file name
+  }
+});
+
+
+const upload = multer({ storage: storage });
+
+// File upload route
+app.post('/upload', upload.single('userManual'), (req, res) => {
+  res.send('User Manual uploaded successfully');
+});
+
+///////////
+//end of upload file part
 
 //middleware setup
 

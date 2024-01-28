@@ -1,36 +1,47 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import Header from '../../components/Header';
-import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
+import { Link } from 'react-router-dom';
+import axios from "axios";
+import { Box, Button, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 
 import { DataGrid } from '@mui/x-data-grid';
 
-// admin device data
-import { adminDeviceData } from '../../data/adminDeviceData';
-
 const AdminDeviceMng = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const [adminDeviceData, setAdminDeviceData] = useState([]);
+
+	useEffect(() => {
+		axios
+		  .get("/devices/")
+		  .then((res) => {
+			setAdminDeviceData(res.data);
+		  })
+		  .catch((err) => {
+			console.log(err);
+		  });
+	  }, []);
 
 	// columns of the data grid
 	const columns = [
-		{ field: 'id', headerName: 'ID', width: 60 },
-		{ field: 'userId', headerName: 'User ID', width: 80 },
+		{ field: 'id', headerName: 'ID', },
 		{
-			field: 'userName',
-			headerName: 'User Name',
+			field: 'modelName',
+			headerName: 'Model Name',
 			flex: 1,
 			cellClassName: 'name-column--cell',
+			width: 150,
 		},
-		{ field: 'deviceId', headerName: 'Device ID', width: 80 },
+		{ field: 'modelNumber', headerName: 'Model Number', width: 150, },
 		{
-			field: 'deviceName',
-			headerName: 'Device Name',
+			field: 'deviceDescription',
+			headerName: 'Description',
 			flex: 1,
 			cellClassName: 'name-column--cell',
+			width: 200,
 		},
-		{ field: 'status', headerName: 'Status', flex: 1, width: 60 },
-		{ field: 'location', headerName: 'Location', flex: 1 },
+		{ field: 'purchasedCustomerEmail', headerName: 'Customer Email', flex: 1 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -86,6 +97,27 @@ const AdminDeviceMng = () => {
 					subtitle="Manage Devices and Device Overview"
 				/>
 			</Box>
+
+			<Box>
+        <Link
+          to="/admin-add-device"
+          style={{ textDecoration: "none", margin: "1rem 0", display: "flex" }}
+        >
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            style={{
+              background: "#FFAC09",
+              color: "black",
+              fontWeight: "bold",
+              marginLeft: "auto",
+            }}
+          >
+            Add New Device
+          </Button>
+        </Link>
+      </Box>
 
 			<Box
 				height="75vh"
