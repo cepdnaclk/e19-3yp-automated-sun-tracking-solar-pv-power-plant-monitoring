@@ -7,7 +7,8 @@ import StatBoxVal from '../../components/StatBoxVal';
 
 import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
 import TapAndPlayIcon from '@mui/icons-material/TapAndPlay';
-import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
+import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 
 const AdminDashboard = () => {
 	const theme = useTheme();
@@ -87,12 +88,12 @@ const AdminDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBoxVal
-						title="TOTAL USERS"
-						value={registeredUsers}
+						title="TOTAL DEVICES"
+						value={totalDevices}
 						icon={
 							<TapAndPlayIcon
 								sx={{
-									color: '#14DD10',
+									color: '#FF610A',
 									fontSize: '26px',
 								}}
 							/>
@@ -108,12 +109,12 @@ const AdminDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBoxVal
-						title="TOTAL DEVICES"
-						value={totalDevices}
+						title="TOTAL USERS"
+						value={registeredUsers}
 						icon={
-							<PhonelinkEraseIcon
+							<PeopleAltOutlinedIcon
 								sx={{
-									color: colors.orangeAccent[600],
+									color: '#FF610A',
 									fontSize: '26px',
 								}}
 							/>
@@ -132,9 +133,9 @@ const AdminDashboard = () => {
 						title="REGISTERED DEVICES"
 						value={registeredUsers}
 						icon={
-							<PhonelinkSetupIcon
+							<MobileFriendlyIcon
 								sx={{
-									color: colors.grey[200],
+									color: '#14DD10',
 									fontSize: '26px',
 								}}
 							/>
@@ -153,9 +154,9 @@ const AdminDashboard = () => {
 						title="UNREGISTERED DEVICES"
 						value={unregisteredDevices}
 						icon={
-							<PhonelinkSetupIcon
+							<PhonelinkEraseIcon
 								sx={{
-									color: colors.grey[200],
+									color: '#FF0A0A',
 									fontSize: '26px',
 								}}
 							/>
