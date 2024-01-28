@@ -59,8 +59,8 @@ const SuperAdminDeviceMng = () => {
 
 		if (JSON.stringify(editedRow) !== JSON.stringify(originalRow)) {
 			axios
-				.put('/devices/', editedRow) // Update the endpoint as needed
-				.then(() => {
+				.put('/devices/updateDevice', editedRow) // Update the endpoint as needed
+				.then((res) => {
 					setRows((prevRows) =>
 						prevRows.map((row) => (row.id === id ? editedRow : row))
 					);
@@ -81,37 +81,44 @@ const SuperAdminDeviceMng = () => {
 	};
 
 	const handleDeleteClick = (id) => () => {
-		const confirmed = window.confirm(
-			'Are you sure you want to delete this device?'
-		);
+		const rowIndex = superAdminDeviceData.findIndex((row) => row.id === id);
+		const updatedData = [...superAdminDeviceData];
+		updatedData.splice(rowIndex, 1);
 
-		if (confirmed) {
-			axios
-				.delete('/devices/deleteDevice', {
-					data: { deviceId: id, password: 'admin_password' },
-				}) // Update the endpoint and password as needed
-				.then((res) => {
-					const rowIndex = superAdminDeviceData.findIndex(
-						(row) => row.id === id
-					);
-					const updatedData = [...superAdminDeviceData];
-					updatedData.splice(rowIndex, 1);
+		setSuperAdminDeviceData(updatedData);
 
-					setSuperAdminDeviceData(updatedData);
-
-					setRowModesModel({
-						...rowModesModel,
-						[id]: {
-							mode: GridRowModes.View,
-							ignoreModifications: true,
-						},
-					});
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
 	};
+
+	// const handleSaveClick = (id) => () => {
+	// 	const editedRow = rows.find((row) => row.id === id);
+	// 	const originalRow = editedRows[id];
+
+	// 	if (JSON.stringify(editedRow) !== JSON.stringify(originalRow)) {
+	// 		axios
+	// 			.put('/devices/updateDevice', editedRow) // Update the endpoint as needed
+	// 			.then((res) => {
+	// 				setRows((prevRows) =>
+	// 					prevRows.map((row) => (row.id === id ? editedRow : row))
+	// 				);
+	// 				setRowModesModel({
+	// 					...rowModesModel,
+	// 					[id]: { mode: GridRowModes.View },
+	// 				});
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log(err);
+	// 			});
+	// 	} else {
+	// 		setRowModesModel({
+	// 			...rowModesModel,
+	// 			[id]: { mode: GridRowModes.View },
+	// 		});
+	// 	}
+	// };
 
 	const handleCancelClick = (id) => () => {
 		setRowModesModel({

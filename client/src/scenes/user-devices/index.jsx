@@ -23,17 +23,23 @@ const UserDevices = () => {
 			<Box
 				display="grid"
 				gridTemplateColumns="repeat(3, 1fr)"
-				gridAutoRows="300px"
+				gridAutoRows="auto"
 				gap="10px"
 				overflow="auto"
-				m=" 10px 10px 10px 0px"
+				m="10px 10px 10px 0px"
 				width="95%"
 			>
 				{userDevices.map((device) => (
 					<DeviceCard
 						key={device.deviceId}
 						deviceId={device.deviceId}
+						deviceNameByCustomer={device.deviceNameByCustomer}
 						status={device.status}
+						modelName={device.modelName}
+						modelNumber={device.modelNumber}
+						power={device.power}
+						angle={device.angle}
+						deviceDescription={device.deviceDescription}
 					/>
 				))}
 			</Box>

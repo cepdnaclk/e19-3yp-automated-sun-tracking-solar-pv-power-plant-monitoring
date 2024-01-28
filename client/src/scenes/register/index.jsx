@@ -1,14 +1,4 @@
-import {
-	Button,
-	Container,
-	CssBaseline,
-	TextField,
-	Typography,
-	styled,
-	Box,
-	Link,
-	useTheme,
-} from '@mui/material';
+import { Button, Container, CssBaseline, TextField, styled, Box, Typography, Link, useTheme, } from '@mui/material';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import React, { useContext } from 'react';
@@ -42,12 +32,20 @@ const Register = () => {
 	const formik = useFormik({
 		initialValues: {
 			username: '',
+			address: '',
+			contactNumber: '',
 			email: '',
 			password: '',
 			confirmPassword: '',
 		},
 		validationSchema: Yup.object({
 			username: Yup.string().required('Required'),
+			address: Yup.string().required('Required'),
+			contactNumber: Yup.string()
+				.required("Required")
+				.matches(/^[0-9]+$/, "Must be only digits")
+				.min(10, "Must be exactly 10 digits")
+				.max(10, "Must be exactly 10 digits"),
 			email: Yup.string()
 				.email('Invalid email address')
 				.required('Required'),
@@ -67,6 +65,8 @@ const Register = () => {
 			axios
 				.post('/customers/register', {
 					username: values.username,
+					user_address: values.address,
+					contact_number: values.contactNumber,
 					email: values.email,
 					passphrase: values.password,
 				})
@@ -108,6 +108,34 @@ const Register = () => {
 					/>
 					<TextField
 						fullWidth
+						id="address"
+						name="address"
+						label="Address"
+						variant="outlined"
+						margin="normal"
+						value={formik.values.address}
+						onChange={formik.handleChange}
+						error={
+							formik.touched.address && Boolean(formik.errors.address)}
+						helperText={
+							formik.touched.address && formik.errors.address}
+					/>
+					<TextField
+						fullWidth
+						id="contactNumber"
+						name="contactNumber"
+						label="Contact Number"
+						variant="outlined"
+						margin="normal"
+						value={formik.values.contactNumber}
+						onChange={formik.handleChange}
+						error={
+							formik.touched.contactNumber && Boolean(formik.errors.contactNumber)}
+						helperText={
+							formik.touched.contactNumber && formik.errors.contactNumber}
+					/>
+					<TextField
+						fullWidth
 						id="email"
 						name="email"
 						label="Email"
@@ -116,9 +144,9 @@ const Register = () => {
 						value={formik.values.email}
 						onChange={formik.handleChange}
 						error={
-							formik.touched.email && Boolean(formik.errors.email)
-						}
-						helperText={formik.touched.email && formik.errors.email}
+							formik.touched.email && Boolean(formik.errors.email)}
+						helperText={
+							formik.touched.email && formik.errors.email}
 					/>
 					<TextField
 						fullWidth
