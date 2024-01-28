@@ -18,11 +18,11 @@ const connectionP = mysql.createConnection({
 });
 
 const connection = mysql.createConnection({
-  host: process.env.DATABASE_HOST || "helioeye.cpyug8mi2dnv.ap-south-1.rds.amazonaws.com",
-  user: process.env.DATABASE_USER || "admin",
-  password: process.env.DATABASE_PASSWORD || "HelioEye19",
-  database: process.env.DATABASE_DB || "HelioEye",
-  port: process.env.DATABASE_PORT || 3306,
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_DB,
+  port: process.env.DATABASE_PORT,
   charset: 'utf8mb4',
   multipleStatements: true,
   dateStrings: true, // automatically formats dates into yyyy-mm-dd
