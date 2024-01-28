@@ -5,9 +5,7 @@ import { tokens } from '../../theme';
 import StatBoxVal from '../../components/StatBoxVal';
 import axios from "axios";
 
-import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
-import AppSettingsAltOutlinedIcon from '@mui/icons-material/AppSettingsAltOutlined';
-
+import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
 import TapAndPlayIcon from '@mui/icons-material/TapAndPlay';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
@@ -152,7 +150,7 @@ const SuperAdminDashboard = () => {
 						icon={
 							<PeopleAltOutlinedIcon
 								sx={{
-									color: '#14DD10',
+									color: '#FF610A',
 									fontSize: '26px',
 								}}
 							/>
@@ -196,9 +194,9 @@ const SuperAdminDashboard = () => {
 						title="REGISTERED DEVICES"
 						value={registeredDevices}
 						icon={
-							<TapAndPlayIcon
+							<MobileFriendlyIcon
 								sx={{
-									color: '#14DD10',
+									color: '#FF610A',
 									fontSize: '26px',
 								}}
 							/>
@@ -218,9 +216,9 @@ const SuperAdminDashboard = () => {
 						title="ACTIVE DEVICES"
 						value="5" // {activeDevices}
 						icon={
-							<PhonelinkEraseIcon
+							<TapAndPlayIcon
 								sx={{
-									color: '#FF0A0A',
+									color: '#14DD10',
 									fontSize: '26px',
 								}}
 							/>
