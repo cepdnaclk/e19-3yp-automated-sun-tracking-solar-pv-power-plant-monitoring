@@ -27,6 +27,7 @@ const SuperAdminUserMng = () => {
 			.get('/companies/view')
 			.then((res) => {
 				setSuperAdminUserData(res.data);
+				setRows(res.data); // Initialize rows with data from the API
 			})
 			.catch((err) => {
 				console.log(err);
@@ -54,24 +55,59 @@ const SuperAdminUserMng = () => {
 	};
 
 	const handleDeleteClick = (id) => () => {
-		setRows(rows.filter((row) => row.id !== id));
-	};
+		// Get the index of the row to be deleted
+		const rowIndex = superAdminUserData.findIndex((row) => row.id === id);
 
-	const handleCancelClick = (id) => () => {
+		// Remove the row from the data
+		const updatedData = [...superAdminUserData];
+		updatedData.splice(rowIndex, 1);
+
+		setSuperAdminUserData(updatedData);
+
 		setRowModesModel({
 			...rowModesModel,
 			[id]: { mode: GridRowModes.View, ignoreModifications: true },
 		});
 
+		// Uncomment the following lines if you want to make a delete request to the API
+		// const password = prompt('Enter your password for verification:');
+		// axios
+		//   .delete('/companies/deleteCompany', {
+		//     data: {
+		//       companyId: id,
+		//       password: password,
+		//     },
+		//   })
+		//   .then((res) => {
+		//     // Handle the response if needed
+		//     console.log(res.data);
+		//   })
+		//   .catch((err) => {
+		//     console.error(err);
+		//     // Handle the error
+		//   });
+	};
+
+	const handleCancelClick = (id) => () => {
 		const editedRow = rows.find((row) => row.id === id);
-		if (editedRow.isNew) {
-			setRows(rows.filter((row) => row.id !== id));
+
+		if (editedRow) {
+			if (editedRow.isNew) {
+				setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+			}
+
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View, ignoreModifications: true },
+			});
 		}
 	};
 
 	const processRowUpdate = (newRow) => {
 		const updatedRow = { ...newRow, isNew: false };
-		setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+		setRows((prevRows) =>
+			prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
+		);
 		return updatedRow;
 	};
 
@@ -79,7 +115,6 @@ const SuperAdminUserMng = () => {
 		setRowModesModel(newRowModesModel);
 	};
 
-	// columns of the data grid
 	const columns = [
 		{ field: 'id', headerName: 'ID' },
 		{
@@ -164,7 +199,6 @@ const SuperAdminUserMng = () => {
 
 	return (
 		<Box m="20px" width="90%">
-			{/* Header */}
 			<Box
 				display="flex"
 				justifyContent="space-between"
@@ -237,7 +271,9 @@ const SuperAdminUserMng = () => {
 					rowModesModel={rowModesModel}
 					onRowModesModelChange={handleRowModesModelChange}
 					onRowEditStop={handleRowEditStop}
-					processRowUpdate={processRowUpdate}
+					onSelectionModelChange={(newSelection) => {
+						// Handle selection changes if needed
+					}}
 				/>
 			</Box>
 		</Box>
