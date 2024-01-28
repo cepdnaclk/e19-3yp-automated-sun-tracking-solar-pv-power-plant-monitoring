@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
 import { Box, useTheme, Typography } from '@mui/material';
 import { tokens } from '../../theme';
 import StatBoxVal from '../../components/StatBoxVal';
+import axios from "axios";
 
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import AppSettingsAltOutlinedIcon from '@mui/icons-material/AppSettingsAltOutlined';
@@ -16,6 +16,69 @@ import HowToRegOutlinedIcon from '@mui/icons-material/HowToRegOutlined';
 const SuperAdminDashboard = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const [registeredCompanies, setRegisteredCompanies] = useState(0);
+	const [registeredCustomers, setRegisteredCustomers] = useState(0);
+	const [registeredDevices, setRegisteredDevices] = useState(0);
+	// const [activeDevices, setActiveDevices] = useState(0);
+	// const [inactiveDevices, setInactiveDevices] = useState(0);
+
+	useEffect(() => {
+		axios
+		  .get("/companies/companyCount")
+		  .then(response => {
+			setRegisteredCompanies(response.data['COUNT(*)']);
+		  })
+		  .catch(err => {
+			console.error(err);
+		  });
+	  }, []);
+
+	  useEffect(() => {
+		axios
+		  .get("/customers/customerCount")
+		  .then(response => {
+			setRegisteredCustomers(response.data['COUNT(*)']);
+		  })
+		  .catch(err => {
+			console.error(err);
+		  });
+	  }, []);
+	  
+	  useEffect(() => {
+		axios
+		  .get("/devices/deviceCount")
+		  .then(response => {
+			console.log(response);
+			setRegisteredDevices(response.data['COUNT(*)']);
+		  })
+		  .catch(err => {
+			console.error(err);
+		  });
+	  }, []);
+
+	//   useEffect(() => {
+	// 	axios
+	// 	  .get("/devices/activeDeviceCount")
+	// 	  .then(response => {
+	// 		console.log(response);
+	// 		setActiveDevices(response.data['COUNT(*)']);
+	// 	  })
+	// 	  .catch(err => {
+	// 		console.error(err);
+	// 	  });
+	//   }, []);
+
+	//   useEffect(() => {
+	// 	axios
+	// 	  .get("/devices/inactiveDeviceCount")
+	// 	  .then(response => {
+	// 		console.log(response);
+	// 		setInactiveDevices(response.data['COUNT(*)']);
+	// 	  })
+	// 	  .catch(err => {
+	// 		console.error(err);
+	// 	  });
+	//   }, []);
 
 	return (
 		<Box m="20px 100px 20px 20px" width={"70%"}>
@@ -63,7 +126,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="REGISTERED COMPANIES"
-						value="17"
+						value={registeredCompanies}
 						icon={
 							<HowToRegOutlinedIcon
 								sx={{
@@ -85,7 +148,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="REGISTERED CUSTOMERS"
-						value="17"
+						value={registeredCustomers}
 						icon={
 							<PeopleAltOutlinedIcon
 								sx={{
@@ -131,7 +194,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="REGISTERED DEVICES"
-						value="15"
+						value={registeredDevices}
 						icon={
 							<TapAndPlayIcon
 								sx={{
@@ -153,7 +216,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="ACTIVE DEVICES"
-						value="8"
+						value="5" // {activeDevices}
 						icon={
 							<PhonelinkEraseIcon
 								sx={{
@@ -175,7 +238,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="INACTIVE DEVICES"
-						value="8"
+						value="3" // {inactiveDevices}
 						icon={
 							<PhonelinkEraseIcon
 								sx={{
