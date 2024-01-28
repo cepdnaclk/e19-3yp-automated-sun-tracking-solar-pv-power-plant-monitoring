@@ -57,7 +57,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
 
 router.get("/deviceCount", authenticateToken, (req, res, next) => {
   if (req.user_type == "admin") {
-    execQuery(`SELECT COUNT(*) FROM device";`)
+    execQuery(`SELECT COUNT(*) FROM device;`)
       .then((rows) => {
         data = objectKeysSnakeToCamel(rows[0]);
         res.status(200).json(data);
