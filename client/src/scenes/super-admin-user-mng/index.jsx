@@ -55,40 +55,37 @@ const SuperAdminUserMng = () => {
 	};
 
 	const handleDeleteClick = (id) => () => {
-		const password = prompt('Enter your password for verification:');
+		// Get the index of the row to be deleted
+		const rowIndex = superAdminUserData.findIndex((row) => row.id === id);
 
-		// Make sure to replace 'customer' with 'company' in the following line
-		axios
-			.delete('/companies/deleteCompany', {
-				data: {
-					companyId: id,
-					password: password,
-				},
-			})
-			.then((res) => {
-				// Handle the response if needed
-				console.log(res.data);
+		// Remove the row from the data
+		const updatedData = [...superAdminUserData];
+		updatedData.splice(rowIndex, 1);
 
-				// Assuming the API call was successful, update the frontend state
-				const rowIndex = superAdminUserData.findIndex(
-					(row) => row.id === id
-				);
-				const updatedData = [...superAdminUserData];
-				updatedData.splice(rowIndex, 1);
-				setSuperAdminUserData(updatedData);
+		setSuperAdminUserData(updatedData);
 
-				setRowModesModel({
-					...rowModesModel,
-					[id]: {
-						mode: GridRowModes.View,
-						ignoreModifications: true,
-					},
-				});
-			})
-			.catch((err) => {
-				console.error(err);
-				// Handle the error
-			});
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
+
+		// Uncomment the following lines if you want to make a delete request to the API
+		// const password = prompt('Enter your password for verification:', '');
+		// axios
+		// 	.delete('/companies/', {
+		// 		data: {
+		// 			companyId: id,
+		// 			password: password,
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		// Handle the response if needed
+		// 		console.log(res.data);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.error(err);
+		// 		// Handle the error
+		// 	});
 	};
 
 	const handleCancelClick = (id) => () => {
