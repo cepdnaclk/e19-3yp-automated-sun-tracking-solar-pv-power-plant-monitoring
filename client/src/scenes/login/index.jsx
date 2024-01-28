@@ -147,6 +147,7 @@ const Login = ({ onRegisterClick }) => {
 								variant="body1"
 								pl="1rem"
 								color={colors.yellowAccent[500]}
+								sx={{ textDecoration: 'underline' }}
 							>
 								Register here
 							</Typography>
