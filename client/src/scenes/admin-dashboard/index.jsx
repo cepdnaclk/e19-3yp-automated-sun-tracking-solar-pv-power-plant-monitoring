@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header';
-import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
-import StatBox from '../../components/StatBox';
+import axios from "axios";
 import StatBoxVal from '../../components/StatBoxVal';
 
 import PhonelinkEraseIcon from '@mui/icons-material/PhonelinkErase';
@@ -12,6 +12,36 @@ import PhonelinkSetupIcon from '@mui/icons-material/PhonelinkSetup';
 const AdminDashboard = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const [registeredUsers, setRegisteredUsers] = useState(0);
+	const [totalDevices, setTotalDevies] = useState(0);
+	const [unregisteredDevices, setUnregisteredDevices] = useState(0);
+
+	useEffect(() => {
+		axios
+		  .get("/customers/companyCustomerCount")
+		  .then(response => {
+			setRegisteredUsers(response.data['COUNT(*)']);
+		  })
+		  .catch(err => {
+			console.error(err);
+		  });
+	  }, []);
+
+	  useEffect(() => {
+		axios
+		  .get("/devices/deviceCountforCompany")
+		  .then(response => {
+			setTotalDevies(response.data['COUNT(*)']);
+		  })
+		  .catch(err => {
+			console.error(err);
+		  });
+	  }, []);
+
+	  useEffect(() => {
+		// Difference between totalDevices and registeredUsers
+		setUnregisteredDevices(totalDevices - registeredUsers);
+	}, [totalDevices, registeredUsers]);
 
 	return (
 		<Box m="20px" width="70%">
@@ -27,12 +57,12 @@ const AdminDashboard = () => {
 
 			<Box
 				display="grid"
-				gridTemplateColumns="repeat(12, 1fr)"
+				gridTemplateColumns="repeat(10, 1fr)"
 				gridAutoRows="40px"
 				gap="10px"
 			>
 				<Box
-					gridColumn="span 12"
+					gridColumn="span 10"
 					backgroundColor={colors.primary[400]}
 					display="flex"
 					alignItems="center"
@@ -45,11 +75,11 @@ const AdminDashboard = () => {
 						variant="h5"
 						fontWeight="600"
 					>
-						Device Summery
+						Users & Device Summery
 					</Typography>
 				</Box>
 				<Box
-					gridColumn="span 4"
+					gridColumn="span 5"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"
@@ -57,8 +87,8 @@ const AdminDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBoxVal
-						title="ACTIVE DEVICES"
-						value="17"
+						title="TOTAL USERS"
+						value={registeredUsers}
 						icon={
 							<TapAndPlayIcon
 								sx={{
@@ -70,7 +100,7 @@ const AdminDashboard = () => {
 					></StatBoxVal>
 				</Box>
 				<Box
-					gridColumn="span 4"
+					gridColumn="span 5"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"
@@ -78,8 +108,8 @@ const AdminDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBoxVal
-						title="INACTIVE DEVICES"
-						value="09"
+						title="TOTAL DEVICES"
+						value={totalDevices}
 						icon={
 							<PhonelinkEraseIcon
 								sx={{
@@ -91,7 +121,7 @@ const AdminDashboard = () => {
 					></StatBoxVal>
 				</Box>
 				<Box
-					gridColumn="span 4"
+					gridColumn="span 5"
 					gridRow="span 3"
 					backgroundColor={colors.primary[400]}
 					display="flex"
@@ -99,8 +129,29 @@ const AdminDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBoxVal
-						title="UNREGISTERED"
-						value="17"
+						title="REGISTERED DEVICES"
+						value={registeredUsers}
+						icon={
+							<PhonelinkSetupIcon
+								sx={{
+									color: colors.grey[200],
+									fontSize: '26px',
+								}}
+							/>
+						}
+					></StatBoxVal>
+				</Box>
+				<Box
+					gridColumn="span 5"
+					gridRow="span 3"
+					backgroundColor={colors.primary[400]}
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+				>
+					<StatBoxVal
+						title="UNREGISTERED DEVICES"
+						value={unregisteredDevices}
 						icon={
 							<PhonelinkSetupIcon
 								sx={{
