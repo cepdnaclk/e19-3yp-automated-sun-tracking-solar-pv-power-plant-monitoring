@@ -17,30 +17,43 @@ const router = express.Router();
 //   timeout: 50000,
 // });
 
+// const connection = mysql.createConnection({
+//   host: process.env.DATABASE_HOST,
+//   user: process.env.DATABASE_USER,
+//   password: process.env.DATABASE_PASSWORD,
+//   database: process.env.DATABASE_DB,
+//   port: process.env.DATABASE_PORT,
+//   charset: 'utf8mb4',
+//   multipleStatements: true,
+//   dateStrings: true, // automatically formats dates into yyyy-mm-dd
+//   timeout: 50000,
+// });
+
 const connection = mysql.createConnection({
-  host: process.env.DATABASE_HOST,
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_DB,
-  port: process.env.DATABASE_PORT,
+  
+  host: "helioeye.cpyug8mi2dnv.ap-south-1.rds.amazonaws.com",
+  user: "admin",
+  password: "HelioEye19",
+  database: "HelioEye",
+  port: 3306,
   charset: 'utf8mb4',
   multipleStatements: true,
   dateStrings: true, // automatically formats dates into yyyy-mm-dd
   timeout: 50000,
 });
 
-const connectToDB = async () => {
-  return new Promise((resolve, reject) => {
-    connection.connect((err) => {
-      if (err) {
-        console.error(err);
-        return reject(err);
-      }
-      console.log("\x1b[32m%s\x1b[0m", "Connected to MySQL DB");
-      resolve();
-    });
-  });
-};
+// const connectToDB = async () => {
+//   return new Promise((resolve, reject) => {
+//     connection.connect((err) => {
+//       if (err) {
+//         console.error(err);
+//         return reject(err);
+//       }
+//       console.log("\x1b[32m%s\x1b[0m", "Connected to MySQL DB");
+//       resolve();
+//     });
+//   });
+// };
 
 
 
