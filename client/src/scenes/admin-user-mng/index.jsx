@@ -1,27 +1,121 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import CancelIcon from '@mui/icons-material/Close';
+import {
+	GridRowModes,
+	DataGrid,
+	GridActionsCellItem,
+	GridRowEditStopReasons,
+} from '@mui/x-data-grid';
+import axios from 'axios';
 import Header from '../../components/Header';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
-
-import { DataGrid } from '@mui/x-data-grid';
 
 const AdminUserMng = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const [adminUserData, setAdminUserData] = useState([]);
+	const [rows, setRows] = useState([]);
+	const [rowModesModel, setRowModesModel] = useState({});
 
 	useEffect(() => {
 		axios
-		  .get("/customers/view")
-		  .then((res) => {
-			setAdminUserData(res.data);
-		  })
-		  .catch((err) => {
-			console.log(err);
-		  });
-	  }, []);
+			.get('/customers/view')
+			.then((res) => {
+				setAdminUserData(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
+	// data-grid functions
+	const handleRowEditStop = (params, event) => {
+		if (params.reason === GridRowEditStopReasons.rowFocusOut) {
+			event.defaultMuiPrevented = true;
+		}
+	};
+
+	const handleEditClick = (id) => () => {
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.Edit },
+		});
+	};
+
+	const handleSaveClick = (id) => () => {
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View },
+		});
+	};
+
+	const handleDeleteClick = (id) => () => {
+		// Get the index of the row to be deleted
+		const rowIndex = adminUserData.findIndex((row) => row.id === id);
+
+		// Remove the row from the data
+		const updatedData = [...adminUserData];
+		updatedData.splice(rowIndex, 1);
+
+		setAdminUserData(updatedData);
+
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
+
+		// Uncomment the following lines if you want to make a delete request to the API
+		// const password = prompt('Enter your password for verification:', '');
+		// axios
+		// 	.delete('/companies/', {
+		// 		data: {
+		// 			companyId: id,
+		// 			password: password,
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		// Handle the response if needed
+		// 		console.log(res.data);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.error(err);
+		// 		// Handle the error
+		// 	});
+	};
+
+	const handleCancelClick = (id) => () => {
+		const editedRow = rows.find((row) => row.id === id);
+
+		if (editedRow) {
+			if (editedRow.isNew) {
+				setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+			}
+
+			setRowModesModel({
+				...rowModesModel,
+				[id]: {
+					mode: GridRowModes.View,
+					ignoreModifications: true,
+				},
+			});
+		}
+	};
+
+	const processRowUpdate = (newRow) => {
+		const updatedRow = { ...newRow, isNew: false };
+		setRows((prevRows) =>
+			prevRows.map((row) => (row.id === newRow.id ? updatedRow : row))
+		);
+		return updatedRow;
+	};
+
+	const handleRowModesModelChange = (newRowModesModel) => {
+		setRowModesModel(newRowModesModel);
+	};
 	// columns of the data grid
 	const columns = [
 		{ field: 'id', headerName: 'User ID' },
@@ -30,60 +124,86 @@ const AdminUserMng = () => {
 			headerName: 'User Name',
 			flex: 1,
 			cellClassName: 'name-column--cell',
+			editable: true,
 		},
 		{
 			field: 'userType',
 			headerName: 'User Type',
 			flex: 1,
+			editable: true,
 		},
 		{
-			field: "email",
-			headerName: "User Email",
+			field: 'email',
+			headerName: 'User Email',
 			flex: 1,
-		  },
-		  { field: "userAddress", headerName: "User Address", flex: 1 },
-		  { field: "contactNumber", headerName: "Contact Number", flex: 1 },
+			editable: true,
+		},
+		{
+			field: 'userAddress',
+			headerName: 'User Address',
+			flex: 1,
+			editable: true,
+		},
+		{
+			field: 'contactNumber',
+			headerName: 'Contact Number',
+			flex: 1,
+			editable: true,
+		},
 		{
 			field: 'actions',
 			headerName: 'Actions',
 			flex: 1,
-			renderCell: (params) => (
-				<>
-					<Button
-						variant="outlined"
-						size="small"
-						onClick={() => handleEdit(params.id)} // Use params.id instead of params.row.deviceId
+			type: 'actions',
+			cellClassName: 'actions',
+			getActions: ({ id }) => {
+				const isInEditMode =
+					rowModesModel[id]?.mode === GridRowModes.Edit;
+
+				if (isInEditMode) {
+					return [
+						<GridActionsCellItem
+							icon={<SaveIcon />}
+							label="Save"
+							sx={{
+								color: colors.yellowAccent[400],
+							}}
+							onClick={handleSaveClick(id)}
+						/>,
+						<GridActionsCellItem
+							icon={<CancelIcon />}
+							label="Cancel"
+							className="textPrimary"
+							onClick={handleCancelClick(id)}
+							sx={{
+								color: colors.redAccent[500],
+							}}
+						/>,
+					];
+				}
+
+				return [
+					<GridActionsCellItem
+						icon={<EditIcon />}
+						label="Edit"
+						className="textPrimary"
+						onClick={handleEditClick(id)}
 						sx={{
-							ml: 2,
 							color: colors.yellowAccent[400],
-							borderColor: colors.yellowAccent[400],
 						}}
-					>
-						Edit
-					</Button>
-					<Button
-						variant="outlined"
-						color="error"
-						size="small"
-						onClick={() => handleDelete(params.id)} // Use params.id instead of params.row.deviceId
-						sx={{ ml: 1 }}
-					>
-						Delete
-					</Button>
-				</>
-			),
+					/>,
+					<GridActionsCellItem
+						icon={<DeleteIcon />}
+						label="Delete"
+						onClick={handleDeleteClick(id)}
+						sx={{
+							color: colors.redAccent[500],
+						}}
+					/>,
+				];
+			},
 		},
 	];
-
-	const handleEdit = (userId) => {
-		// Handle edit logic here
-		console.log(`Editing device with ID: ${userId}`);
-	};
-
-	const handleDelete = (userId) => {
-		// Handle delete logic here
-		console.log(`Deleting device with ID: ${userId}`);
-	};
 
 	return (
 		<Box m="10px 20px 20px 20px" width="90%">
@@ -131,6 +251,13 @@ const AdminUserMng = () => {
 					checkboxSelection
 					rows={adminUserData}
 					columns={columns}
+					editMode="row"
+					rowModesModel={rowModesModel}
+					onRowModesModelChange={handleRowModesModelChange}
+					onRowEditStop={handleRowEditStop}
+					onSelectionModelChange={(newSelection) => {
+						// Handle selection changes if needed
+					}}
 				/>
 			</Box>
 		</Box>
