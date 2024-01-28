@@ -55,7 +55,19 @@ const SuperAdminDeviceMng = () => {
 	};
 
 	const handleDeleteClick = (id) => () => {
-		setRows(rows.filter((row) => row.id !== id));
+		// Get the index of the row to be deleted
+		const rowIndex = superAdminDeviceData.findIndex((row) => row.id === id);
+
+		// Remove the row from the data
+		const updatedData = [...superAdminDeviceData];
+		updatedData.splice(rowIndex, 1);
+
+		setSuperAdminDeviceData(updatedData);
+
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
 	};
 
 	const handleCancelClick = (id) => () => {
