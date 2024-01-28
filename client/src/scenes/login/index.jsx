@@ -141,7 +141,6 @@ const Login = ({ onRegisterClick }) => {
 								navigate('/register');
 								window.location.reload();
 							}}
-							sx={{ textDecoration: 'underline' }}
 						>
 							<Typography
 								variant="body1"
