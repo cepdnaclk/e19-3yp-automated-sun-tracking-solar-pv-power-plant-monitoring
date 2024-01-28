@@ -8,7 +8,7 @@ const path = require("path");
 
 //initialize app
 const app = express();
-const port = 8081;
+const port = process.env.PORT || 8081;
 
 app.use(cors());
 app.use(express.json()); // for parsing application/json
