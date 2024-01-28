@@ -1,7 +1,8 @@
 {
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "prod": "set NODE_ENV=production node app.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
