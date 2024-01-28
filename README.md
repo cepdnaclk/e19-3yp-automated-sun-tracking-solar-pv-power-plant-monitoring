@@ -18,43 +18,32 @@ HelioEye is an innovative solar tracking and energy monitoring system designed t
 ### 2. Energy Generation Monitoring
 
 - Real-time monitoring of energy generation levels.
-- Historical data storage for trend analysis.
+- Past energy generation data showcasing.
+- Graphical data showcasing for better visualization.
 
 ### 3. Real-time Data Presentation
 
-- Mobile application for instant access to live energy generation statistics.
+- Web application for instant access to live energy generation statistics.
 - User-friendly interface for easy interpretation of data.
 
-### 4. Statistics Presentation
+## Problem
 
-- Detailed statistical analysis of energy production.
-- Graphical representations for better visualization.
-
-### 5. Periodic Data Prediction
-
-- Predictive modeling for weekly and monthly energy generation forecasts.
-- Notifications for system performance updates.
-
-### 6. Location-Based Energy Generation Data Showcasing
-
-- Collection of location details for accurate energy generation data.
-- Public website portal for showcasing data and promoting solar energy adoption.
-
-## Problem Statement
-
-The current stationary solar panel solutions face limitations in maximizing energy generation throughout the day. Existing systems lack real-time data presentation and periodic predictions, leading to a reluctance among potential customers to invest in solar panels.
+- No Solutions in Sri Lanka for an automated sun-tracking system
+- Lack of system for energy data showcasing applications
 
 ## Solution
 
-HelioEye addresses these issues by implementing a dual-axis rotation system for solar panels, providing real-time energy generation monitoring, and offering a portal for location-based data showcasing. The system aims to encourage prospective customers to make informed decisions by providing accurate and accessible information.
+HelioEye addresses these issues by implementing a dual-axis rotation system for solar panels, and a web application that provides real-time and past energy generation data. 
 
 ## Getting Started
 
 To start using HelioEye, follow these steps:
 
-1. **Installation**: Install the solar tracking module on your photovoltaic panels.
-2. **Mobile Application**: Download the mobile application to monitor real-time energy generation.
-3. **Portal Access**: Explore the public website portal for location-based energy generation data.
+1. **Installation**: Buy and Install the solar tracking module on your solar panels from our partners. Provide a valid email to the vendor when you are purchasing the device.
+2. **Register**: Access the web app and register using the email you provided to the vendor.
+3. **Add Device**: Add your solar tracking device to your account by entering the unique ID given to you with your purchase.
+
+Now your app is ready to use.
 
 ## Future Enhancements
 
