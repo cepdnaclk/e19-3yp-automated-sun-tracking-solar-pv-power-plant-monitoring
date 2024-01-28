@@ -33,7 +33,7 @@ import SuperAdminAddDevice from './scenes/super-admin-add-device';
 import SuperAdminAddUser from './scenes/super-admin-add-user';
 import SuperAdminDashboard from './scenes/super-admin-dashboard';
 import SuperAdminDeviceMng from './scenes/super-admin-device-mng';
-import SuperAdminFaq from './scenes/super-admin-faq';
+// import SuperAdminFaq from './scenes/super-admin-faq';
 import SuperAdminProfile from './scenes/super-admin-profile';
 import SuperAdminUserMng from './scenes/super-admin-user-mng';
 
@@ -164,10 +164,10 @@ function App() {
 						path="/super-admin-add-device"
 						element={<SuperAdminAddDevice />}
 					/>
-					<Route
+					{/* <Route
 						path="/super-admin-faq"
 						element={<SuperAdminFaq />}
-					/>
+					/> */}
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 				</Routes>
