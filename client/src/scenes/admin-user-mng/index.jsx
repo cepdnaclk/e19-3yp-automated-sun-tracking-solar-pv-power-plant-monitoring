@@ -1,35 +1,48 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import Header from '../../components/Header';
-import { Link } from 'react-router-dom';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 
 import { DataGrid } from '@mui/x-data-grid';
 
-// admin user data
-import { adminUserData } from '../../data/adminUserData';
-
 const AdminUserMng = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+	const [adminUserData, setAdminUserData] = useState([]);
+
+	useEffect(() => {
+		axios
+		  .get("/customers/view")
+		  .then((res) => {
+			setAdminUserData(res.data);
+		  })
+		  .catch((err) => {
+			console.log(err);
+		  });
+	  }, []);
 
 	// columns of the data grid
 	const columns = [
-        { field: 'id', headerName: 'ID' },
-		{ field: 'userId', headerName: 'User ID' },
+		{ field: 'id', headerName: 'User ID' },
 		{
-			field: 'userName',
+			field: 'username',
 			headerName: 'User Name',
 			flex: 1,
 			cellClassName: 'name-column--cell',
 		},
 		{
-			field: 'devices',
-			headerName: 'User Devices',
+			field: 'userType',
+			headerName: 'User Type',
 			flex: 1,
 		},
-		{ field: 'active', headerName: 'Active', flex: 1 },
-		{ field: 'inactive', headerName: 'Inactive', flex: 1 },
+		{
+			field: "email",
+			headerName: "User Email",
+			flex: 1,
+		  },
+		  { field: "userAddress", headerName: "User Address", flex: 1 },
+		  { field: "contactNumber", headerName: "Contact Number", flex: 1 },
 		{
 			field: 'actions',
 			headerName: 'Actions',
@@ -84,16 +97,6 @@ const AdminUserMng = () => {
 					title="USER MANAGEMENT"
 					subtitle="Manage Users and Device Overview"
 				/>
-			</Box>
-
-			<Box>
-				<Link to="/admin-add-user" style={{ textDecoration: 'none' }}>
-					<Button type="submit" variant="contained" color="primary"
-					style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '0px 0px 10px 1000px'}}
-					>
-					Add New User
-					</Button>
-				</Link>
 			</Box>
 
 			<Box
