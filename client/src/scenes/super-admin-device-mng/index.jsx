@@ -21,6 +21,7 @@ const SuperAdminDeviceMng = () => {
 	const [superAdminDeviceData, setSuperAdminDeviceData] = useState([]);
 	const [rows, setRows] = useState([]);
 	const [rowModesModel, setRowModesModel] = useState({});
+	const [editedRows, setEditedRows] = useState({});
 
 	useEffect(() => {
 		axios
@@ -45,29 +46,71 @@ const SuperAdminDeviceMng = () => {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.Edit },
 		});
+
+		setEditedRows({
+			...editedRows,
+			[id]: { ...rows.find((row) => row.id === id) },
+		});
 	};
 
 	const handleSaveClick = (id) => () => {
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View },
-		});
+		const editedRow = rows.find((row) => row.id === id);
+		const originalRow = editedRows[id];
+
+		if (JSON.stringify(editedRow) !== JSON.stringify(originalRow)) {
+			axios
+				.put('/devices/updateDevice', editedRow) // Update the endpoint as needed
+				.then(() => {
+					setRows((prevRows) =>
+						prevRows.map((row) => (row.id === id ? editedRow : row))
+					);
+					setRowModesModel({
+						...rowModesModel,
+						[id]: { mode: GridRowModes.View },
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View },
+			});
+		}
 	};
 
 	const handleDeleteClick = (id) => () => {
-		// Get the index of the row to be deleted
-		const rowIndex = superAdminDeviceData.findIndex((row) => row.id === id);
+		const confirmed = window.confirm(
+			'Are you sure you want to delete this device?'
+		);
 
-		// Remove the row from the data
-		const updatedData = [...superAdminDeviceData];
-		updatedData.splice(rowIndex, 1);
+		if (confirmed) {
+			axios
+				.delete('/devices/deleteDevice', {
+					data: { deviceId: id, password: 'admin_password' },
+				}) // Update the endpoint and password as needed
+				.then((res) => {
+					const rowIndex = superAdminDeviceData.findIndex(
+						(row) => row.id === id
+					);
+					const updatedData = [...superAdminDeviceData];
+					updatedData.splice(rowIndex, 1);
 
-		setSuperAdminDeviceData(updatedData);
+					setSuperAdminDeviceData(updatedData);
 
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View, ignoreModifications: true },
-		});
+					setRowModesModel({
+						...rowModesModel,
+						[id]: {
+							mode: GridRowModes.View,
+							ignoreModifications: true,
+						},
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		}
 	};
 
 	const handleCancelClick = (id) => () => {
