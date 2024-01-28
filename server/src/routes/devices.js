@@ -224,7 +224,7 @@ router.post('/', authenticateToken, (req, res, next) => {
 // "assigned_company_id" : xxxx
 // }
 
-router.put('/updateDevice', authenticateToken, (req, res, next) => {
+router.put('/', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			const id = req.body['id'];
