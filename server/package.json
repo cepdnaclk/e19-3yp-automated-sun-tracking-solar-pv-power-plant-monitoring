@@ -2,7 +2,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "prod": "set NODE_ENV=production && node server.js"
+    "prod": "set NODE_ENV=production node server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
