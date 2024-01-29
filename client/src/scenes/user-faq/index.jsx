@@ -12,8 +12,13 @@ const UserFaq = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
+	const contentStyle = {
+		width: `98%`,
+		
+	  };
+
 	return (
-		<Box m="20px">
+		<Box m="15px 20px" width="90%">
 			<Box
 				display="flex"
 				justifyContent="space-between"
@@ -24,70 +29,52 @@ const UserFaq = () => {
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						An Important Question
+					What is the specialty of the solution?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+					This solution has a dual-axis rotation system for the solar panel to be rotated such that 
+					it is always facing the sun's direction. It has a web application that shows real-time 
+					energy generation data and past energy generation information.
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						Another Important Question
+					How do I add a device to the app?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+					Click Add Device on the device management section, Add the device ID given to you by the vendor, 
+					add other necessary details, and submit. If not successful, contact the vendor.
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						Your Favorite Question
+					Is there anything that I should provide for the system to work?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+					Yes, an active internet connection should be provided using Wi-Fi
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						Some Random Question
+					Can I add multiple devices to the app?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
-					</Typography>
-				</AccordionDetails>
-			</Accordion>
-			<Accordion defaultExpanded>
-				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography color={colors.yellowAccent[500]} variant="h5">
-						The Final Question
-					</Typography>
-				</AccordionSummary>
-				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+					Yes you can add multiple devices to the app as long as the devices 
+					are purchased using the same email address as your app profile. 
 					</Typography>
 				</AccordionDetails>
 			</Accordion>

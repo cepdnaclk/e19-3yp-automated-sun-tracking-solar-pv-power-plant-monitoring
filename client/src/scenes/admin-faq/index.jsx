@@ -12,8 +12,13 @@ const AdminFaq = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 
+	const contentStyle = {
+		width: `98%`,
+		
+	  };
+
 	return (
-		<Box m="20px">
+		<Box m="15px 20px" width="90%">
 			<Box
 				display="flex"
 				justifyContent="space-between"
@@ -24,73 +29,62 @@ const AdminFaq = () => {
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						An Important Question
+						What is the specialty of the solution?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+						This solution has a dual-axis rotation system for the solar panel to be 
+						rotated such that it is always facing the sun's direction. It has a web application 
+						that shows real-time energy generation data and past energy generation information.
+
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						Another Important Question
+						How can I order new devices?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+						You must contact the HelioEye team and place your order. 
+						You will receive the ordered devices quickly 
+						and your ordered devices will be added to your profile by HelioEye.
+
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
 			<Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
-						Your Favorite Question
+						What should I do when I am selling a device to a customer?
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
+					<Typography style={contentStyle}>
+						Get their email address and enter it into the system. 
+						And instruct them to use the same email address when they are registering to the app. 
+						If they already have an account, they can use the same email address. However, 
+						the device data will be shown only to the profile created using the given email address.
 					</Typography>
 				</AccordionDetails>
 			</Accordion>
-			<Accordion defaultExpanded>
+			{/* <Accordion defaultExpanded>
 				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
 					<Typography color={colors.yellowAccent[500]} variant="h5">
 						Some Random Question
 					</Typography>
 				</AccordionSummary>
 				<AccordionDetails>
-					<Typography>
+					<Typography style={contentStyle}>
 						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 						Suspendisse malesuada lacus ex, sit amet blandit leo
 						lobortis eget.
 					</Typography>
 				</AccordionDetails>
-			</Accordion>
-			<Accordion defaultExpanded>
-				<AccordionSummary expandIcon={<ExpandMoreIcon />}>
-					<Typography color={colors.yellowAccent[500]} variant="h5">
-						The Final Question
-					</Typography>
-				</AccordionSummary>
-				<AccordionDetails>
-					<Typography>
-						Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-						Suspendisse malesuada lacus ex, sit amet blandit leo
-						lobortis eget.
-					</Typography>
-				</AccordionDetails>
-			</Accordion>
+			</Accordion> */}
 		</Box>
 	);
 };

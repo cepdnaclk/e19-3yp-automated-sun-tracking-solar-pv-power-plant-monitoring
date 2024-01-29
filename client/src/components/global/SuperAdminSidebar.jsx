@@ -145,13 +145,13 @@ const Sidebar = () => {
 							selected={selected}
 							setSelected={setSelected}
 						/>
-						<Item
+						{/* <Item
 							title={'FAQ'}
 							to="/super-admin-faq"
 							icon={<HelpOutlineOutlinedIcon />}
 							selected={selected}
 							setSelected={setSelected}
-						/>
+						/> */}
 					</Box>
 				</Menu>
 			</ProSidebar>

@@ -28,25 +28,31 @@ const UserDevices = () => {
         <Header title="MY DEVICES" subtitle="Device Overview" />
       </Box>
 
-      <Box
-        display="grid"
-        gridTemplateColumns="repeat(3, 1fr)"
-        gridAutoRows="300px"
-        gap="10px"
-        overflow="auto"
-        m=" 10px 10px 10px 0px"
-        width="95%"
-      >
-        {devices.map((device) => (
-          <DeviceCard
-            key={device.id}
-            deviceId={device.deviceNameByCustomer}
-            status={device.modelName}
-          />
-        ))}
-      </Box>
-    </Box>
-  );
+			<Box
+				display="grid"
+				gridTemplateColumns="repeat(3, 1fr)"
+				gridAutoRows="auto"
+				gap="10px"
+				overflow="auto"
+				m="10px 10px 10px 0px"
+				width="95%"
+			>
+				{userDevices.map((device) => (
+					<DeviceCard
+						key={device.deviceId}
+						deviceId={device.deviceId}
+						deviceNameByCustomer={device.deviceNameByCustomer}
+						status={device.status}
+						modelName={device.modelName}
+						modelNumber={device.modelNumber}
+						power={device.power}
+						angle={device.angle}
+						deviceDescription={device.deviceDescription}
+					/>
+				))}
+			</Box>
+		</Box>
+	);
 };
 
 export default UserDevices;

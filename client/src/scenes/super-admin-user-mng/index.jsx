@@ -58,27 +58,54 @@ const SuperAdminUserMng = () => {
     });
   };
 
-  const handleDeleteClick = (id) => () => {
-    setSuperAdminUserData(superAdminUserData.filter((row) => row.id !== id));
-  };
+	const handleDeleteClick = (id) => () => {
+		// Get the index of the row to be deleted
+		const rowIndex = superAdminUserData.findIndex((row) => row.id === id);
 
-  const handleCancelClick = (id) => () => {
-    setRowModesModel({
-      ...rowModesModel,
-      [id]: { mode: GridRowModes.View, ignoreModifications: true },
-    });
+		// Remove the row from the data
+		const updatedData = [...superAdminUserData];
+		updatedData.splice(rowIndex, 1);
 
-    const editedRow = superAdminUserData.find((row) => row.id === id);
-    if (editedRow.isNew) {
-      setSuperAdminUserData(superAdminUserData.filter((row) => row.id !== id));
-    } else {
-      // Restore the original row data
-      const updatedRows = superAdminUserData.map((row) =>
-        row.id === id ? originalRows[id] : row
-      );
-      setSuperAdminUserData(updatedRows);
-    }
-  };
+		setSuperAdminUserData(updatedData);
+
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
+
+		// Uncomment the following lines if you want to make a delete request to the API
+		// const password = prompt('Enter your password for verification:', '');
+		// axios
+		// 	.delete('/companies/', {
+		// 		data: {
+		// 			companyId: id,
+		// 			password: password,
+		// 		},
+		// 	})
+		// 	.then((res) => {
+		// 		// Handle the response if needed
+		// 		console.log(res.data);
+		// 	})
+		// 	.catch((err) => {
+		// 		console.error(err);
+		// 		// Handle the error
+		// 	});
+	};
+
+	const handleCancelClick = (id) => () => {
+		const editedRow = rows.find((row) => row.id === id);
+
+		if (editedRow) {
+			if (editedRow.isNew) {
+				setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+			}
+
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View, ignoreModifications: true },
+			});
+		}
+	};
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -174,15 +201,18 @@ const SuperAdminUserMng = () => {
     },
   ];
 
-  return (
-    <Box m="20px" width="90%">
-      {/* Header */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header
-          title="USERS MANAGEMENT"
-          subtitle="Manage Users and Users Overview"
-        />
-      </Box>
+	return (
+		<Box m="20px" width="90%">
+			<Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+			>
+				<Header
+					title="USERS MANAGEMENT"
+					subtitle="Manage Users and Users Overview"
+				/>
+			</Box>
 
       <Box>
         <Link

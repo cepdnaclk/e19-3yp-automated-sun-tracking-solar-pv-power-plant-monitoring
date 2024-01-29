@@ -48,7 +48,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
                 JOIN device ON user.id = device.assigned_customer_id
                 WHERE device.assigned_company_id = ${req.user_id}`)
         .then((rows) => {
-          data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+          data = rows.map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
         })
         .catch((err) => {
@@ -64,7 +64,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
 // only accessble for companies
 
 router.get("/companyCustomerCount", authenticateToken, (req, res, next) => {
-  if (req.user_type == "admin") {
+  if (req.user_type == "company") {
     
     execQuery(
       `SELECT COUNT(*) FROM user 

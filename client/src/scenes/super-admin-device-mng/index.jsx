@@ -21,6 +21,7 @@ const SuperAdminDeviceMng = () => {
 	const [superAdminDeviceData, setSuperAdminDeviceData] = useState([]);
 	const [rows, setRows] = useState([]);
 	const [rowModesModel, setRowModesModel] = useState({});
+	const [editedRows, setEditedRows] = useState({});
 
 	useEffect(() => {
 		axios
@@ -45,18 +46,79 @@ const SuperAdminDeviceMng = () => {
 			...rowModesModel,
 			[id]: { mode: GridRowModes.Edit },
 		});
-	};
 
-	const handleSaveClick = (id) => () => {
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View },
+		setEditedRows({
+			...editedRows,
+			[id]: { ...rows.find((row) => row.id === id) },
 		});
 	};
 
-	const handleDeleteClick = (id) => () => {
-		setRows(rows.filter((row) => row.id !== id));
+	const handleSaveClick = (id) => () => {
+		const editedRow = rows.find((row) => row.id === id);
+		const originalRow = editedRows[id];
+
+		if (JSON.stringify(editedRow) !== JSON.stringify(originalRow)) {
+			axios
+				.put('/devices/updateDevice', editedRow) // Update the endpoint as needed
+				.then((res) => {
+					setRows((prevRows) =>
+						prevRows.map((row) => (row.id === id ? editedRow : row))
+					);
+					setRowModesModel({
+						...rowModesModel,
+						[id]: { mode: GridRowModes.View },
+					});
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+		} else {
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View },
+			});
+		}
 	};
+
+	const handleDeleteClick = (id) => () => {
+		const rowIndex = superAdminDeviceData.findIndex((row) => row.id === id);
+		const updatedData = [...superAdminDeviceData];
+		updatedData.splice(rowIndex, 1);
+
+		setSuperAdminDeviceData(updatedData);
+
+		setRowModesModel({
+			...rowModesModel,
+			[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});
+	};
+
+	// const handleSaveClick = (id) => () => {
+	// 	const editedRow = rows.find((row) => row.id === id);
+	// 	const originalRow = editedRows[id];
+
+	// 	if (JSON.stringify(editedRow) !== JSON.stringify(originalRow)) {
+	// 		axios
+	// 			.put('/devices/updateDevice', editedRow) // Update the endpoint as needed
+	// 			.then((res) => {
+	// 				setRows((prevRows) =>
+	// 					prevRows.map((row) => (row.id === id ? editedRow : row))
+	// 				);
+	// 				setRowModesModel({
+	// 					...rowModesModel,
+	// 					[id]: { mode: GridRowModes.View },
+	// 				});
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log(err);
+	// 			});
+	// 	} else {
+	// 		setRowModesModel({
+	// 			...rowModesModel,
+	// 			[id]: { mode: GridRowModes.View },
+	// 		});
+	// 	}
+	// };
 
 	const handleCancelClick = (id) => () => {
 		setRowModesModel({
