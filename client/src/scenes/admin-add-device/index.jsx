@@ -30,7 +30,7 @@ const AdminAddDevice = () => {
     onSubmit: (values, { resetForm }) => {
       // Handle login logic here
       axios
-        .put("/devices/", {
+        .put("/devices/companyUpdate", {
           ...values,
         })
         .then((response) => {
