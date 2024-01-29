@@ -367,15 +367,21 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 									device_name_by_customer=?,
 									device_latitude=?, 
 									device_longitude=? 
-										WHERE id=? AND
-									((SELECT purchased_customer_email FROM device 
-										WHERE id=?) = ?)`;
+										WHERE id=? AND (purchased_customer_email  = ?)`;
+
+										// const assignCustomertoDeviceQuery = `UPDATE device SET 
+										// assigned_customer_id=?, 
+										// device_name_by_customer=?,
+										// device_latitude=?, 
+										// device_longitude=? 
+										// 	WHERE id=? AND 
+										// ((SELECT purchased_customer_email FROM device 
+										// 	WHERE id=?) = ?)`;							
 			const values = [
 				req.user_id,
 				req.body.device_name_by_customer,
 				req.body.device_latitude,
 				req.body.device_longitude,
-				req.body.id,
 				req.body.id,
 				req.email,
 			];
