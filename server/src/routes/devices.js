@@ -346,6 +346,7 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 									assigned_customer_id=?, 
 									device_name_by_customer=?,
 									device_latitude=?, 
+
 									device_longitude=?,
 									power=?,
 									angle=?,
@@ -353,6 +354,7 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 										WHERE id=? AND
 									(SELECT purchased_customer_email FROM device 
 										WHERE id=?) = ?`;
+
 			const values = [
 				req.user_id,
 				req.body.device_name_by_customer,
@@ -361,7 +363,6 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 				getRandomNumber(0, 1.2),
 				getRandomNumber(0, 110),
 				'Active',
-				req.body.id,
 				req.body.id,
 				req.email,
 			];
