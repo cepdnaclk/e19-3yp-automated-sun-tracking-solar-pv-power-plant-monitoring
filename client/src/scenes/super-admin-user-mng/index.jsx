@@ -58,54 +58,56 @@ const SuperAdminUserMng = () => {
     });
   };
 
-	const handleDeleteClick = (id) => () => {
-		// Get the index of the row to be deleted
-    const password = prompt('Enter your password for verification:', '');
-		const rowIndex = superAdminUserData.findIndex((row) => row.id === id);
+  const handleDeleteClick = (id) => () => {
+    // Get the index of the row to be deleted
+    const confirm = window.confirm("Are you sure want to delete:", "");
+    if (confirm) {
+      const rowIndex = superAdminUserData.findIndex((row) => row.id === id);
 
-		// Remove the row from the data
-		const updatedData = [...superAdminUserData];
-		updatedData.splice(rowIndex, 1);
+      // Remove the row from the data
 
-		setSuperAdminUserData(updatedData);
+      const updatedData = [...superAdminUserData];
+      updatedData.splice(rowIndex, 1);
 
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View, ignoreModifications: true },
-		});
+      setSuperAdminUserData(updatedData);
 
-		// Uncomment the following lines if you want to make a delete request to the API
-		// axios
-		// 	.delete('/companies/', {
-		// 		data: {
-		// 			companyId: id,
-		// 			password: password,
-		// 		},
-		// 	})
-		// 	.then((res) => {
-		// 		// Handle the response if needed
-		// 		console.log(res.data);
-		// 	})
-		// 	.catch((err) => {
-		// 		console.error(err);
-		// 		// Handle the error
-		// 	});
-	};
+      setRowModesModel({
+        ...rowModesModel,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      });
+    }
+    // Uncomment the following lines if you want to make a delete request to the API
+    // axios
+    // 	.delete('/companies/', {
+    // 		data: {
+    // 			companyId: id,
+    // 			password: password,
+    // 		},
+    // 	})
+    // 	.then((res) => {
+    // 		// Handle the response if needed
+    // 		console.log(res.data);
+    // 	})
+    // 	.catch((err) => {
+    // 		console.error(err);
+    // 		// Handle the error
+    // 	});
+  };
 
-	const handleCancelClick = (id) => () => {
-		const editedRow = rows.find((row) => row.id === id);
+  const handleCancelClick = (id) => () => {
+    const editedRow = rows.find((row) => row.id === id);
 
-		if (editedRow) {
-			if (editedRow.isNew) {
-				setRows((prevRows) => prevRows.filter((row) => row.id !== id));
-			}
+    if (editedRow) {
+      if (editedRow.isNew) {
+        setRows((prevRows) => prevRows.filter((row) => row.id !== id));
+      }
 
-			setRowModesModel({
-				...rowModesModel,
-				[id]: { mode: GridRowModes.View, ignoreModifications: true },
-			});
-		}
-	};
+      setRowModesModel({
+        ...rowModesModel,
+        [id]: { mode: GridRowModes.View, ignoreModifications: true },
+      });
+    }
+  };
 
   const processRowUpdate = (newRow) => {
     const updatedRow = { ...newRow, isNew: false };
@@ -201,18 +203,14 @@ const SuperAdminUserMng = () => {
     },
   ];
 
-	return (
-		<Box m="20px" width="90%">
-			<Box
-				display="flex"
-				justifyContent="space-between"
-				alignItems="center"
-			>
-				<Header
-					title="USERS MANAGEMENT"
-					subtitle="Manage Users and Users Overview"
-				/>
-			</Box>
+  return (
+    <Box m="20px" width="90%">
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Header
+          title="USERS MANAGEMENT"
+          subtitle="Manage Users and Users Overview"
+        />
+      </Box>
 
       <Box>
         <Link

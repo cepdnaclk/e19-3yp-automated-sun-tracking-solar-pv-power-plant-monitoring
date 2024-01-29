@@ -139,7 +139,7 @@ const DeviceCard = ({
 				<Box display="flex">
 					<BoltIcon />
 					<Typography color={colors.grey[100]} variant="h4" pl="10px">
-						Device Power : {power} kWh
+						Device Power : {power} W
 					</Typography>
 				</Box>
 			</Box>
