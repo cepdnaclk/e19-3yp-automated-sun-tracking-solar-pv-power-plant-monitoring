@@ -225,7 +225,7 @@ router.get('/', authenticateToken, (req, res, next) => {
 // "model_number": "example@example.com",
 // "assigned_company_id" : xxxx
 //}
-router.post('/', authenticateToken, (req, res, next) => {
+router.post('/newDevice', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			const [fields, values] = [
