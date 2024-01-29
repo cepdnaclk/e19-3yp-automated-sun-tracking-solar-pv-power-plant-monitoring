@@ -40,6 +40,25 @@ const UserDashboard = () => {
 	}, []);
 
 	const efficiency = ((totalPower / devices.length / 125) * 100).toFixed(2);
+	const totPow = totalPower.toString() + ' W';
+
+	// Data for weekly bar chart
+	const weeklyData = {
+		xLabels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+		data: [totalPower, 0, 0, 0, 0, 0, 0],
+	};
+
+	// Data for monthly bar chart
+	const monthlyData = {
+		xLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+		data: [totalPower, 0, 0, 0, 0, 0],
+	};
+
+	// Data for yearly bar chart
+	const yearlyData = {
+		xLabels: ['2023', '2024', '2025', '2026'],
+		data: [0, totalPower, 0, 0],
+	};
 
 	return (
 		<Box m="20px">
@@ -70,7 +89,7 @@ const UserDashboard = () => {
 				>
 					<StatBoxVal
 						title="TOTAL POWER"
-						value={totalPower}
+						value={totPow}
 						icon={
 							<BoltOutlinedIcon
 								sx={{
@@ -129,7 +148,11 @@ const UserDashboard = () => {
 						justifyContent="center"
 						p="15px"
 					>
-						<ToggleCharts />
+						<ToggleCharts
+							weeklyData={weeklyData}
+							monthlyData={monthlyData}
+							yearlyData={yearlyData}
+						/>
 					</Box>
 				</Box>
 

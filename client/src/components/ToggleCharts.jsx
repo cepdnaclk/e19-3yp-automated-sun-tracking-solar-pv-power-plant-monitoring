@@ -4,9 +4,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../theme';
 import StackedBarChart from './StackedBarChart';
-import { weeklyData, monthlyData, yearlyData } from '../data/barChartData'; // Import the bar chart data file
 
-const ToggleCharts = () => {
+const ToggleCharts = ({ weeklyData, monthlyData, yearlyData }) => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
 	const [alignment, setAlignment] = React.useState('Week');
