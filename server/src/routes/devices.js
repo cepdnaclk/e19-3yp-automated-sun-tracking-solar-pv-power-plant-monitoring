@@ -368,8 +368,8 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 									device_latitude=?, 
 									device_longitude=? 
 										WHERE id=? AND
-									(SELECT purchased_customer_email FROM device 
-										WHERE id=?) = ?`;
+									((SELECT purchased_customer_email FROM device 
+										WHERE id=?) = ?)`;
 			const values = [
 				req.user_id,
 				req.body.device_name_by_customer,
