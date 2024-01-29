@@ -1,32 +1,37 @@
-import { Box, useTheme } from "@mui/material";
-import axios from "axios";
-import React, { useEffect } from "react";
-import DeviceCard from "../../components/DeviceCard";
-import Header from "../../components/Header";
-import { tokens } from "../../theme";
+import { Box, useTheme } from '@mui/material';
+import axios from 'axios';
+import React, { useEffect } from 'react';
+import DeviceCard from '../../components/DeviceCard';
+import Header from '../../components/Header';
+import { tokens } from '../../theme';
 
 const UserDevices = () => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const [devices, setDevices] = React.useState([]);
+	const theme = useTheme();
+	const colors = tokens(theme.palette.mode);
+	const [devices, setDevices] = React.useState([]);
 
-  useEffect(() => {
-    console.log("hello");
-    axios
-      .get("/devices/mydevices")
-      .then((res) => {
-        setDevices(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+	useEffect(() => {
+		console.log('hello');
+		axios
+			.get('/devices/mydevices')
+			.then((res) => {
+				console.log(res.data);
+				setDevices(res.data);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
 
-  return (
-    <Box m="20px" width="100%">
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header title="MY DEVICES" subtitle="Device Overview" />
-      </Box>
+	return (
+		<Box m="20px" width="100%">
+			<Box
+				display="flex"
+				justifyContent="space-between"
+				alignItems="center"
+			>
+				<Header title="MY DEVICES" subtitle="Device Overview" />
+			</Box>
 
 			<Box
 				display="grid"
@@ -37,10 +42,10 @@ const UserDevices = () => {
 				m="10px 10px 10px 0px"
 				width="95%"
 			>
-				{userDevices.map((device) => (
+				{devices.map((device) => (
 					<DeviceCard
-						key={device.deviceId}
-						deviceId={device.deviceId}
+						key={device.id}
+						id={device.id}
 						deviceNameByCustomer={device.deviceNameByCustomer}
 						status={device.status}
 						modelName={device.modelName}
