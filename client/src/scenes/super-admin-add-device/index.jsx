@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/system';
 import { tokens } from '../../theme';
-import { Box, TextField, Button, Input } from '@mui/material';
+import { Box, TextField, Button, Input, Grid } from '@mui/material';
 import { AlertContext } from "../../contexts/AlertContext";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -20,36 +20,62 @@ const SuperAdminAddDevice = () => {
     model_number: Yup.string().required("Required"),
     assigned_company_id: Yup.string().required("Required"),
     assigned_company_name: Yup.string().required("Required"),
-    // file: Yup.mixed().required("Required"),
+    files: Yup.mixed().required("File is required"),
   });
 
   const formik = useFormik({
     initialValues: {
-      // device_id: "",
       model_name: "",
       model_number: "",
       assigned_company_id: "",
       assigned_company_name: "",
-      // file: null,
+      files: null,
     },
     validationSchema: validationSchema,
-    onSubmit: (values, { resetForm }) => {
-      // Handle login logic here
-      axios
-        .post("/devices/", {
-          ...values,
-        })
-        .then((response) => {
-          console.log(response);
-          showAlert("Device Added Successfully", "success");
-          resetForm();
-        })
-        .catch((error) => {
-          console.log(error);
-          showAlert("Error Adding Device", "error");
-        });
-    },
   });
+
+  const handleUpload = async () => {
+    console.log('Uploading file:', formik.values.files);
+    try {
+      // Create FormData object
+      const formData = new FormData();
+
+      // Append the single file to FormData
+      formData.append('userManual', formik.values.files);
+
+      // Upload files to the server
+      await axios.post("/upload", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      showAlert("File Uploaded Successfully", "success");
+    } catch (error) {
+      console.error(error);
+      showAlert("Error Uploading File", "error");
+    }
+  };
+
+  const handleAddDevice = async () => {
+    try {
+      // Proceed to add the device
+      const response = await axios.post("/devices/", {
+        model_name: formik.values.model_name,
+        model_number: formik.values.model_number,
+        assigned_company_id: formik.values.assigned_company_id,
+        assigned_company_name: formik.values.assigned_company_name,
+      });
+
+      console.log(response);
+      showAlert("Device Added Successfully", "success");
+      formik.resetForm();
+    } catch (error) {
+      console.error(error);
+      showAlert("Error Adding Device", "error");
+    }
+  };
+
 
   return (
     <Box style={{ margin: '15px 100px 15px 25px' }}>
@@ -131,24 +157,41 @@ const SuperAdminAddDevice = () => {
             error={formik.touched.assigned_company_name && Boolean(formik.errors.assigned_company_name)}
             helperText={formik.touched.assigned_company_name && formik.errors.assigned_company_name}
           />
-          {/* <Input
-            id="file"
-            type="file"
-            fullWidth
-            margin="normal"
-            inputProps={{ accept: '.pdf, .doc, .docx', multiple: true }}
-            onChange={(event) => {
-              formik.setFieldValue('file', event.target.files[0]);
-            }}
-            error={formik.touched.file && Boolean(formik.errors.file)}
-            helperText={formik.touched.file && formik.errors.file}
-            style={{ marginTop: '10px' }}
-          /> */}
-          <Box style={{ display: 'flex' }}>
+           <Box display="flex" marginTop= '20px' >
+            <Input
+              type="file"
+              margin="normal"
+              inputProps={{ accept: '.pdf, .doc, .docx' }}
+              onChange={(event) => {
+                formik.setFieldValue('files', event.target.files[0]);
+              }}
+              error={formik.touched.files && Boolean(formik.errors.files)}
+              helperText={formik.touched.files && formik.errors.files}
+              style={{ width: '90%', marginRight: '5px' }}
+            />
             <Button
-              type="submit"
+              type="button"
               variant="contained"
               color="primary"
+              onClick={handleUpload}
+              style={{
+                background: 'white',
+                color: 'black',
+                fontWeight: 'bold',
+                fontSize: '10px',
+                width: '10%',
+                height: '27px',
+              }}
+            >
+              Upload File
+            </Button>
+          </Box>
+          <Box style={{ display: 'flex' }}>
+            <Button
+              type="button"
+              variant="contained"
+              color="primary"
+              onClick={handleAddDevice}
               style={{ background: '#FFAC09', color: 'black', fontWeight: 'bold', margin: '20px 20px 20px 0' }}
               >
               Add Device
@@ -168,3 +211,5 @@ const SuperAdminAddDevice = () => {
 };
 
 export default SuperAdminAddDevice;
+
+
