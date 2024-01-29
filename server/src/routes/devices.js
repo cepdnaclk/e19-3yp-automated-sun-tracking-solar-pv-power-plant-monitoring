@@ -3,6 +3,24 @@
 const express = require('express');
 const router = express.Router();
 
+function getRandomNumber(min, max) {
+	if (min >= max) {
+		throw new Error('Min value must be less than max value');
+	}
+
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getRandomStatus() {
+	const statusArray = ['Active', 'Inactive', 'Pending', 'Blocked'];
+	if (!Array.isArray(statusArray) || statusArray.length === 0) {
+		throw new Error('Status array must be a non-empty array');
+	}
+
+	const randomIndex = Math.floor(Math.random() * statusArray.length);
+	return statusArray[randomIndex];
+}
+
 //for json mapping
 const {
 	requestBodyToFieldsAndValues,
@@ -25,7 +43,9 @@ router.get('/view', authenticateToken, (req, res, next) => {
 			)
 				.then((rows) => {
 					data = objectKeysSnakeToCamel(rows[0]);
+
 					console.log(data);
+
 					res.status(200).json(data);
 				})
 				.catch((err) => {
@@ -38,6 +58,7 @@ router.get('/view', authenticateToken, (req, res, next) => {
 				.then((rows) => {
 					if (Array.isArray(rows) && rows.length > 0) {
 						data = rows.map((row) => objectKeysSnakeToCamel(row));
+
 						res.status(200).json(data);
 					} else {
 						res.status(200).json([]); // Sending an empty array if there are no results
@@ -125,23 +146,44 @@ router.get('/', authenticateToken, (req, res, next) => {
 });
 
 //view devices - from customer's app
-router.get('/', authenticateToken, (req, res, next) => {
+router.get('/mydevices', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'customer') {
 		if (req.query.id) {
-			execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
+			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description 
                     FROM device WHERE assigned_customer_id=${req.user_id} AND id=${req.query.id}`)
 				.then((rows) => {
-					data = objectKeysSnakeToCamel(rows[0]);
+					// data = objectKeysSnakeToCamel(rows[0]);
+					const additionalKeys = {
+						power: getRandomNumber(0, 100), // Replace with the actual power value
+						status: 'Active', // Replace with the actual status value
+						angle: getRandomNumber(-90, 90), // Replace with the actual angle value
+					};
+
+					const data = {
+						...rows.map((row) => objectKeysSnakeToCamel(row)),
+						...additionalKeys,
+					};
 					res.status(200).json(data);
 				})
 				.catch((err) => {
 					next(err);
 				});
 		} else {
-			execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
+			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description 
         FROM device WHERE assigned_customer_id=${req.user_id}`)
 				.then((rows) => {
-					data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+					// data = rows.map((row) => objectKeysSnakeToCamel(row));
+
+					const additionalKeys = {
+						power: getRandomNumber(0, 100), // Replace with the actual power value
+						status: 'Active', // Replace with the actual status value
+						angle: getRandomNumber(-90, 90), // Replace with the actual angle value
+					};
+
+					const data = rows.map((row) => ({
+						...objectKeysSnakeToCamel(row),
+						...additionalKeys,
+					}));
 					res.status(200).json(data);
 				})
 				.catch((err) => {
@@ -183,7 +225,7 @@ router.get('/', authenticateToken, (req, res, next) => {
 // "model_number": "example@example.com",
 // "assigned_company_id" : xxxx
 //}
-router.post('/', authenticateToken, (req, res, next) => {
+router.post('/newDevice', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			const [fields, values] = [

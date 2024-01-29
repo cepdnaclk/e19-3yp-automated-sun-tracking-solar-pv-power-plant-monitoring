@@ -57,16 +57,20 @@ const AdminUserMng = () => {
 		// Get the index of the row to be deleted
 		const rowIndex = adminUserData.findIndex((row) => row.id === id);
 
-		// Remove the row from the data
-		const updatedData = [...adminUserData];
-		updatedData.splice(rowIndex, 1);
+		const confirm = window.confirm('Are you sure want to delete:', '');
 
-		setAdminUserData(updatedData);
 
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View, ignoreModifications: true },
-		});
+		if(confirm){
+			// Remove the row from the data
+			const updatedData = [...adminUserData];
+			updatedData.splice(rowIndex, 1);
+
+			setAdminUserData(updatedData);
+
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View, ignoreModifications: true },
+		});}
 
 		// Uncomment the following lines if you want to make a delete request to the API
 		// const password = prompt('Enter your password for verification:', '');

@@ -81,6 +81,7 @@ const SuperAdminDeviceMng = () => {
 	};
 
 	const handleDeleteClick = (id) => () => {
+		const password = prompt('Enter your password for verification:', '');
 		const rowIndex = superAdminDeviceData.findIndex((row) => row.id === id);
 		const updatedData = [...superAdminDeviceData];
 		updatedData.splice(rowIndex, 1);
