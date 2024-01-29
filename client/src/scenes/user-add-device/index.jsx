@@ -34,7 +34,7 @@ const UserAddDevice = () => {
       onSubmit: (values, { resetForm }) => {
         // Handle login logic here
         axios
-          .put("/devices/", {
+          .put("/devices/customerUpdate", {
             ...values,
           })
           .then((response) => {

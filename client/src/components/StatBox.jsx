@@ -29,7 +29,7 @@ const StatBox = ({ title, subtitle, icon, progress }) => {
 					variant="h5"
 					sx={{ color: colors.yellowAccent[500] }}
 				>
-					{subtitle}
+					{subtitle} %
 				</Typography>
 			</Box>
 		</Box>

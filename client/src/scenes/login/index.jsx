@@ -83,6 +83,15 @@ const Login = ({ onRegisterClick }) => {
 		<StyledContainer component="main" maxWidth="xs">
 			<CssBaseline />
 			<div>
+				<Box
+					width="200px"
+					display="flex"
+					justifyContent="center"
+					alignContent="center"
+					ml="100px"
+				>
+					<img src="assets/Group 7.png" alt="logo" width="200px" />
+				</Box>
 				<Typography component="h1" variant="h5">
 					Login
 				</Typography>

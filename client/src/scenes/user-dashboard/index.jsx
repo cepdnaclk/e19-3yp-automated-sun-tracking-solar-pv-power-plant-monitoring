@@ -1,21 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../../components/Header';
 import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
 import { tokens } from '../../theme';
 import StatBox from '../../components/StatBox';
 import StatBoxVal from '../../components/StatBoxVal';
 import ToggleCharts from '../../components/ToggleCharts';
+import axios from 'axios'; // Add the import statement for axios,
 
 import BatteryChargingFullOutlinedIcon from '@mui/icons-material/BatteryChargingFullOutlined';
 import BoltOutlinedIcon from '@mui/icons-material/BoltOutlined';
 import Battery3BarOutlinedIcon from '@mui/icons-material/Battery3BarOutlined';
 import SettingsSuggestOutlinedIcon from '@mui/icons-material/SettingsSuggestOutlined';
 
-import { userDevices } from '../../data/devices';
+// import { userDevices } from '../../data/devices';
 
 const UserDashboard = () => {
 	const theme = useTheme();
 	const colors = tokens(theme.palette.mode);
+
+	const [devices, setDevices] = React.useState([]);
+	const [totalPower, setTotalPower] = React.useState(0);
+
+	useEffect(() => {
+		console.log('hello');
+		axios
+			.get('/devices/mydevices')
+			.then((res) => {
+				console.log(res.data);
+				setDevices(res.data);
+				const totalPower = res.data.reduce(
+					(total, device) => total + device.power,
+					0
+				);
+				setTotalPower(totalPower);
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	}, []);
+
+	const efficiency = ((totalPower / devices.length / 125) * 100).toFixed(2);
 
 	return (
 		<Box m="20px">
@@ -45,8 +69,8 @@ const UserDashboard = () => {
 					justifyContent="center"
 				>
 					<StatBoxVal
-						title="AVERAGE POWER"
-						value="325.13kWh"
+						title="TOTAL POWER"
+						value={totalPower}
 						icon={
 							<BoltOutlinedIcon
 								sx={{
@@ -66,8 +90,8 @@ const UserDashboard = () => {
 				>
 					<StatBox
 						title="EFFICIENCY"
-						subtitle="75%"
-						progress="0.75"
+						subtitle={efficiency}
+						progress={efficiency / 100}
 						icon={
 							<SettingsSuggestOutlinedIcon
 								sx={{
@@ -132,9 +156,9 @@ const UserDashboard = () => {
 							Device Status
 						</Typography>
 					</Box>
-					{userDevices.map((device, i) => (
+					{devices.map((device, i) => (
 						<Box
-							key={`${device.deviceId}-${i}`}
+							key={`${device.id}-${i}`}
 							display="flex"
 							justifyContent="space-between"
 							alignItems="center"
@@ -143,12 +167,12 @@ const UserDashboard = () => {
 						>
 							<Box>
 								<Typography color={colors.grey[100]}>
-									Device ID : {device.deviceId}
+									Device ID : {device.id}
 								</Typography>
 							</Box>
 							<Box>
 								<Typography color={colors.orangeAccent[300]}>
-									Power : {device.devicePower}
+									Power : {device.power} W
 								</Typography>
 							</Box>
 							<Box
@@ -157,7 +181,7 @@ const UserDashboard = () => {
 								borderRadius="4px"
 							>
 								<Typography color={colors.blueAccent[600]}>
-									Status : {device.deviceStatus}
+									Status : {device.status}
 								</Typography>
 							</Box>
 						</Box>
