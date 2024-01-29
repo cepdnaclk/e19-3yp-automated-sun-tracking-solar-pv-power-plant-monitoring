@@ -60,6 +60,7 @@ const SuperAdminUserMng = () => {
 
 	const handleDeleteClick = (id) => () => {
 		// Get the index of the row to be deleted
+    const password = prompt('Enter your password for verification:', '');
 		const rowIndex = superAdminUserData.findIndex((row) => row.id === id);
 
 		// Remove the row from the data
@@ -74,7 +75,6 @@ const SuperAdminUserMng = () => {
 		});
 
 		// Uncomment the following lines if you want to make a delete request to the API
-		// const password = prompt('Enter your password for verification:', '');
 		// axios
 		// 	.delete('/companies/', {
 		// 		data: {
