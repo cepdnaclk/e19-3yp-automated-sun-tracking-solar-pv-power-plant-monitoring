@@ -60,7 +60,7 @@ const SuperAdminAddDevice = () => {
   const handleAddDevice = async () => {
     try {
       // Proceed to add the device
-      const response = await axios.post("/devices/", {
+      const response = await axios.post("/devices/newDevice", {
         model_name: formik.values.model_name,
         model_number: formik.values.model_number,
         assigned_company_id: formik.values.assigned_company_id,
