@@ -214,7 +214,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="ACTIVE DEVICES"
-						value="5" // {activeDevices}
+						value={registeredDevices} // {activeDevices}
 						icon={
 							<TapAndPlayIcon
 								sx={{
@@ -236,7 +236,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="INACTIVE DEVICES"
-						value="3" // {inactiveDevices}
+						value="0" // {inactiveDevices}
 						icon={
 							<PhonelinkEraseIcon
 								sx={{
