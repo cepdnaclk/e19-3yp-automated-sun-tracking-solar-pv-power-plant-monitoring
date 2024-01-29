@@ -59,7 +59,7 @@ const SuperAdminDeviceMng = () => {
 
 		if (JSON.stringify(editedRow) !== JSON.stringify(originalRow)) {
 			axios
-				.put('/devices/updateDevice', editedRow) // Update the endpoint as needed
+				.put('/devices/adminUpdate', editedRow) // Update the endpoint as needed
 				.then((res) => {
 					setRows((prevRows) =>
 						prevRows.map((row) => (row.id === id ? editedRow : row))
