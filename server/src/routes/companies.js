@@ -111,6 +111,7 @@ router.post('/new', authenticateToken, async (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			req.body.passphrase = await bcrypt.hash(generatePassword(10), 10);
+			// req.body.passphrase = await bcrypt.hash(req.body.passphrase, 10);
 			req.body.user_type = 'company';
 			const [fields, values] = [
 				Object.keys(req.body),
