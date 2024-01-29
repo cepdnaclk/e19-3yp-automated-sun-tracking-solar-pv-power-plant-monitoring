@@ -24,7 +24,7 @@ const AdminDeviceMng = () => {
 
 	useEffect(() => {
 		axios
-			.get('/devices/')
+			.get('/devices/companyDevices')
 			.then((res) => {
 				setAdminDeviceData(res.data);
 			})
