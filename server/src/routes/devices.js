@@ -149,41 +149,21 @@ router.get('/companyDevices', authenticateToken, (req, res, next) => {
 router.get('/mydevices', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'customer') {
 		if (req.query.id) {
-			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description 
+			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description, power, angle, status
                     FROM device WHERE assigned_customer_id=${req.user_id} AND id=${req.query.id}`)
 				.then((rows) => {
-					// data = objectKeysSnakeToCamel(rows[0]);
-					const additionalKeys = {
-						power: getRandomNumber(0, 100), // Replace with the actual power value
-						status: 'Active', // Replace with the actual status value
-						angle: getRandomNumber(-90, 90), // Replace with the actual angle value
-					};
+					data = objectKeysSnakeToCamel(rows[0]);
 
-					const data = {
-						...rows.map((row) => objectKeysSnakeToCamel(row)),
-						...additionalKeys,
-					};
 					res.status(200).json(data);
 				})
 				.catch((err) => {
 					next(err);
 				});
 		} else {
-			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description 
+			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description, power, angle, status
         FROM device WHERE assigned_customer_id=${req.user_id}`)
 				.then((rows) => {
-					// data = rows.map((row) => objectKeysSnakeToCamel(row));
-
-					const additionalKeys = {
-						power: getRandomNumber(0, 100), // Replace with the actual power value
-						status: 'Active', // Replace with the actual status value
-						angle: getRandomNumber(-90, 90), // Replace with the actual angle value
-					};
-
-					const data = rows.map((row) => ({
-						...objectKeysSnakeToCamel(row),
-						...additionalKeys,
-					}));
+					data = rows.map((row) => objectKeysSnakeToCamel(row));
 					res.status(200).json(data);
 				})
 				.catch((err) => {
@@ -366,7 +346,10 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 									assigned_customer_id=?, 
 									device_name_by_customer=?,
 									device_latitude=?, 
-									device_longitude=? 
+									device_longitude=?,
+									power=?,
+									angle=?,
+									status=?, 
 										WHERE id=? AND
 									(SELECT purchased_customer_email FROM device 
 										WHERE id=?) = ?`;
@@ -375,6 +358,9 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 				req.body.device_name_by_customer,
 				req.body.device_latitude,
 				req.body.device_longitude,
+				getRandomNumber(0, 1.2),
+				getRandomNumber(0, 110),
+				'Active',
 				req.body.id,
 				req.body.id,
 				req.email,
