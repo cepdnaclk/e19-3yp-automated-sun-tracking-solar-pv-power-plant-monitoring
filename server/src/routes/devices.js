@@ -349,7 +349,7 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 									device_longitude=?,
 									power=?,
 									angle=?,
-									status=?, 
+									status=? 
 										WHERE id=? AND
 									(SELECT purchased_customer_email FROM device 
 										WHERE id=?) = ?`;
