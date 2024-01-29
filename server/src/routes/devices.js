@@ -351,9 +351,7 @@ router.put('/customerUpdate', authenticateToken, (req, res, next) => {
 									power=?,
 									angle=?,
 									status=? 
-										WHERE id=? AND
-									(SELECT purchased_customer_email FROM device 
-										WHERE id=?) = ?`;
+									WHERE id=? AND (purchased_customer_email =?)`;
 
 			const values = [
 				req.user_id,
