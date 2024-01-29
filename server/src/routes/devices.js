@@ -266,7 +266,7 @@ router.post('/newDevice', authenticateToken, (req, res, next) => {
 // "assigned_company_id" : xxxx
 // }
 
-router.put('/', authenticateToken, (req, res, next) => {
+router.put('/adminUpdate', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			const id = req.body['id'];
@@ -301,18 +301,20 @@ router.put('/', authenticateToken, (req, res, next) => {
 			next(err);
 		}
 	}
+});
 
-	// adding necessary details by the company - only from company
-	// (edit device by company)
-	// request format
-	// {
-	//   id: 123456, //device id
-	//   description: "123 Descrption",
-	//   purchased_customer_email: "purchasedcustomer@gmail.com"  //company should add the customer's email when they are selling the device
-	// }
+// adding necessary details by the company - only from company
+// (edit device by company)
+// request format
+// {
+//   id: 123456, //device id
+//   description: "123 Descrption",
+//   purchased_customer_email: "purchasedcustomer@gmail.com"  //company should add the customer's email when they are selling the device
+// }
 
-	// This API updates anything that is given by the request format
-	else if (req.user_type == 'company') {
+// This API updates anything that is given by the request format
+router.put('/companyUpdate', authenticateToken, (req, res, next) => {
+	if (req.user_type == 'company') {
 		try {
 			const id = req.body['id'];
 			delete req.body['id']; //id used in the UPDATE query, not needed in the update string
@@ -346,26 +348,28 @@ router.put('/', authenticateToken, (req, res, next) => {
 			next(err);
 		}
 	}
+});
 
-	// Add device by customer to their app - [Done]
-	//  {
-	//    id: 123456, //device id
-	//    device_name_by_customer: "Roof 1 Home 1",
-	//    device_latitude:"79.256598"
-	//    device_longitude:"10.125689"
-	// }
-	else if (req.user_type == 'customer') {
+// Add device by customer to their app - [Done]
+//  {
+//    id: 123456, //device id
+//    device_name_by_customer: "Roof 1 Home 1",
+//    device_latitude:"79.256598"
+//    device_longitude:"10.125689"
+// }
+router.put('/customerUpdate', authenticateToken, (req, res, next) => {
+	if (req.user_type == 'customer') {
 		try {
 			// set the devices's assigned customer id to user's id,
 			// used the purchased customer email to check whether the correct user is adding the device
 			const assignCustomertoDeviceQuery = `UPDATE device SET 
-                                       assigned_customer_id=?, 
-                                       device_name_by_customer=?,
-                                       device_latitude=?, 
-                                       device_longitude=? 
-                                        WHERE id=? AND
-                                       (SELECT purchased_customer_email FROM device 
-                                        WHERE id=?) = ?`;
+									assigned_customer_id=?, 
+									device_name_by_customer=?,
+									device_latitude=?, 
+									device_longitude=? 
+										WHERE id=? AND
+									(SELECT purchased_customer_email FROM device 
+										WHERE id=?) = ?`;
 			const values = [
 				req.user_id,
 				req.body.device_name_by_customer,
