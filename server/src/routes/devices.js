@@ -113,7 +113,7 @@ router.get('/deviceCountforCompany', authenticateToken, (req, res, next) => {
 
 //view devices - for companies - [Done]
 // request format { id: device_id}
-router.get('/', authenticateToken, (req, res, next) => {
+router.get('/companyDevices', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'company') {
 		if (req.query.id) {
 			execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
