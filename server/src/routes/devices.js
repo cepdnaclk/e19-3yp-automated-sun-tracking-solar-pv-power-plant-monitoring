@@ -46,7 +46,7 @@ router.get("/view", authenticateToken, (req, res, next) => {
         .catch((err) => {
           next(err);
         });
-    }    
+    }
   } else {
     return res.status(401).send({ error: "Unauthorized" });
   }
@@ -90,58 +90,58 @@ router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
   }
 });
 
-  //view devices - for companies - [Done]
-  // request format { id: device_id}
-  router.get("/", authenticateToken, (req, res, next) => {
-    if(req.user_type == "company"){
-      if (req.query.id) {
-        execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
+//view devices - for companies - [Done]
+// request format { id: device_id}
+router.get("/company", authenticateToken, (req, res, next) => {
+  if (req.user_type == "company") {
+    if (req.query.id) {
+      execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
         WHERE id=${req.query.id} AND assigned_company_id=${req.user_id}`)
-          .then((rows) => {
-            data = objectKeysSnakeToCamel(rows[0]);
-            res.status(200).json(data);
-          })
-          .catch((err) => {
-            next(err);
-          });
-      } else {
-        execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
-        WHERE assigned_company_id=${req.user_id}`)
-          .then((rows) => {
-            if (Array.isArray(rows) && rows.length > 0) {
-              data = rows.map((row) => objectKeysSnakeToCamel(row));
-              res.status(200).json(data);
-            } else {
-              res.status(200).json([]); // Sending an empty array if there are no results
-            }
-          })
-          .catch((err) => {
-            next(err);
-          });
-      }
+        .then((rows) => {
+          data = objectKeysSnakeToCamel(rows[0]);
+          res.status(200).json(data);
+        })
+        .catch((err) => {
+          next(err);
+        });
     } else {
-      return res.sendStatus(401).json({ error: "Unauthorized" });
-    }
-    });
-
-  //view devices - from customer's app
-  router.get("/", authenticateToken, (req, res, next) => {
-    if(req.user_type == "customer"){
-      if (req.query.id) {
-        execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
-                    FROM device WHERE assigned_customer_id=${req.user_id} AND id=${req.query.id}`)
-          .then((rows) => {
-            data = objectKeysSnakeToCamel(rows[0]);
+      execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
+        WHERE assigned_company_id=${req.user_id}`)
+        .then((rows) => {
+          if (Array.isArray(rows) && rows.length > 0) {
+            data = rows.map((row) => objectKeysSnakeToCamel(row));
             res.status(200).json(data);
-          })
-          .catch((err) => {
-            next(err);
-          });
-      } else {
-        execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
+          } else {
+            res.status(200).json([]); // Sending an empty array if there are no results
+          }
+        })
+        .catch((err) => {
+          next(err);
+        });
+    }
+  } else {
+    return res.sendStatus(401).json({ error: "Unauthorized" });
+  }
+});
+
+//view devices - from customer's app
+router.get("/mydevices", authenticateToken, (req, res, next) => {
+  if (req.user_type == "customer") {
+    if (req.query.id) {
+      execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description
+                    FROM device WHERE assigned_customer_id=${req.user_id} AND id=${req.query.id}`)
+        .then((rows) => {
+          data = objectKeysSnakeToCamel(rows[0]);
+          res.status(200).json(data);
+        })
+        .catch((err) => {
+          next(err);
+        });
+    } else {
+      execQuery(`SELECT id,device_name_by_customer, model_name, model_number, device_description 
         FROM device WHERE assigned_customer_id=${req.user_id}`)
         .then((rows) => {
-          data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+          data = rows.map((row) => objectKeysSnakeToCamel(row));
           res.status(200).json(data);
         })
         .catch((err) => {
@@ -155,7 +155,7 @@ router.get("/deviceCountforCompany", authenticateToken, (req, res, next) => {
 
 // view contact details of the device's company - Contact support
 // request format { id: device_id}
-router.get("/", authenticateToken, (req, res, next) => {
+router.get("/companyDetails", authenticateToken, (req, res, next) => {
   if (req.user_type == "customer") {
     if (req.query.id) {
       execQuery(`SELECT username, email, contact_number, user_address 

@@ -219,6 +219,11 @@ void connectAWS()
   {
     Serial.print(".");
     delay(100);
+    if (!client.connected())
+    {
+      Serial.print("Connection failed with error code: ");
+      Serial.println(client.state());
+    }
   }
 
   if (!client.connected())
@@ -356,14 +361,14 @@ void calibrate_sensors()
       delay(1000); // Wait for the servos to reach the position
 
       // Read the raw LDR values
-      digitalWrite(13, HIGH);
+      digitalWrite(23, HIGH);
       delay(10);
-      int xplus_raw = analogRead(32);
-      int xminus_raw = analogRead(33);
+      int xplus_raw = analogRead(33);
+      int xminus_raw = analogRead(35);
       int zplus_raw = analogRead(34);
-      int zminus_raw = analogRead(35);
+      int zminus_raw = analogRead(32);
       delay(10);
-      digitalWrite(13, LOW);
+      digitalWrite(23, LOW);
 
       // Update the maximum values
       xplus_max = max(xplus_max, xplus_raw);
@@ -453,14 +458,14 @@ void readAndControlServos()
 {
   while (true)
   {
-    digitalWrite(13, HIGH);
+    digitalWrite(23, HIGH);
     delay(10);
-    int xplus = analogRead(32);
-    int xminus = analogRead(33);
+    int xplus = analogRead(33);
+    int xminus = analogRead(35);
     int zplus = analogRead(34);
-    int zminus = analogRead(35);
+    int zminus = analogRead(32);
     delay(10);
-    digitalWrite(13, LOW);
+    digitalWrite(23, LOW);
 
     int changed = 0;
     if (xplus > trigger_value[0] && posX < maxX)
@@ -547,10 +552,9 @@ String read_voltage_current()
   float power = 0;
 
   float voltageSensorReading = analogRead(36);
-
   loadvoltage = voltageSensorReading * (3.3 / 4096.0) * 3.3 / 0.56;
-  current_mA = 0;
-  power = 0;
+  current_mA = loadvoltage / 1000;
+  power = loadvoltage * current_mA;
 
   Serial.print("Load Voltage:  ");
   Serial.print(loadvoltage);
@@ -641,7 +645,7 @@ void setup()
               handleFileServe("/wifisettings.html"); });
   server.begin();
 
-  pinMode(13, OUTPUT);
+  pinMode(23, OUTPUT);
   pinMode(18, OUTPUT);
   pinMode(19, OUTPUT);
   myservo1.attach(26);
