@@ -68,7 +68,7 @@ const DeviceCard = ({
 						fontWeight="600"
 						pl="10px"
 					>
-						Device ID: {id}
+						ID: {id}
 					</Typography>
 					<Typography
 						color={colors.orangeAccent[500]}
@@ -78,7 +78,7 @@ const DeviceCard = ({
 						ml="25px"
 						pl="10px"
 					>
-						Device Name: {deviceNameByCustomer}
+						Name: {deviceNameByCustomer}
 					</Typography>
 				</Box>
 			</Box>
