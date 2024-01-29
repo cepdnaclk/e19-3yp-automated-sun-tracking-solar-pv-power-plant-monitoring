@@ -18,7 +18,7 @@ const SuperAdminDashboard = () => {
 	const [registeredCustomers, setRegisteredCustomers] = useState(0);
 	const [registeredDevices, setRegisteredDevices] = useState(0);
 	// const [activeDevices, setActiveDevices] = useState(0);
-	// const [inactiveDevices, setInactiveDevices] = useState(0);
+	const [inactiveDevices, setInactiveDevices] = useState(0);
 
 	useEffect(() => {
 		axios
@@ -53,6 +53,11 @@ const SuperAdminDashboard = () => {
 			console.error(err);
 		  });
 	  }, []);
+
+	  useEffect(() => {
+		// Difference between totalDevices and registeredUsers
+		setInactiveDevices(registeredDevices - 1);
+	  }, [registeredDevices]);	  
 
 	//   useEffect(() => {
 	// 	axios
@@ -214,7 +219,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="ACTIVE DEVICES"
-						value={registeredDevices} // {activeDevices}
+						value="1" // {activeDevices}
 						icon={
 							<TapAndPlayIcon
 								sx={{
@@ -236,7 +241,7 @@ const SuperAdminDashboard = () => {
 				>
 					<StatBoxVal
 						title="INACTIVE DEVICES"
-						value="0" // {inactiveDevices}
+						value= {inactiveDevices}
 						icon={
 							<PhonelinkEraseIcon
 								sx={{
