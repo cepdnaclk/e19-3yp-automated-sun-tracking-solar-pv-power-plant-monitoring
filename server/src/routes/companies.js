@@ -1,9 +1,8 @@
 //initiation
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
 function generatePassword(length) {
-<<<<<<< Updated upstream
 	// const characters =
 		// 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 	// let result = '';
@@ -14,15 +13,14 @@ function generatePassword(length) {
 	// }
 	const result = "123456";
 	return result;
-=======
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
->>>>>>> Stashed changes
+
+  // const characters =
+  //   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  // let result = "";
+  // for (let i = 0; i < length; i++) {
+  //   result += characters.charAt(Math.floor(Math.random() * characters.length));
+  // }
+  // return result;
 }
 
 //for json mapping
@@ -31,7 +29,7 @@ const {
   objectKeysSnakeToCamel,
 } = require("../utils/parse");
 
-const bcrypt = require("bcryptjs");
+const bcrypt = require('bcryptjs');
 
 // to execute and get the output of the queries easily
 const { execQuery } = require("../database/database");
