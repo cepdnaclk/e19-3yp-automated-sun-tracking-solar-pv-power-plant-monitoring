@@ -44,8 +44,8 @@ Servo myservo2;
 
 int state = AP_MODE;
 
-int maxX = 110;
-int minX = 10;
+int maxX = 80;
+int minX = 0;
 int posX = minX;
 
 int maxZ = 180;
@@ -157,7 +157,7 @@ void handleSetWifi()
   String wifi = server.arg("wifi");
   String pass = server.arg("pass");
 
-  String ip = setWifi(wifi.c_str(), pass.c_str());
+f  String ip = setWifi(wifi.c_str(), pass.c_str());
 
   server.send(200, "application/json", "{\"status\":\"connected\", \"newip\":\"" + ip + "\"}");
   delay(10000);
