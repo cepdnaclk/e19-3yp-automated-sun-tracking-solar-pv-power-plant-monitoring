@@ -24,7 +24,7 @@ const AdminDeviceMng = () => {
 
 	useEffect(() => {
 		axios
-			.get('/devices/')
+			.get('/devices/companyDevices')
 			.then((res) => {
 				setAdminDeviceData(res.data);
 			})
@@ -55,19 +55,22 @@ const AdminDeviceMng = () => {
 	};
 
 	const handleDeleteClick = (id) => () => {
+
+		const confirm = window.confirm('Are you sure want to delete:', '');
 		// Get the index of the row to be deleted
 		const rowIndex = adminDeviceData.findIndex((row) => row.id === id);
 
 		// Remove the row from the data
-		const updatedData = [...adminDeviceData];
-		updatedData.splice(rowIndex, 1);
+		if(confirm){
+			const updatedData = [...adminDeviceData];
+			updatedData.splice(rowIndex, 1);
 
-		setAdminDeviceData(updatedData);
+			setAdminDeviceData(updatedData);
 
-		setRowModesModel({
-			...rowModesModel,
-			[id]: { mode: GridRowModes.View, ignoreModifications: true },
-		});
+			setRowModesModel({
+				...rowModesModel,
+				[id]: { mode: GridRowModes.View, ignoreModifications: true },
+			});}
 
 		// Uncomment the following lines if you want to make a delete request to the API
 		// const password = prompt('Enter your password for verification:', '');

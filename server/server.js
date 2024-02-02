@@ -8,6 +8,7 @@ const path = require("path");
 
 //initialize app
 const app = express();
+// const port = process.env.PORT || 8081;
 const port = 8081;
 
 app.use(cors());
@@ -45,14 +46,14 @@ app.post('/upload', upload.single('userManual'), (req, res) => {
 // })
 
 //user authentication
-app.use("/api/login", require("./src/routes/login")); //edit this accordingly
+app.use("/login", require("./src/routes/login")); //edit this accordingly
 
 // jwt authentication
 // const { authenticateToken } = require("./src/middleware/auth");
 // app.use(authenticateToken)
 
 //main router
-app.use("/api", require("./src/mainRouter"));
+app.use("/", require("./src/mainRouter"));
 
 //database connection and query setup
 

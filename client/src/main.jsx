@@ -6,7 +6,7 @@ import App from "./App";
 import { DataProvider } from "./contexts/DataContextProvider";
 import "./index.css";
 
-axios.defaults.baseURL = "http://localhost:8081/api";
+axios.defaults.baseURL = "http://15.206.186.69/api/";
 // set default fallback methode when unauthorized
 axios.interceptors.response.use(
   (res) => res,

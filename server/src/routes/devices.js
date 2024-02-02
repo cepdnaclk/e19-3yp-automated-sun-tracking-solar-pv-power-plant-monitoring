@@ -3,6 +3,24 @@
 const express = require('express');
 const router = express.Router();
 
+function getRandomNumber(min, max) {
+	if (min >= max) {
+		throw new Error('Min value must be less than max value');
+	}
+
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function getRandomStatus() {
+	const statusArray = ['Active', 'Inactive', 'Pending', 'Blocked'];
+	if (!Array.isArray(statusArray) || statusArray.length === 0) {
+		throw new Error('Status array must be a non-empty array');
+	}
+
+	const randomIndex = Math.floor(Math.random() * statusArray.length);
+	return statusArray[randomIndex];
+}
+
 //for json mapping
 const {
 	requestBodyToFieldsAndValues,
@@ -25,7 +43,9 @@ router.get('/view', authenticateToken, (req, res, next) => {
 			)
 				.then((rows) => {
 					data = objectKeysSnakeToCamel(rows[0]);
+
 					console.log(data);
+
 					res.status(200).json(data);
 				})
 				.catch((err) => {
@@ -38,6 +58,7 @@ router.get('/view', authenticateToken, (req, res, next) => {
 				.then((rows) => {
 					if (Array.isArray(rows) && rows.length > 0) {
 						data = rows.map((row) => objectKeysSnakeToCamel(row));
+
 						res.status(200).json(data);
 					} else {
 						res.status(200).json([]); // Sending an empty array if there are no results
@@ -92,7 +113,7 @@ router.get('/deviceCountforCompany', authenticateToken, (req, res, next) => {
 
 //view devices - for companies - [Done]
 // request format { id: device_id}
-router.get('/', authenticateToken, (req, res, next) => {
+router.get('/companyDevices', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'company') {
 		if (req.query.id) {
 			execQuery(`SELECT id, model_name, model_number, device_description, purchased_customer_email FROM device 
@@ -125,23 +146,24 @@ router.get('/', authenticateToken, (req, res, next) => {
 });
 
 //view devices - from customer's app
-router.get('/', authenticateToken, (req, res, next) => {
+router.get('/mydevices', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'customer') {
 		if (req.query.id) {
-			execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
+			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description, power, angle, status
                     FROM device WHERE assigned_customer_id=${req.user_id} AND id=${req.query.id}`)
 				.then((rows) => {
 					data = objectKeysSnakeToCamel(rows[0]);
+
 					res.status(200).json(data);
 				})
 				.catch((err) => {
 					next(err);
 				});
 		} else {
-			execQuery(`SELECT device_name_by_customer, model_name, model_number, device_description 
+			execQuery(`SELECT id, device_name_by_customer, model_name, model_number, device_description, power, angle, status
         FROM device WHERE assigned_customer_id=${req.user_id}`)
 				.then((rows) => {
-					data = rows[0].map((row) => objectKeysSnakeToCamel(row));
+					data = rows.map((row) => objectKeysSnakeToCamel(row));
 					res.status(200).json(data);
 				})
 				.catch((err) => {
@@ -183,7 +205,7 @@ router.get('/', authenticateToken, (req, res, next) => {
 // "model_number": "example@example.com",
 // "assigned_company_id" : xxxx
 //}
-router.post('/', authenticateToken, (req, res, next) => {
+router.post('/newDevice', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			const [fields, values] = [
@@ -224,7 +246,7 @@ router.post('/', authenticateToken, (req, res, next) => {
 // "assigned_company_id" : xxxx
 // }
 
-router.put('/', authenticateToken, (req, res, next) => {
+router.put('/adminUpdate', authenticateToken, (req, res, next) => {
 	if (req.user_type == 'admin') {
 		try {
 			const id = req.body['id'];
@@ -259,18 +281,20 @@ router.put('/', authenticateToken, (req, res, next) => {
 			next(err);
 		}
 	}
+});
 
-	// adding necessary details by the company - only from company
-	// (edit device by company)
-	// request format
-	// {
-	//   id: 123456, //device id
-	//   description: "123 Descrption",
-	//   purchased_customer_email: "purchasedcustomer@gmail.com"  //company should add the customer's email when they are selling the device
-	// }
+// adding necessary details by the company - only from company
+// (edit device by company)
+// request format
+// {
+//   id: 123456, //device id
+//   description: "123 Descrption",
+//   purchased_customer_email: "purchasedcustomer@gmail.com"  //company should add the customer's email when they are selling the device
+// }
 
-	// This API updates anything that is given by the request format
-	else if (req.user_type == 'company') {
+// This API updates anything that is given by the request format
+router.put('/companyUpdate', authenticateToken, (req, res, next) => {
+	if (req.user_type == 'company') {
 		try {
 			const id = req.body['id'];
 			delete req.body['id']; //id used in the UPDATE query, not needed in the update string
@@ -304,32 +328,41 @@ router.put('/', authenticateToken, (req, res, next) => {
 			next(err);
 		}
 	}
+});
 
-	// Add device by customer to their app - [Done]
-	//  {
-	//    id: 123456, //device id
-	//    device_name_by_customer: "Roof 1 Home 1",
-	//    device_latitude:"79.256598"
-	//    device_longitude:"10.125689"
-	// }
-	else if (req.user_type == 'customer') {
+// Add device by customer to their app - [Done]
+//  {
+//    id: 123456, //device id
+//    device_name_by_customer: "Roof 1 Home 1",
+//    device_latitude:"79.256598"
+//    device_longitude:"10.125689"
+// }
+router.put('/customerUpdate', authenticateToken, (req, res, next) => {
+	if (req.user_type == 'customer') {
 		try {
 			// set the devices's assigned customer id to user's id,
 			// used the purchased customer email to check whether the correct user is adding the device
 			const assignCustomertoDeviceQuery = `UPDATE device SET 
-                                       assigned_customer_id=?, 
-                                       device_name_by_customer=?,
-                                       device_latitude=?, 
-                                       device_longitude=? 
-                                        WHERE id=? AND
-                                       (SELECT purchased_customer_email FROM device 
-                                        WHERE id=?) = ?`;
+									assigned_customer_id=?, 
+									device_name_by_customer=?,
+									device_latitude=?, 
+
+									device_longitude=?,
+									power=?,
+									angle=?,
+									status=? 
+										WHERE id=? AND
+									(SELECT purchased_customer_email FROM device 
+										WHERE id=?) = ?`;
+
 			const values = [
 				req.user_id,
 				req.body.device_name_by_customer,
 				req.body.device_latitude,
 				req.body.device_longitude,
-				req.body.id,
+				getRandomNumber(0, 1.2),
+				getRandomNumber(0, 110),
+				'Active',
 				req.body.id,
 				req.email,
 			];

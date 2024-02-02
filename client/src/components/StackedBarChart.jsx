@@ -15,7 +15,7 @@ export default function StackedBarChart({ xLabels, data }) {
 				height={300}
 				series={[{ data, id: 'dataId', stack: 'total' }]}
 				xAxis={[{ data: xLabels, scaleType: 'band' }]}
-				yAxis={[{ id: 'energy', label: 'Energy (kW)' }]} // Set the yAxis prop to include the label and unit
+				yAxis={[{ id: 'energy', label: 'Energy (W)' }]} // Set the yAxis prop to include the label and unit
 				colors={barColors} // Set the colors prop to the colors array
 			/>
 		</>

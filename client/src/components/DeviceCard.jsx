@@ -10,7 +10,7 @@ import PinOutlinedIcon from '@mui/icons-material/PinOutlined';
 import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
 
 const DeviceCard = ({
-	deviceId,
+	id,
 	deviceNameByCustomer,
 	status,
 	modelName,
@@ -23,7 +23,7 @@ const DeviceCard = ({
 	const colors = tokens(theme.palette.mode);
 
 	const renderStatusCircle = () => {
-		if (status === 'Offline') {
+		if (status === 'Inactive') {
 			return (
 				<Box
 					width="15px"
@@ -32,7 +32,7 @@ const DeviceCard = ({
 					backgroundColor="red"
 				/>
 			);
-		} else if (status === 'Online') {
+		} else if (status === 'Active') {
 			return (
 				<Box
 					width="15px"
@@ -68,7 +68,7 @@ const DeviceCard = ({
 						fontWeight="600"
 						pl="10px"
 					>
-						Device ID: {deviceId}
+						ID: {id}
 					</Typography>
 					<Typography
 						color={colors.orangeAccent[500]}
@@ -78,7 +78,7 @@ const DeviceCard = ({
 						ml="25px"
 						pl="10px"
 					>
-						Device Name: {deviceNameByCustomer}
+						Name: {deviceNameByCustomer}
 					</Typography>
 				</Box>
 			</Box>
@@ -139,7 +139,7 @@ const DeviceCard = ({
 				<Box display="flex">
 					<BoltIcon />
 					<Typography color={colors.grey[100]} variant="h4" pl="10px">
-						Device Power : {power} kWh
+						Device Power : {power} W
 					</Typography>
 				</Box>
 			</Box>
